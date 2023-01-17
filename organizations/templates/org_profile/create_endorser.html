@@ -1,0 +1,163 @@
+{% extends 'org_profile/inc/profile.html' %}
+{% load static %}
+
+{% block section_content %}
+
+<div>
+
+    <!-- <div class="progress mb-4" style="height: .25rem;">
+      <div class="progress-bar bg-warning" role="progressbar" style="width: 50%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+    </div> -->
+
+    <div class="row pb-2">
+      <div class="col-lg-6 col-sm-12 mb-4">
+        <label class="form-label pt-2" for="account-bio">Profile description</label>
+        <textarea class="form-control" name="description" rows="6" placeholder="Write your profile description">{% if endorser.description %}{{ endorser.description }}{% endif %}</textarea>
+      </div>
+
+      <div class="col-lg-6 col-sm-12 mb-4">
+        <label class="form-label pt-2" for="account-bio">Interests (separated by line breaks)</label>
+        <textarea class="form-control" name="interests" rows="6" placeholder="Explain your interests">{% if endorser.interests %}{{ endorser.interests }}{% endif %}</textarea>
+      </div>
+
+    </div>
+    <div class="border rounded-3 p-3 mb-4" id="personal-info">
+      
+      <div class="border-bottom pb-3 mb-3">
+        
+        <div class="d-flex align-items-center justify-content-between">
+          <div class="pe-2">
+            <label class="form-label fw-bold">Tagline</label>
+            {% if endorser.tagline %}
+                <div>{{ endorser.tagline }}</div>
+            {% else %}
+                <div>Not added yet</div>
+            {% endif %}
+          </div>
+          <div class="me-n3" data-bs-toggle="tooltip" title="Edit">
+            <a class="nav-link py-0" href="#tagline-collapse" data-bs-toggle="collapse">
+                <i class="fi-edit"></i></a></div>
+        </div>
+        <div class="collapse" id="tagline-collapse" data-bs-parent="#personal-info">
+            <input class="form-control mt-3" name="tagline" type="text" data-bs-unset-value="Not specified" value="{{ endorser.tagline }}">
+        </div>
+      </div>
+      
+      <!-- Email-->
+      <div class="border-bottom pb-3 mb-3">
+        <div class="d-flex align-items-center justify-content-between">
+          <div class="pe-2">
+            <label class="form-label fw-bold">Short bio</label>
+            {% if endorser.bio %}
+                <div>{{ endorser.bio }}</div>
+            {% else %}
+                <div>Not added yet</div>
+            {% endif %}
+          </div>
+          <div class="me-n3" data-bs-toggle="tooltip" title="Edit"><a class="nav-link py-0" href="#bio-collapse" data-bs-toggle="collapse"><i class="fi-edit"></i></a></div>
+        </div>
+        <div class="collapse" id="bio-collapse" data-bs-parent="#personal-info">          
+            <input class="form-control mt-3" type="text" name="bio" data-bs-binded-element="#email-value" data-bs-unset-value="Not specified" value="{{ endorser.bio }}">
+        </div>
+      </div>
+
+    <!-- Email-->
+    <div class="border-bottom pb-3 mb-3">
+        <div class="d-flex align-items-center justify-content-between">
+            <div class="pe-2">
+                <label class="form-label fw-bold">Followers</label>
+                {% if endorser.followers %}
+                    <div>{{ endorser.followers }}</div>
+                {% else %}
+                    <div>Not added yet</div>
+                {% endif %}
+            </div>
+            <div class="me-n3" data-bs-toggle="tooltip" title="Edit"><a class="nav-link py-0" href="#followers-collapse" data-bs-toggle="collapse"><i class="fi-edit"></i></a></div>
+        </div>
+        <div class="collapse" id="followers-collapse" data-bs-parent="#personal-info">          
+            <input class="form-control mt-3" type="number" name="followers" data-bs-binded-element="#email-value" data-bs-unset-value="Not specified" value="{{ endorser.followers }}">
+        </div>
+    </div>
+
+      <!-- Phone number-->
+      <div class="border-bottom pb-3 mb-3">
+        <div class="d-flex align-items-center justify-content-between">
+          <div class="pe-2">
+            <label class="form-label fw-bold">Location</label>
+            {% if endorser.location %}
+            <div id="phone-value">{{ endorser.location }}</div>
+            {% else %}
+            <div id="phone-value">Not added yet</div>
+            {% endif %}
+            </div>
+          <div class="me-n3" data-bs-toggle="tooltip" title="Edit"><a class="nav-link py-0" href="#location-collapse" data-bs-toggle="collapse"><i class="fi-edit"></i></a></div>
+        </div>
+        <div class="collapse" id="location-collapse" data-bs-parent="#personal-info">
+          <input class="form-control mt-3" type="text" name="phone" data-bs-unset-value="Not specified" value="{{ endorser.location }}">
+        </div>
+      </div>
+   
+
+    </div>
+    <!-- Socials-->
+    <div class="pt-2">
+      <label class="form-label fw-bold mb-3">Socials</label>
+    </div>
+    <div class="d-flex align-items-center mb-3">
+        <div class="btn btn-icon btn-light btn-xs shadow-sm rounded-circle pe-none flex-shrink-0 me-3"><i class="fi-globe text-body"></i></div>
+        <input class="form-control" name="website" type="text" placeholder="Your website link" value="{% if endorser.social_media.website %}{{ endorser.social_media.website }}{% endif %}">
+    </div>
+  
+    <div class="d-flex align-items-center mb-3">
+      <div class="btn btn-icon btn-light btn-xs shadow-sm rounded-circle pe-none flex-shrink-0 me-3"><i class="fi-facebook text-body"></i></div>
+      <input class="form-control" name="facebook" type="text" placeholder="Your Facebook account" value="{% if endorser.social_media.facebook %}{{ endorser.social_media.facebook }}{% endif %}">
+    </div>
+
+    <div class="d-flex align-items-center mb-3">
+        <div class="btn btn-icon btn-light btn-xs shadow-sm rounded-circle pe-none flex-shrink-0 me-3"><i class="fi-instagram text-body"></i></div>
+        <input class="form-control" name="instagram" type="text" placeholder="Your Instagram account" value="{% if endorser.social_media.instagram %}{{ endorser.social_media.instagram }}{% endif %}">
+    </div>
+
+    <div class="d-flex align-items-center mb-3">
+        <div class="btn btn-icon btn-light btn-xs shadow-sm rounded-circle pe-none flex-shrink-0 me-3"><i class="fi-youtube text-body"></i></div>
+        <input class="form-control" name="youtube" type="text" placeholder="Your Youtube channel" value="{% if endorser.social_media.youtube %}{{ endorser.social_media.youtube }}{% endif %}">
+    </div>
+
+
+    <div class="d-flex align-items-center mb-3">
+        <div class="btn btn-icon btn-light btn-xs shadow-sm rounded-circle pe-none flex-shrink-0 me-3"><i class="fi-tiktok text-body"></i></div>
+        <input class="form-control" name="tiktok" type="text" placeholder="Your Tiktok account" value="{% if endorser.social_media.tiktok %}{{ endorser.social_media.tiktok }}{% endif %}">
+    </div>
+
+    
+<!-- 
+
+
+    <div class="d-flex align-items-center mb-3">
+      <div class="btn btn-icon btn-light btn-xs shadow-sm rounded-circle pe-none flex-shrink-0 me-3"><i class="fi-linkedin text-body"></i></div>
+      <input class="form-control" type="text" placeholder="Your LinkedIn account">
+    </div>
+
+    <div class="d-flex align-items-center mb-3">
+      <div class="btn btn-icon btn-light btn-xs shadow-sm rounded-circle pe-none flex-shrink-0 me-3"><i class="fi-twitter text-body"></i></div>
+      <input class="form-control" type="text" placeholder="Your Twitter account">
+    </div>
+  
+    <div class="d-flex align-items-center mb-3">
+        <div class="btn btn-icon btn-light btn-xs shadow-sm rounded-circle pe-none flex-shrink-0 me-3"><i class="fi-pinterest text-body"></i></div>
+        <input class="form-control" type="text" placeholder="Your Pinterest account">
+    </div> -->
+    <!-- <div class="collapse" id="showMoreSocials">
+
+    </div><a class="collapse-label collapsed d-inline-block fs-sm fw-bold text-decoration-none pt-2 pb-3" href="#showMoreSocials" data-bs-toggle="collapse" data-bs-label-collapsed="Show more" data-bs-label-expanded="Show less" role="button" aria-expanded="false" aria-controls="showMoreSocials"><i class="fi-arrow-down me-2"></i></a>
+             -->
+  </div>
+
+  <script>
+
+    $(".filepond--browser:input[type='file']").on("change", function () {
+        console.log(this);
+    });
+  </script>
+
+{% endblock section_content %}

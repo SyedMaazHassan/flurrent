@@ -1,0 +1,146 @@
+{% load static %}
+
+
+<header class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" data-scroll-header>
+    <div class="container">
+        
+      <a class="navbar-brand me-0 me-xl-4" href="{% url 'core:home' %}">
+        {% if user.mode == 'organization' %}
+        <img class="d-block" src="{% static 'img/logo/logo-org.png' %}" width="116" alt="Finder" style="border-radius: 10px;">
+        {% else %}
+        <img class="d-block" src="{% static 'img/logo/logo-endorsers.png' %}" width="116" alt="Finder" style="border-radius: 10px;">
+        {% endif %}
+      </a>
+       <a class="btn btn-primary btn-sm ms-2 order-lg-3 mx-3" href="{% url 'org:profile' 'create-project' %}"><i class="fi-plus me-2"></i>Create project</a>
+
+     <button class="navbar-toggler ms-auto" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+      <div class="dropdown d-none d-lg-block order-lg-3 my-n2 me-3">
+        <a class="d-block py-2" href="{% url 'core:profile' %}"><img class="rounded-circle" src="{{ user.profile_pic.url }}" width="40" alt="Annette Black"></a>
+        <div class="dropdown-menu dropdown-menu-dark dropdown-menu-end">
+          <div class="d-flex align-items-start border-bottom border-light px-3 py-1 mb-2" style="width: 16rem;"><img class="rounded-circle" src="{{ user.profile_pic.url }}" width="48" alt="Annette Black">
+            <div class="ps-2">
+              <h6 class="fs-base text-light mb-0">{{ user.getFullName }}</h6>
+              <div class="fs-xs py-1">{{ user.email }}</div>
+            </div>
+          </div>
+          <div class="px-3 py-2">
+            {% if user.mode == 'organization' %}
+              <a type="button" href="{% url 'core:switch' 'endorser' %}" class="w-100 btn btn-primary btn-block">Switch to endorser</a>
+            {% else %}
+              <a type="button" href="{% url 'core:switch' 'endorser' %}" class="w-100 btn btn-primary btn-block">Switch to organization</a>
+            {% endif %}
+          </div>
+
+          
+          <!-- <a class="dropdown-item" href="job-board-account-profile.html">
+
+            <i class="fi-settings me-2"></i>Profile Settings
+            </a>
+            
+            <a class="dropdown-item" href="job-board-account-my-resumes.html"><i class="fi-file me-2"></i>My Resumes</a><a class="dropdown-item" href="job-board-account-saved-jobs.html"><i class="fi-heart me-2"></i>Saved Jobs</a><a class="dropdown-item" href="job-board-account-notifications.html"><i class="fi-bell me-2"></i>Notifications</a>
+          <div class="dropdown-divider"></div> -->
+          
+          <a class="dropdown-item" href="{% url 'authentication:logout' %}"><i class="fi-logout me-2"></i>Sign Out</a>
+        </div>
+        
+      </div>
+      
+      <a class="btn btn-link btn-light btn-sm d-none d-lg-block order-lg-3 pe-0 ms-2" href="job-board-home-v2.html"></a>
+      <div class="collapse navbar-collapse order-lg-2" id="navbarNav">
+        <!-- <form class="form-group form-group-light">
+          <div class="input-group input-group-sm">
+            <span class="input-group-text text-muted">
+              <i class="fi-search"></i>
+            </span>
+            <input type="text" class="form-control" placeholder="Search query...">
+          </div>
+          <button type="button" class="btn btn-primary btn-sm">Search</button>
+        </form> -->
+        <ul class="navbar-nav navbar-nav-scroll" style="max-height: 35rem;">
+          <!-- Menu items-->
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'org:home' %}" role="button">Home</a>
+            
+          </li>
+          
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'org:profile' 'my-projects' %}" role="button">My projects</a>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'org:profile' 'orders-placed' %}" role="button">Orders</a>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'org:profile' 'earnings' %}" role="button">Earnings</a>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'org:profile' 'inbox' %}" role="button">Inbox</a>
+          </li>
+
+          <!-- <li class="nav-item dropdown"><a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Catalog</a>
+            <ul class="dropdown-menu dropdown-menu-dark">
+              <li><a class="dropdown-item" href="job-board-catalog.html">List of Jobs</a></li>
+              <li><a class="dropdown-item" href="job-board-single.html">Single Job Page</a></li>
+            </ul>
+          </li>
+          <li class="nav-item dropdown active"><a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Account</a>
+            <ul class="dropdown-menu dropdown-menu-dark">
+              <li class="dropdown"><a class="dropdown-item dropdown-toggle" href="#">Account Pages</a>
+                button
+                <ul class="dropdown-menu dropdown-menu-dark">
+                  <li><a class="dropdown-item" href="job-board-account-profile.html">Profile Settings</a></li>
+                  <li><a class="dropdown-item" href="job-board-account-my-resumes.html">My Resumes</a></li>
+                  <li><a class="dropdown-item" href="job-board-account-saved-jobs.html">Saved Jobs</a></li>
+                  <li><a class="dropdown-item" href="job-board-account-notifications.html">Notifications</a></li>
+                  <li><a class="dropdown-item" href="signin-light.html">Sign In</a></li>
+                  <li><a class="dropdown-item" href="signup-light.html">Sign Up</a></li>
+                </ul>
+              </li>
+              <li class="dropdown"><a class="dropdown-item dropdown-toggle" href="#">Post Resume</a>
+                <ul class="dropdown-menu dropdown-menu-dark">
+                  <li><a class="dropdown-item" href="job-board-post-resume-1.html">Step 1: Basic Info</a></li>
+                  <li><a class="dropdown-item" href="job-board-post-resume-2.html">Step 2: Education</a></li>
+                  <li><a class="dropdown-item" href="job-board-post-resume-3.html">Step 3: Work Experience</a></li>
+                  <li><a class="dropdown-item" href="job-board-post-resume-4.html">Step 4: Skills</a></li>
+                  <li><a class="dropdown-item" href="job-board-post-resume-5.html">Step 5: Review</a></li>
+                </ul>
+              </li>
+              <li><a class="dropdown-item" href="job-board-promotion.html">Ad Promotion Page</a></li>
+              <li><a class="dropdown-item" href="job-board-employer-single.html">Employer / Company Page</a></li>
+            </ul>
+          </li>
+          <li class="nav-item dropdown"><a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Pages</a>
+            <ul class="dropdown-menu dropdown-menu-dark">
+              <li><a class="dropdown-item" href="job-board-about.html">About</a></li>
+              <li class="dropdown"><a class="dropdown-item dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Blog</a>
+                <ul class="dropdown-menu dropdown-menu-dark">
+                  <li><a class="dropdown-item" href="job-board-blog.html">Blog Grid</a></li>
+                  <li><a class="dropdown-item" href="job-board-blog-single.html">Single Post</a></li>
+                </ul>
+              </li>
+              <li><a class="dropdown-item" href="job-board-contacts.html">Contacts</a></li>
+              <li class="dropdown"><a class="dropdown-item dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Help Center</a>
+                <ul class="dropdown-menu dropdown-menu-dark">
+                  <li><a class="dropdown-item" href="job-board-help-center.html">Help Topics</a></li>
+                  <li><a class="dropdown-item" href="job-board-help-center-single-topic.html">Single Topic</a></li>
+                </ul>
+              </li>
+              <li><a class="dropdown-item" href="job-board-404.html">404 Not Found</a></li>
+            </ul>
+          </li>
+          <li class="nav-item dropdown d-lg-none"><a class="nav-link dropdown-toggle d-flex align-items-center" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><img class="rounded-circle me-2" src="{% static 'img/avatars/35.png' %}" width="30" alt="Annette Black">Annette Black</a>
+            <div class="dropdown-menu dropdown-menu-dark">
+              <div class="ps-3">
+                <div class="fs-xs py-2">(302) 555-0107<br>annette_black@email.com</div>
+              </div><a class="dropdown-item" href="job-board-account-profile.html"><i class="fi-settings me-2"></i>Profile Settings</a><a class="dropdown-item" href="job-board-account-my-resumes.html"><i class="fi-file me-2"></i>My Resumes</a><a class="dropdown-item" href="job-board-account-saved-jobs.html"><i class="fi-heart me-2"></i>Saved Jobs</a><a class="dropdown-item" href="job-board-account-notifications.html"><i class="fi-bell me-2"></i>Notifications</a>
+              <div class="dropdown-divider"></div><a class="dropdown-item" href="signin-light.html"><i class="fi-logout me-2"></i>Sign Out</a>
+            </div>
+          </li> -->
+
+        </ul>
+      </div>
+    </div>
+</header>
+

@@ -1,0 +1,54 @@
+.sidenav {
+    height: 100%;
+    width: 0;
+    position: fixed;
+    z-index: 10000;
+    top: 0;
+    right: 0;
+    background-color: rgb(255, 255, 255);
+    overflow-x: hidden;
+    transition: 0.3s;
+    border-radius: 13px 0px 0px 13px;
+  }
+  
+
+  .sidenav a {
+    text-decoration: none;
+    color: grey;
+    display: block;
+  }
+  
+  .sidenav .closebtn {
+    position: absolute;
+    top: 0;
+    right: 25px;
+    font-size: 36px;
+    margin-left: 50px;
+  }
+  
+  @media screen and (max-height: 450px) {
+    .sidenav {
+      padding-top: 15px;
+    }
+    .sidenav a {
+      font-size: 18px;
+    }
+  }
+  
+  .radius-10 {
+    border-radius: 10px;
+  }
+  
+  .mk-pointer {
+    cursor: pointer;
+  }
+  
+  .notification-card {
+    transition-duration: 0.25s;
+  }
+  
+  .notification-card:hover {
+    transition-duration: 0.25s;
+    background-color: #fafafa;
+    cursor: pointer;
+  }

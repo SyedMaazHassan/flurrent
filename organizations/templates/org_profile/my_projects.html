@@ -1,0 +1,103 @@
+{% extends 'org_profile/inc/profile.html' %}
+{% load static %}
+
+{% block section_content %}
+
+<div>
+    <div class="row">
+        <!-- List of jobs-->
+        <div class="col-lg-12 col-md-12 position-relative mb-4 mb-md-0" style="z-index: 1025;">
+          <!-- Sorting-->
+          <div class="d-sm-flex align-items-center justify-content-between pb-4 mb-sm-2">
+            <div class="d-flex align-items-center">
+              <label class="fs-sm me-2 pe-1 text-nowrap" for="sorting"><i class="fi-arrows-sort mt-n1 me-2"></i>Sort by:</label>
+              <select class="form-select form-select-sm" id="sorting">
+                <option>Newest</option>
+                <option>Popular</option>
+                <option>Highest Salary</option>
+              </select>
+            </div>
+            <div class="text-muted fs-sm text-nowrap"><i class="fi-briefcase fs-base mt-n1 me-2"></i>{{ projects.count }} projects</div>
+          </div>
+
+
+
+          {% if projects %}
+            <!-- Item-->
+            {% for project in projects %}
+            <div class="card bg-secondary card-hover mb-3">
+                <div class="card-body">
+                <div class="d-flex justify-content-between align-items-start mb-2">
+                    <div class="d-flex align-items-center">
+                        {% if project.product.type == 'product' %}
+                            <span class="badge bg-faded-accent rounded-pill fs-sm">Product</span>
+                        {% else %}
+                            <span class="badge bg-faded-success rounded-pill fs-sm">Service</span>
+                        {% endif %}
+
+                        {% if project.is_active %}
+                        <div title="Active" class="spinner-grow spinner-grow-sm mx-2" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                        {% endif %}
+
+                        
+                    </div>
+                    <div class="dropdown content-overlay">
+                    <button class="btn btn-icon btn-light btn-xs rounded-circle shadow-sm" type="button" id="contextMenu2" data-bs-toggle="dropdown" aria-expanded="false"><i class="fi-dots-vertical"></i></button>
+                    <ul class="dropdown-menu my-1" aria-labelledby="contextMenu2">
+                        <li>
+                        <button class="dropdown-item" type="button"><i class="fi-edit opacity-60 me-2"></i>Edit</button>
+                        </li>
+                        <li>
+                        <button class="dropdown-item" type="button"><i class="fi-trash opacity-60 me-2"></i>Delete</button>
+                        </li>
+                    </ul>
+                    </div>
+                </div>
+                <h3 class="h6 card-title pt-1 mb-2"><a class="text-nav stretched-link text-decoration-none" href="{% url 'org:single-project' project.id %}">{{ project.title }}</a></h3>
+                <p class="fs-sm mb-3">{{ project.description }}</p>
+                <div class="fs-sm">
+                        <span class="text-nowrap me-3">
+                            <i class="fi-cash fs-base text-muted me-1"></i><b>Budget</b> &nbsp; {{ project.budget }} 
+                        </span>
+                        <span class="text-nowrap me-3">
+                            <i class="fi-calendar-alt text-muted me-1"> </i>
+                            <b>Created at</b> {{ project.created_at }}
+                        </span>
+
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+
+            <!-- Pagination-->
+            <nav class="pt-4 pb-2" aria-label="Blog pagination">
+                <ul class="pagination mb-0">
+                <li class="page-item d-sm-none"><span class="page-link page-link-static">1 / 8</span></li>
+                <li class="page-item active d-none d-sm-block" aria-current="page"><span class="page-link">1<span class="visually-hidden">(current)</span></span></li>
+                <li class="page-item d-none d-sm-block"><a class="page-link" href="#">2</a></li>
+                <li class="page-item d-none d-sm-block"><a class="page-link" href="#">3</a></li>
+                <li class="page-item d-none d-sm-block">...</li>
+                <li class="page-item d-none d-sm-block"><a class="page-link" href="#">8</a></li>
+                <li class="page-item"><a class="page-link" href="#" aria-label="Next"><i class="fi-chevron-right"></i></a></li>
+                </ul>
+            </nav>
+
+          {% else %}
+
+            {% include 'inc/no-result.html' with data_type='project' %}
+            
+          {% endif %}
+        </div>
+    </div>
+</div>
+
+  <script>
+
+    $(".filepond--browser:input[type='file']").on("change", function () {
+        console.log(this);
+    });
+  </script>
+
+{% endblock section_content %}

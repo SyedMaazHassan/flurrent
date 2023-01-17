@@ -1,0 +1,144 @@
+{% extends 'org_profile/inc/profile.html' %}
+{% load static %}
+
+{% block section_content %}
+
+<div>
+
+    <!-- <div class="progress mb-4" style="height: .25rem;">
+      <div class="progress-bar bg-warning" role="progressbar" style="width: 50%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+    </div> -->
+
+    <label class="form-label pt-2" for="account-bio">Description</label>
+    <div class="row pb-2">
+      <div class="col-lg-9 col-sm-8 mb-4">
+        <textarea class="form-control" name="description" id="account-bio" rows="6" placeholder="Write your bio here. It will be displayed on your public profile.">{% if organization.description %}{{ organization.description }}{% endif %}</textarea>
+      </div>
+      <div class="col-lg-3 col-sm-4 mb-4">
+        <input 
+            name="logo" 
+            class="file-uploader bg-secondary" 
+            type="file" 
+            accept="image/png, image/jpeg, image/jpg" 
+            data-label-idle="&lt;i name=&quot;logo&quot; class=&quot;d-inline-block fi-camera-plus fs-2 text-muted mb-2&quot;&gt;&lt;/i&gt;&lt;br&gt;&lt;span class=&quot;fw-bold&quot;&gt;Upload logo&lt;/span&gt;" 
+            data-style-panel-layout="compact" 
+            data-image-preview-height="160" 
+            data-image-crop-aspect-ratio="1:1" 
+            data-image-resize-target-width="200" 
+            data-image-resize-target-height="200">
+      </div>
+    </div>
+    <div class="border rounded-3 p-3 mb-4" id="personal-info">
+      <!-- Name-->
+      <div class="mb-4">
+        <img width="200" src="{{ organization.logo.url }}" alt="">
+      </div>
+      
+      <div class="border-bottom pb-3 mb-3">
+        
+        <div class="d-flex align-items-center justify-content-between">
+          <div class="pe-2">
+            <label class="form-label fw-bold">Organization Name</label>
+            <div id="name-value">{{ organization.name }}</div>
+          </div>
+          <div class="me-n3" data-bs-toggle="tooltip" title="Edit"><a class="nav-link py-0" href="#name-collapse" data-bs-toggle="collapse"><i class="fi-edit"></i></a></div>
+        </div>
+        <div class="collapse" id="name-collapse" data-bs-parent="#personal-info">
+            <input class="form-control mt-3" name="organization_name" type="text" data-bs-unset-value="Not specified" value="{{ organization.name }}">
+        </div>
+      </div>
+      <!-- Email-->
+      <div class="border-bottom pb-3 mb-3">
+        <div class="d-flex align-items-center justify-content-between">
+          <div class="pe-2">
+            <label class="form-label fw-bold">Type</label>
+            <div id="email-value">{{ organization.type }}</div>
+          </div>
+          <div class="me-n3" data-bs-toggle="tooltip" title="Edit"><a class="nav-link py-0" href="#email-collapse" data-bs-toggle="collapse"><i class="fi-edit"></i></a></div>
+        </div>
+        <div class="collapse" id="email-collapse" data-bs-parent="#personal-info">          
+            <input class="form-control mt-3" type="text" name="organization_type" data-bs-binded-element="#email-value" data-bs-unset-value="Not specified" value="{{ organization.type }}">
+        </div>
+      </div>
+      <!-- Phone number-->
+      <div class="border-bottom pb-3 mb-3">
+        <div class="d-flex align-items-center justify-content-between">
+          <div class="pe-2">
+            <label class="form-label fw-bold">Location</label>
+            {% if organization.location %}
+            <div id="phone-value">{{ organization.location }}</div>
+            {% else %}
+            <div id="phone-value">Not added yet</div>
+            {% endif %}
+            </div>
+          <div class="me-n3" data-bs-toggle="tooltip" title="Edit"><a class="nav-link py-0" href="#phone-collapse" data-bs-toggle="collapse"><i class="fi-edit"></i></a></div>
+        </div>
+        <div class="collapse" id="phone-collapse" data-bs-parent="#personal-info">
+          <input class="form-control mt-3" type="text" name="phone" data-bs-unset-value="Not specified" value="{{ user.phone }}">
+        </div>
+      </div>
+   
+
+    </div>
+    <!-- Socials-->
+    <div class="pt-2">
+      <label class="form-label fw-bold mb-3">Socials</label>
+    </div>
+    <div class="d-flex align-items-center mb-3">
+        <div class="btn btn-icon btn-light btn-xs shadow-sm rounded-circle pe-none flex-shrink-0 me-3"><i class="fi-globe text-body"></i></div>
+        <input class="form-control" name="website" type="text" placeholder="Your website link" value="{% if organization.social_media.website %}{{ organization.social_media.website }}{% endif %}">
+    </div>
+  
+    <div class="d-flex align-items-center mb-3">
+      <div class="btn btn-icon btn-light btn-xs shadow-sm rounded-circle pe-none flex-shrink-0 me-3"><i class="fi-facebook text-body"></i></div>
+      <input class="form-control" name="facebook" type="text" placeholder="Your Facebook account" value="{% if organization.social_media.facebook %}{{ organization.social_media.facebook }}{% endif %}">
+    </div>
+
+    <div class="d-flex align-items-center mb-3">
+        <div class="btn btn-icon btn-light btn-xs shadow-sm rounded-circle pe-none flex-shrink-0 me-3"><i class="fi-instagram text-body"></i></div>
+        <input class="form-control" name="instagram" type="text" placeholder="Your Instagram account" value="{% if organization.social_media.instagram %}{{ organization.social_media.instagram }}{% endif %}">
+    </div>
+
+    <div class="d-flex align-items-center mb-3">
+        <div class="btn btn-icon btn-light btn-xs shadow-sm rounded-circle pe-none flex-shrink-0 me-3"><i class="fi-youtube text-body"></i></div>
+        <input class="form-control" name="youtube" type="text" placeholder="Your Youtube channel" value="{% if organization.social_media.youtube %}{{ organization.social_media.youtube }}{% endif %}">
+    </div>
+
+
+    <div class="d-flex align-items-center mb-3">
+        <div class="btn btn-icon btn-light btn-xs shadow-sm rounded-circle pe-none flex-shrink-0 me-3"><i class="fi-tiktok text-body"></i></div>
+        <input class="form-control" name="tiktok" type="text" placeholder="Your Tiktok account" value="{% if organization.social_media.tiktok %}{{ organization.social_media.tiktok }}{% endif %}">
+    </div>
+
+    
+<!-- 
+
+
+    <div class="d-flex align-items-center mb-3">
+      <div class="btn btn-icon btn-light btn-xs shadow-sm rounded-circle pe-none flex-shrink-0 me-3"><i class="fi-linkedin text-body"></i></div>
+      <input class="form-control" type="text" placeholder="Your LinkedIn account">
+    </div>
+
+    <div class="d-flex align-items-center mb-3">
+      <div class="btn btn-icon btn-light btn-xs shadow-sm rounded-circle pe-none flex-shrink-0 me-3"><i class="fi-twitter text-body"></i></div>
+      <input class="form-control" type="text" placeholder="Your Twitter account">
+    </div>
+  
+    <div class="d-flex align-items-center mb-3">
+        <div class="btn btn-icon btn-light btn-xs shadow-sm rounded-circle pe-none flex-shrink-0 me-3"><i class="fi-pinterest text-body"></i></div>
+        <input class="form-control" type="text" placeholder="Your Pinterest account">
+    </div> -->
+    <!-- <div class="collapse" id="showMoreSocials">
+
+    </div><a class="collapse-label collapsed d-inline-block fs-sm fw-bold text-decoration-none pt-2 pb-3" href="#showMoreSocials" data-bs-toggle="collapse" data-bs-label-collapsed="Show more" data-bs-label-expanded="Show less" role="button" aria-expanded="false" aria-controls="showMoreSocials"><i class="fi-arrow-down me-2"></i></a>
+             -->
+  </div>
+
+  <script>
+
+    $(".filepond--browser:input[type='file']").on("change", function () {
+        console.log(this);
+    });
+  </script>
+
+{% endblock section_content %}

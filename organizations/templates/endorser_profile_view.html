@@ -1,0 +1,189 @@
+{% extends 'inc/base.html' %}
+{% load static %}
+{% block title %}
+  Flurrent | My profile
+{% endblock title %}
+
+{% block content %}
+
+ <!-- Page content-->
+ <div class="container pt-5 pb-lg-4 mt-5 mb-sm-2">
+    <!-- Breadcrumb-->
+    <!-- <nav class="mb-4 pt-md-3" aria-label="Breadcrumb">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="real-estate-home-v1.html">Home</a></li>
+        <li class="breadcrumb-item"><a href="real-estate-account-info.html">Account</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Personal Info</li>
+      </ol>
+    </nav> -->
+    <!-- Page content-->
+    <div class="row mt-3">
+      <!-- Sidebar-->
+      <aside class="col-lg-4 col-md-5 pe-xl-4 mb-5">
+
+        <div class="card p-4 shadow-sm">
+            <div class="d-flex align-items-center mb-3">
+              <div class="w-50 text-start">
+                <span class="badge bg-dark">Endorser</span>
+              </div>
+              <div class="w-50">
+                <!-- rating  -->
+
+                <div class="d-flex align-items-center justify-content-end" >
+                    <span class="badge bg-faded-success">Online</span>
+
+                </div>
+              </div>
+              
+            </div>
+            <div class="text-center mt-2 pb-4 mb-2">
+                <div class="position-relative flex-shrink-0"><img class="rounded-circle" src="{{ endorser.created_by.profile_pic.url }}" width="100" alt="Annette Black">
+                  <h2 class="h3 p-0 m-0 mt-2">{{ endorser.created_by.getFullName }}</h2>
+                  <p class="p-0 m-0 my-3">{{ endorser.bio }}</p>
+                </div>
+            </div>
+          
+            <div>
+              <ul class="list-unstyled fs-sm  pb-md-3">
+                <li><a class="nav-link fw-normal py-3 border-bottom d-flex align-items-center px-0 py-1" href="#"><i class="fi-checkbox-checked-alt opacity-70 me-2"></i><span>Member Since</span><span class="text-muted ms-auto">{{ endorser.created_at }}</span></a></li>
+                <li><a class="nav-link fw-normal py-3 border-bottom d-flex align-items-center px-0 py-1" href="#"><i class="fi-users opacity-70 me-2"></i><span>Followers</span><span class="text-muted ms-auto">{{ endorser.followers }}</span></a></li>
+                <!-- <li><a class="nav-link fw-normal py-3 border-bottom d-flex align-items-center px-0 py-1" href="#"><i class="fi-filter-alt-horizontal opacity-70 me-2"></i><span>Categorie</span><span class="text-muted ms-auto">{{ endorser.interests }}</span></a></li> -->
+                <!-- <li><a class="nav-link fw-normal py-3 border-bottom d-flex align-items-center px-0 py-1" href="#"><i class="fi-bookmark opacity-70 me-2"></i><span>Interest</span><span class="text-muted ms-auto">Facebook</span></a></li> -->
+                <li><a class="nav-link fw-normal py-3 border-bottom d-flex align-items-center px-0 py-1" href="#"><i class="fi-briefcase opacity-70 me-2"></i><span>Completed projects</span><span class="text-muted ms-auto">{{ endorser.getCompletedJobs.count }}</span></a></li>
+              </ul>
+            </div>
+          <!-- description -->
+         
+            {% if endorser.description %}
+            <div>
+              <h3 class="h6 m-0 mb-2 p-0">Description</h3>
+              <p class="mb-2 m-0 p-0">{{ endorser.description }}</p>
+            </div>
+            {% endif %}
+
+            <div class="my-4">
+              <h3 class="h6 m-0 mb-3">Social profiles</h3>
+              {% with social_media=endorser.social_media %}
+                {% if not social_media %}
+                   <p>Not added yet</p>
+                {% else %}
+
+                  {% if social_media.website %}
+                    <a class="btn btn-icon btn-light-primary btn-xs rounded-circle shadow-sm" target="_blank" href="{{ social_media.website }}"><i class="fi-globe"></i></a>
+                  {% endif %}
+
+                  {% if social_media.facebook %}
+                    <a class="btn btn-icon btn-light-primary btn-xs rounded-circle shadow-sm" target="_blank" href="{{ social_media.facebook }}"><i class="fi-facebook"></i></a>
+                  {% endif %}
+
+                  {% if social_media.instagram %}
+                    <a class="btn btn-icon btn-light-primary btn-xs rounded-circle shadow-sm" target="_blank" href="{{ social_media.instagram }}"><i class="fi-instagram"></i></a>
+                  {% endif %}
+
+                  {% if social_media.youtube %}
+                    <a class="btn btn-icon btn-light-primary btn-xs rounded-circle shadow-sm" target="_blank" href="{{ social_media.youtube }}"><i class="fi-youtube"></i></a>
+                  {% endif %}
+
+                  {% if social_media.tiktok %}
+                    <a class="btn btn-icon btn-light-primary btn-xs rounded-circle shadow-sm" target="_blank" href="{{ social_media.tiktok }}"><i class="fi-tiktok"></i></a>
+                  {% endif %}
+
+                  
+                {% endif %}
+              {% endwith %}
+            </div>
+          </div>
+
+        <!-- Account nav-->
+
+      </aside>
+      <!-- Content-->
+      
+      <div class="col-lg-8 col-md-7 mb-5">
+        <div class="d-md-block" id="account-nav">
+            <ul class="nav nav-pills flex-column flex-md-row pt-3 pt-md-0 pb-md-4 border-bottom-md">
+                <li class="nav-item mb-md-0 mx-2"><a class="nav-link {% if request.GET.section == 'reviews' or not request.GET.section %}active{% endif %}" href="{% url 'org:single-endorser' endorser.id %}" aria-current="page"><i class="fi-bell mt-n1 me-2 fs-base"></i>Reviews</a></li>
+                <li class="nav-item mb-md-0 me-md-2 pe-md-1 mx-2"><a class="nav-link {% if request.GET.section == 'completed-projects' %}active{% endif %}" href="{% url 'org:single-endorser' endorser.id %}?section=completed-projects" ><i class="fi-briefcase mt-n1 me-2 fs-base"></i>Projects completed</a></li>
+            </ul>
+        </div>
+
+        <!-- <h1 class="h2">Reviews</h1> -->
+        <!-- <div class="mb-2 pt-1">{{ subtitle }}</div> -->
+        
+        {% include 'inc/msg.inc.html' %}
+
+        
+        <div class="">
+            <!-- Item-->
+            {% if request.GET.section == 'completed-projects' %}
+                
+                 <!-- Tabs content-->
+                <div class="tab-content pt-2">
+                    <!-- Reviews about you tab-->
+                    <div class="tab-pane fade show active" id="reviews-about-you" role="tabpanel">
+                    <div class="d-flex mt-3 flex-sm-row flex-column align-items-sm-center align-items-stretch justify-content-between pb-4 mb-2 mb-md-3">
+                        <h3 class="h4 mb-sm-0"></i>Completed projects</h3>
+                        <div class="d-flex align-items-center ms-sm-4">
+                            <label class="fs-sm me-2 pe-1 text-nowrap" for="review-sorting1"><i class="fi-arrows-sort text-muted mt-n1 me-2"></i>Sort by:</label>
+                            <select class="form-select form-select-sm" id="review-sorting1">
+                                <option>Newest</option>
+                                <option>Oldest</option>
+                                <option>Popular</option>
+                                <option>High rating</option>
+                                <option>Low rating</option>
+                            </select>
+                        </div>
+                    </div>
+                    <!-- Review-->
+
+                    {% if projects %}
+
+                        {% for review in reviews.list %}
+                    
+                            <div class="mb-4 pb-4 border-bottom">
+                                <div class="d-flex justify-content-between mb-3">
+                                <div class="d-flex align-items-center pe-2"><img class="rounded-circle me-1" src="{{ review.created_by.profile_pic.url }}" width="48" alt="Avatar">
+                                    <div class="ps-2">
+                                        <h6 class="fs-base mb-0">{{ review.created_by.getFullName }}</h6>
+                                        <span class="star-rating">
+                                            {% for i in range_var %}
+                                                <i class="star-rating-icon fi-star-filled {% if i > review.star %}{% else %}active{% endif %}"></i>
+                                            {% endfor %}
+                                        </span>
+                                    </div>
+                                </div><span class="text-muted fs-sm">{{ review.created_at }}</span>
+                                </div>
+                                <p class="mb-0">{{ review.feedback }}</p>
+                                <!-- <div class="d-flex align-items-center">
+                                <button class="btn-like" type="button"><i class="fi-like"></i><span>(3)</span></button>
+                                <div class="border-end me-1">&nbsp;</div>
+                                <button class="btn-dislike" type="button"><i class="fi-dislike"></i><span>(0)</span></button>
+                                </div> -->
+                            </div>
+
+                        {% endfor %}
+
+                    {% else %}
+                        {% include 'inc/no-result.html' with data_type='completed projects' %}
+                    {% endif %}
+
+                    
+                    </div>
+                
+                </div>
+
+
+            {% else %}
+                {% include 'inc/review-list.html' %}
+            {% endif %}
+
+
+          </div>
+          
+
+      </div>
+    </div>
+  </div>
+
+
+{% endblock content %}

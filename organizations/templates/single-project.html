@@ -1,0 +1,483 @@
+{% extends 'inc/base.html' %}
+{% load static %}
+
+{% block custom_css %}
+<link rel="stylesheet" href="{% static 'css/sidebar.css' %}">
+{% endblock custom_css %}
+
+{% block title %}
+  Flurrent | project
+{% endblock title %}
+
+{% block content %}
+
+
+
+
+<!-- application sidebar -->
+
+<div onclick="closeNav()" style="z-index: 1031; top: 0%; opacity: 0.5; width: 100%; height: 100%; position: fixed; background-color: black; display: none;"
+id="overlay"></div>
+
+
+<div id="mySidenav" class="sidenav">
+    <div class="p-4">
+         <div class="row px-0">
+            <div class="col-sm-10 d-flex align-items-center">
+                <i class="fi-file opacity-100 me-2 fs-3"></i>
+                <h4 class="my-0 mx-3">Fill the form to apply</h4>
+            </div>
+            <div class="col-sm-2 d-flex justify-content-end">
+                
+                <i onclick="closeNav()" class="fi-x opacity-100 me-2 fs-6"></i>
+
+                <!-- <i onclick="closeNav()" class="material-icons myIco text-secondary" style="cursor: pointer;"
+                    title="Close">
+                    close
+                </i> -->
+            </div>
+        </div>
+    </div>
+ 
+    <div>
+      
+        <form action="{% url 'endorsers:apply-on-project' project.id %}" method="post">
+          {% csrf_token %}
+
+          <div class="px-4">
+
+            <!-- Large input -->
+            <div class="mb-3">
+              <label class="form-label" for="input-lg">Offer price</label>
+              <input class="form-control form-control-lg" name="price" type="number" min="50" placeholder="Price you will charge for this project" required>
+              <small>Provide the price under the budget <b>{{ project.budget }}</b> to maximum the chances of approval.</small>
+            </div>
+
+            <!-- Textarea -->
+            <div class="mb-3">
+              <label for="textarea-input" class="form-label">Cover Letter</label>
+              <textarea class="form-control form-control-lg" name="note" rows="8" placeholder="Explain how you can achived the given requirements and why you should be hired." required></textarea>
+            </div>
+
+            <!-- Large input -->
+            <div class="mb-3">
+              <label class="form-label" for="input-lg">Days required</label>
+              <input class="form-control form-control-lg" name="days" type="number" placeholder="Days required to complete this project" min="1" required>
+              <small>Estimated period to completed the job</small>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Submit application</button>
+
+          </div>
+
+        </form>
+
+        {% if not notifications %}
+
+            <!-- <div class="text-center mt-5" id="no-notification-part">
+                <img class="mt-5" src="{% static 'assets/img/no-notification.png' %}" style="width: 70px" alt="">
+                <h3 class="text-grey my-3">No notifications</h3>
+                <p style="color: grey">Once any job is posted related to your skills<br>You will be instantly notified here</p>
+            </div> -->
+
+        {% endif %}
+
+        <div class="mt-0" id="notification-container">
+            
+
+            {% for notification in notifications %}
+                <a href="{% url 'services:single-job' notification.job.job_id %}" target="_blank">
+                    <div class="job-2 py-3 px-4">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <p class="mb-2 text-grey"><b>{{ notification.subject }}</b></p>
+                                <p>{{ notification.body }}</p>
+                                <div class="d-flex">
+                                    <div class="w-50">
+                                        {{ notification.job.budget }}
+                                    </div>
+                                    <div class="w-50 text-end">
+                                        {{ notification.getPostedTime }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+
+            {% endfor %}
+
+        </div>
+
+
+    </div>
+
+</div>
+
+
+<!-- Side bar end -->
+
+
+
+
+
+
+
+
+
+<div class="container-fluid pt-5 p-0">
+   <!-- Page header-->
+   <section class="bg-dark py-4">
+    <div class="container py-5">
+      <p class="fs-lg text-muted mb-1">Projet details</p>
+      <h1 class="text-light pt-1 pt-md-3 mb-4">{{ project.title }}</h1>
+      <div class="d-flex">
+        <button class="btn btn-translucent-light btn-sm fs-base fw-normal text-start" type="button">
+          <i class="fi-cash fs-base text-muted me-2"></i>
+          <span><b>Budget</b> &nbsp; {{ project.budget }}</span>
+        </button>
+
+        <button class="btn btn-translucent-light btn-sm fs-base fw-normal text-start" type="button">
+          <i class="fi-calendar-alt fs-base text-muted me-2"></i>
+          <span><b>Posted</b> &nbsp; {{ project.created_at }}</span>
+        </button>
+
+
+
+      </div>
+
+
+      <!-- Search form-->
+      <!-- <form class="form-group form-group-light d-block rounded-lg-pill mb-4">
+        <div class="row align-items-center g-0 ms-n2">
+          <div class="col-lg-3 col-xl-4">
+            <div class="input-group input-group-lg border-end-lg border-light"><span class="input-group-text text-light rounded-pill opacity-50 ps-3"><i class="fi-search"></i></span>
+              <input class="form-control" type="text" placeholder="Search site...">
+            </div>
+          </div>
+          <hr class="hr-light d-lg-none my-2">
+          <div class="col-lg-5 d-sm-flex">
+            <div class="dropdown w-sm-50 border-end-sm border-light" data-bs-toggle="select">
+              <button class="btn btn-link dropdown-toggle" type="button" data-bs-toggle="dropdown"><i class="fi-list me-2"></i><span class="dropdown-toggle-label">Category</span></button>
+              <input type="hidden">
+              <ul class="dropdown-menu dropdown-menu-dark my-3">
+                <li><a class="dropdown-item" href="#"><span class="dropdown-item-label">Accounting</span></a></li>
+                <li><a class="dropdown-item" href="#"><span class="dropdown-item-label">Marketing &amp; PR</span></a></li>
+                <li><a class="dropdown-item" href="#"><span class="dropdown-item-label">Medicine</span></a></li>
+                <li><a class="dropdown-item" href="#"><span class="dropdown-item-label">Internet technology</span></a></li>
+                <li><a class="dropdown-item" href="#"><span class="dropdown-item-label">HoReCa</span></a></li>
+                <li><a class="dropdown-item" href="#"><span class="dropdown-item-label">Design, creativity</span></a></li>
+                <li><a class="dropdown-item" href="#"><span class="dropdown-item-label">Fitness &amp; sports</span></a></li>
+              </ul>
+            </div>
+            <hr class="hr-light d-sm-none my-2">
+            <div class="dropdown w-sm-50 border-end-lg border-light" data-bs-toggle="select">
+              <button class="btn btn-link dropdown-toggle" type="button" data-bs-toggle="dropdown"><i class="fi-map-pin me-2"></i><span class="dropdown-toggle-label">Location</span></button>
+              <input type="hidden">
+              <ul class="dropdown-menu dropdown-menu-dark my-3">
+                <li><a class="dropdown-item" href="#"><span class="dropdown-item-label">Dallas</span></a></li>
+                <li><a class="dropdown-item" href="#"><span class="dropdown-item-label">Chicago</span></a></li>
+                <li><a class="dropdown-item" href="#"><span class="dropdown-item-label">Houston</span></a></li>
+                <li><a class="dropdown-item" href="#"><span class="dropdown-item-label">Las Vegas</span></a></li>
+                <li><a class="dropdown-item" href="#"><span class="dropdown-item-label">Los Angeles</span></a></li>
+                <li><a class="dropdown-item" href="#"><span class="dropdown-item-label">New York</span></a></li>
+                <li><a class="dropdown-item" href="#"><span class="dropdown-item-label">San Francisco</span></a></li>
+              </ul>
+            </div>
+          </div>
+          <hr class="hr-light d-lg-none my-2">
+          <div class="col-lg-4 col-xl-3 d-flex align-items-center">
+            <div class="dropdown w-50 w-lg-100" data-bs-toggle="select">
+              <button class="btn btn-link dropdown-toggle" type="button" data-bs-toggle="dropdown"><i class="fi-geo me-2"></i><span class="dropdown-toggle-label">Distance</span></button>
+              <input type="hidden">
+              <ul class="dropdown-menu dropdown-menu-dark my-3">
+                <li><a class="dropdown-item" href="#"><span class="dropdown-item-label">10 miles</span></a></li>
+                <li><a class="dropdown-item" href="#"><span class="dropdown-item-label">20 miles</span></a></li>
+                <li><a class="dropdown-item" href="#"><span class="dropdown-item-label">30 miles</span></a></li>
+                <li><a class="dropdown-item" href="#"><span class="dropdown-item-label">40 miles</span></a></li>
+                <li><a class="dropdown-item" href="#"><span class="dropdown-item-label">50 miles</span></a></li>
+              </ul>
+            </div>
+            <button class="btn btn-primary btn-lg w-50 w-lg-auto rounded-pill" type="button">Find jobs</button>
+          </div>
+        </div>
+      </form> -->
+      <!-- Search params (dropdowns)-->
+      <!-- <div class="d-sm-flex justify-content-between pt-2 pb-1 pb-md-3 pb-lg-4">
+        <div class="d-flex flex-column flex-sm-row flex-wrap">
+          <div class="dropdown me-sm-3 mb-2 mb-sm-3" data-bs-toggle="select">
+            <button class="btn btn-translucent-light btn-sm dropdown-toggle fs-base fw-normal w-100 text-start" type="button" data-bs-toggle="dropdown"><span class="dropdown-toggle-label">Publication date</span></button>
+            <ul class="dropdown-menu my-1">
+              <li><a class="dropdown-item" href="#"><span class="dropdown-item-label">Most recent</span></a></li>
+              <li><a class="dropdown-item" href="#"><span class="dropdown-item-label">5 days</span></a></li>
+              <li><a class="dropdown-item" href="#"><span class="dropdown-item-label">15 days</span></a></li>
+              <li><a class="dropdown-item" href="#"><span class="dropdown-item-label">1 week</span></a></li>
+              <li><a class="dropdown-item" href="#"><span class="dropdown-item-label">1 month</span></a></li>
+            </ul>
+          </div>
+          <div class="dropdown me-sm-3 mb-2 mb-sm-3" data-bs-toggle="select">
+            <button class="btn btn-translucent-light btn-sm dropdown-toggle fs-base fw-normal w-100 text-start" type="button" data-bs-toggle="dropdown"><span class="dropdown-toggle-label">Job type</span></button>
+            <ul class="dropdown-menu my-1">
+              <li><a class="dropdown-item" href="#"><span class="dropdown-item-label">Full-time</span></a></li>
+              <li><a class="dropdown-item" href="#"><span class="dropdown-item-label">Part-time</span></a></li>
+              <li><a class="dropdown-item" href="#"><span class="dropdown-item-label">Remote</span></a></li>
+              <li><a class="dropdown-item" href="#"><span class="dropdown-item-label">Temporary</span></a></li>
+              <li><a class="dropdown-item" href="#"><span class="dropdown-item-label">Contract</span></a></li>
+              <li><a class="dropdown-item" href="#"><span class="dropdown-item-label">Internship</span></a></li>
+            </ul>
+          </div>
+          <div class="dropdown me-sm-3 mb-2 mb-sm-3" data-bs-toggle="select">
+            <button class="btn btn-translucent-light btn-sm dropdown-toggle fs-base fw-normal w-100 text-start" type="button" data-bs-toggle="dropdown"><span class="dropdown-toggle-label">Company</span></button>
+            <ul class="dropdown-menu my-1">
+              <li><a class="dropdown-item" href="#"><span class="dropdown-item-label">IT Pro TV</span></a></li>
+              <li><a class="dropdown-item" href="#"><span class="dropdown-item-label">Zalo Tech Company</span></a></li>
+              <li><a class="dropdown-item" href="#"><span class="dropdown-item-label">Elastic Inc.</span></a></li>
+              <li><a class="dropdown-item" href="#"><span class="dropdown-item-label">Lift Web</span></a></li>
+              <li><a class="dropdown-item" href="#"><span class="dropdown-item-label">Xbox Company</span></a></li>
+              <li><a class="dropdown-item" href="#"><span class="dropdown-item-label">Zapier</span></a></li>
+            </ul>
+          </div>
+          <div class="dropdown me-sm-3 mb-2 mb-sm-3" data-bs-toggle="select">
+            <button class="btn btn-translucent-light btn-sm dropdown-toggle fs-base fw-normal w-100 text-start" type="button" data-bs-toggle="dropdown"><span class="dropdown-toggle-label">Salary range</span></button>
+            <ul class="dropdown-menu my-1">
+              <li><a class="dropdown-item" href="#"><span class="dropdown-item-label">$500 - $1,000</span></a></li>
+              <li><a class="dropdown-item" href="#"><span class="dropdown-item-label">$1,000 - $2,000</span></a></li>
+              <li><a class="dropdown-item" href="#"><span class="dropdown-item-label">$2,000 - $5,000</span></a></li>
+              <li><a class="dropdown-item" href="#"><span class="dropdown-item-label">$5,000 - $10,000</span></a></li>
+              <li><a class="dropdown-item" href="#"><span class="dropdown-item-label">$10,000 - $20,000</span></a></li>
+              <li><a class="dropdown-item" href="#"><span class="dropdown-item-label">$20,000 - $50,000</span></a></li>
+            </ul>
+          </div>
+        </div><a class="d-inline-block text-light text-nowrap py-3" href="#">Advanced search</a>
+      </div> -->
+    </div>
+  </section>
+  <!-- Page content-->
+  <section class="position-relative bg-white rounded-xxl-4 zindex-5" style="margin-top: -30px;">
+    <div class="container pt-3 pb-5 mb-md-4">
+      <!-- Breadcrumb-->
+      <!-- <nav class="pb-4 my-2" aria-label="Breadcrumb">
+        <ol class="breadcrumb m-0">
+          <li class="breadcrumb-item"><a href="job-board-home-v1.html">Home</a></li>
+          <li class="breadcrumb-item"><a href="job-board-catalog.html">Find jobs</a></li>
+          <li class="breadcrumb-item active" aria-current="page">Partnership Manager</li>
+        </ol>
+      </nav> -->
+      {% include 'inc/msg.inc.html' %}
+
+      <div class="row">
+        <!-- Signle job content-->
+        <div class="col-lg-7 position-relative pe-lg-5 mb-5 mb-lg-0" style="z-index: 1025;">
+          <!-- <div class="d-flex justify-content-between mb-2">
+            <h2 class="h3 mb-0" style="width: 80%;">{{ project.title }}</h2>
+            <div class="text-end" style="width: 20%;">
+              {% if project.is_active %}
+                <span class="badge bg-faded-success rounded-pill fs-sm mb-2">Active</span>
+              {% else %}
+                <span class="badge bg-faded-danger rounded-pill fs-sm mb-2">Not active</span>
+              {% endif %}
+              <div class="fs-sm text-muted">2 hours ago</div>
+            </div>
+          </div>
+          <ul class="list-unstyled fs-sm mb-4">
+            <li class="mb-2">
+              <span class="d-flex align-items-center text-decoration-none">
+                <i class="fi-external-link me-2"></i>
+                <span class="text-decoration-underline">{{ project.organization.name }}</span>
+              </span>
+            </li>
+            <li class="d-flex align-items-center mb-2"><i class="fi-map-pin text-muted me-2"></i><span>New York</span></li>
+            <li class="d-flex align-items-center mb-2"><i class="fi-cash fs-base text-muted me-2"></i><span><b>Budget</b> {{ project.budget }}</span></li>
+            <li class="d-flex align-items-center mb-2"><i class="fi-phone text-muted me-2"></i><span class="me-2">Bessie Cooper, HR Manager</span><a href="#">Show phone</a></li>
+            <li class="d-flex align-items-center mb-2"><i class="fi-clock text-muted me-2"></i><span class="me-2">Full-time</span></li>
+          </ul> -->
+
+          <!-- Product info -->
+          <div class="card bg-secondary card-hover text-left my-4">
+            <div class="card-body">
+              {% if project.product.thumbnail %}
+
+
+                <div class="row">
+                  <div class="col-sm-3">
+                    <img src="{{ project.product.thumbnail.url }}" class="my-2 w-100 rounded-3" alt="">
+                  </div>
+
+                  <div class="col-sm-9">
+                    <div class="d-flex align-items-center">
+                      <h3 class="h6 my-2 w-75">{{ project.product.name }}</h3>
+                      <div class="text-end w-25">
+                        {% if project.product.type == 'product' %}
+                        <span class="badge bg-faded-accent rounded-pill fs-sm">Product</span>
+                        {% else %}
+                            <span class="badge bg-faded-success rounded-pill fs-sm">Service</span>
+                        {% endif %}
+                      </div>
+    
+                    </div>
+                    <p class="mt-2 mb-0">{{ project.description }}</p>
+                  </div>
+                </div>
+              
+              {% else %}
+
+                <div class="d-flex align-items-center">
+                  <h3 class="h6 my-2 w-75">{{ project.product.name }}</h3>
+                  <div class="text-end w-25">
+                    {% if project.product.type == 'product' %}
+                    <span class="badge bg-faded-accent rounded-pill fs-sm">Product</span>
+                    {% else %}
+                        <span class="badge bg-faded-success rounded-pill fs-sm">Service</span>
+                    {% endif %}
+                  </div>
+
+                </div>
+                <p class="mt-2 mb-0">{{ project.description }}</p>
+
+              {% endif %} 
+             
+              
+              
+            </div>
+          </div>
+
+          <h3 class="h6">Project description</h3>
+          <p>{{ project.description }}</p>
+          <h3 class="h6 pt-2">Requirements</h3>
+          <ul class="list-unstyled">
+            {% for requirement in project.getRequirements %}
+              <li class="d-flex"><span class="text-primary fs-lg me-2">&#8226;</span>{{ requirement }}</li>
+            {% endfor %}
+          </ul>
+          <h3 class="h6 pt-2">Benefits</h3>
+          <ul class="list-unstyled">
+            {% for benefit in project.getBenefits %}
+              <li class="d-flex"><span class="text-primary fs-lg me-2">&#8226;</span>{{ benefit }}</li>
+            {% endfor %}
+          </ul>
+          <p class="pt-2 mb-1 fw-bold">Click on the apply button below to win the job as soon as possible</p>
+          <hr class="my-4">
+          <div class="btn-group btn-group-lg">
+            <button onclick="openNav()" class="btn btn-primary rounded-end-0 ps-4 pe-3" type="button">Apply for this position</button>
+            <div class="position-relative border-start border-light zindex-5" style="margin-left: -1px;"></div>
+            <button class="btn btn-primary rounded-start-0 px-3" type="button"><i class="fi-heart me-1"></i></button>
+          </div>
+        </div>
+        <!-- Sticky sidebar-->
+        <aside class="col-lg-5 mt-4" >
+          <div class="card p-5 shadow-sm">
+            <div class="d-flex align-items-center mb-3">
+              <div class="w-50 text-start">
+                <span class="badge bg-dark">Project posted by</span>
+              </div>
+              <div class="w-50">
+                <!-- rating  -->
+                <div class="d-flex align-items-center justify-content-end" >
+                  <i class="fi-star-filled text-warning fs-5"></i>
+                  <span class="fs-5 mx-1">(4.7)</span>
+                </div>
+              </div>
+              
+            </div>
+            <div class="text-center mt-2 pb-4 mb-2">
+                <div class="position-relative flex-shrink-0"><img class="rounded-circle" src="{{ project.organization.logo.url }}" width="100" alt="Annette Black">
+                  <h2 class="h3 p-0 m-0 mt-2">{{ project.organization.name }}</h2>
+                  <p class="p-0 m-0 my-3">{{ project.organization.type }}</p>
+                </div>
+            </div>
+          
+            <div>
+              <ul class="list-unstyled fs-sm  pb-md-3">
+                <li><a class="nav-link fw-normal py-3 border-bottom d-flex align-items-center px-0 py-1" href="#"><i class="fi-checkbox-checked-alt opacity-70 me-2"></i><span>Member Since</span><span class="text-muted ms-auto">{{ project.organization.created_at }}</span></a></li>
+                <li><a class="nav-link fw-normal py-3 border-bottom d-flex align-items-center px-0 py-1" href="#"><i class="fi-filter-alt-horizontal opacity-70 me-2"></i><span>Categorie</span><span class="text-muted ms-auto">{{ project.organization.type }}</span></a></li>
+                <!-- <li><a class="nav-link fw-normal py-3 border-bottom d-flex align-items-center px-0 py-1" href="#"><i class="fi-bookmark opacity-70 me-2"></i><span>Interest</span><span class="text-muted ms-auto">Facebook</span></a></li> -->
+                <li><a class="nav-link fw-normal py-3 border-bottom d-flex align-items-center px-0 py-1" href="#"><i class="fi-briefcase opacity-70 me-2"></i><span>Posted Jobs</span><span class="text-muted ms-auto">{{ project.organization.getProjects.count }}</span></a></li>
+              </ul>
+            </div>
+          <!-- description -->
+         
+
+            <div>
+              <h3 class="h6 m-0 mb-2 p-0">Description</h3>
+              <p class="mb-2 m-0 p-0">{{ project.organization.description }}</p>
+            </div>
+            <div class="my-4">
+              <h3 class="h6 m-0 mb-3">Social profiles</h3>
+              {% with social_media=project.organization.social_media %}
+                {% if social_media %}
+
+                  {% if social_media.website %}
+                    <a class="btn btn-icon btn-light-primary btn-xs rounded-circle shadow-sm" target="_blank" href="{{ social_media.website }}"><i class="fi-globe"></i></a>
+                  {% endif %}
+
+                  {% if social_media.facebook %}
+                    <a class="btn btn-icon btn-light-primary btn-xs rounded-circle shadow-sm" target="_blank" href="{{ social_media.facebook }}"><i class="fi-facebook"></i></a>
+                  {% endif %}
+
+                  {% if social_media.instagram %}
+                    <a class="btn btn-icon btn-light-primary btn-xs rounded-circle shadow-sm" target="_blank" href="{{ social_media.instagram }}"><i class="fi-instagram"></i></a>
+                  {% endif %}
+
+                  {% if social_media.youtube %}
+                    <a class="btn btn-icon btn-light-primary btn-xs rounded-circle shadow-sm" target="_blank" href="{{ social_media.youtube }}"><i class="fi-youtube"></i></a>
+                  {% endif %}
+
+                  {% if social_media.tiktok %}
+                    <a class="btn btn-icon btn-light-primary btn-xs rounded-circle shadow-sm" target="_blank" href="{{ social_media.tiktok }}"><i class="fi-tiktok"></i></a>
+                  {% endif %}
+
+                  
+                {% endif %}
+              {% endwith %}
+            </div>
+          </div>
+
+        </aside>
+      </div>
+    </div>
+  </section>
+  <!-- Related jobs (carousel)-->
+  <section class="container pt-md-2 pb-5 mb-md-4">
+    <div class="d-sm-flex align-items-center justify-content-between pb-4 mb-sm-2">
+      <h2 class="h3 mb-sm-0">More projects from this organization</h2><a class="btn btn-link fw-normal p-0" href="job-board-catalog.html">View all<i class="fi-arrow-long-right ms-2"></i></a>
+    </div>
+    <div class="tns-carousel-wrapper tns-controls-outside-xxl tns-nav-outside tns-nav-outside-flush">
+      <div class="tns-carousel-inner" data-carousel-options="{&quot;responsive&quot;: {&quot;0&quot;:{&quot;items&quot;:1, &quot;gutter&quot;: 16},&quot;600&quot;:{&quot;items&quot;:2, &quot;gutter&quot;: 16},&quot;768&quot;:{&quot;items&quot;:2, &quot;gutter&quot;: 24},&quot;992&quot;:{&quot;items&quot;:3, &quot;gutter&quot;: 24}}}">
+        <!-- Item-->
+        {% for single_project in project.getMoreFromThisOrg %}
+        <div class="pb-4">
+          <div class="card bg-secondary card-hover h-100">
+            <div class="card-body pb-3">
+              <div class="d-flex align-items-center mb-2"><img class="me-2" src="{{ single_project.organization.logo.url }}" width="24" alt="IT Pro Logo"><span class="fs-sm text-dark opacity-80 px-1">{{single_project.organization.name}}</span>
+                {% if single_project.is_active %}
+                <span class="badge bg-faded-success rounded-pill fs-sm mb-2 ms-auto">Active</span>
+                {% else %}
+                  <span class="badge bg-faded-danger rounded-pill fs-sm mb-2 ms-auto">Not active</span>
+                {% endif %}
+              </div>
+              <h3 class="h6 card-title pt-1 mb-2"><a class="text-nav stretched-link text-decoration-none" href="{% url 'org:single-project' single_project.id %}">{{ single_project.getShortTitle }}</a></h3>
+              <p class="fs-sm mb-0">{{ single_project.getShortDescription }}</p>
+            </div>
+            <div class="card-footer d-flex align-items-center justify-content-between border-0 pt-0">
+              <div class="fs-sm"><span class="text-nowrap me-3"><i class="fi-calendar-alt text-muted me-1"> </i>{{ single_project.created_at }}</span><span class="text-nowrap me-3"><i class="fi-cash fs-base text-muted me-1"></i>{{ single_project.budget }}</span></div>
+              <button class="btn btn-icon btn-light btn-xs text-primary shadow-sm rounded-circle content-overlay" type="button" data-bs-toggle="tooltip" title="Add to saved jobs"><i class="fi-heart"></i></button>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+       
+      </div>
+    </div>
+  </section>
+
+</div>
+
+
+{% endblock content %}
+
+{% block custom_js %}
+<script src="{% static 'js/sidebar.js' %}"></script>
+<script>
+  openNav();
+</script>
+{% endblock custom_js %}

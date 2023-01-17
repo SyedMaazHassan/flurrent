@@ -1,0 +1,54 @@
+ <!-- Tabs content-->
+ <div class="tab-content pt-2">
+    <!-- Reviews about you tab-->
+    <div class="tab-pane fade show active" id="reviews-about-you" role="tabpanel">
+      <div class="d-flex mt-3 flex-sm-row flex-column align-items-sm-center align-items-stretch justify-content-between pb-4 mb-2 mb-md-3">
+        <h3 class="h4 mb-sm-0"><i class="fi-star-filled mt-n1 me-2 lead align-middle text-warning"></i>{{ reviews.average }} ({{ reviews.count }} reviews)</h3>
+        <div class="d-flex align-items-center ms-sm-4">
+          <label class="fs-sm me-2 pe-1 text-nowrap" for="review-sorting1"><i class="fi-arrows-sort text-muted mt-n1 me-2"></i>Sort by:</label>
+          <select class="form-select form-select-sm" id="review-sorting1">
+            <option>Newest</option>
+            <option>Oldest</option>
+            <option>Popular</option>
+            <option>High rating</option>
+            <option>Low rating</option>
+          </select>
+        </div>
+      </div>
+      <!-- Review-->
+
+      {% if reviews.list %}
+
+        {% for review in reviews.list %}
+      
+            <div class="mb-4 pb-4 border-bottom">
+                <div class="d-flex justify-content-between mb-3">
+                <div class="d-flex align-items-center pe-2"><img class="rounded-circle me-1" src="{{ review.created_by.profile_pic.url }}" width="48" alt="Avatar">
+                    <div class="ps-2">
+                        <h6 class="fs-base mb-0">{{ review.created_by.getFullName }}</h6>
+                        <span class="star-rating">
+                            {% for i in range_var %}
+                                <i class="star-rating-icon fi-star-filled {% if i > review.star %}{% else %}active{% endif %}"></i>
+                            {% endfor %}
+                        </span>
+                    </div>
+                </div><span class="text-muted fs-sm">{{ review.created_at }}</span>
+                </div>
+                <p class="mb-0">{{ review.feedback }}</p>
+                <!-- <div class="d-flex align-items-center">
+                <button class="btn-like" type="button"><i class="fi-like"></i><span>(3)</span></button>
+                <div class="border-end me-1">&nbsp;</div>
+                <button class="btn-dislike" type="button"><i class="fi-dislike"></i><span>(0)</span></button>
+                </div> -->
+            </div>
+
+        {% endfor %}
+
+      {% else %}
+          {% include 'inc/no-result.html' with data_type='review' %}
+      {% endif %}
+
+      
+    </div>
+   
+</div>

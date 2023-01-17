@@ -1,0 +1,101 @@
+{% extends 'org_profile/inc/profile.html' %}
+{% load static %}
+
+{% block section_content %}
+
+<div>
+     <!-- Basic info-->
+     <section class="card card-body border-0 shadow-sm p-4 mb-4" id="basic-info">
+        <h2 class="h4 mb-4"><i class="fi-info-circle text-primary fs-5 mt-n1 me-2"></i>Basic info</h2>
+        <div class="mb-3">
+          <label class="form-label" for="ab-title">Project title <span class="text-danger">*</span></label>
+          <input class="form-control" type="text" id="ab-title" value="" name="project_title" placeholder="Title for your project" required><span class="form-text">48 characters left</span>
+        </div>
+
+        <div class="row mb-0">
+            <label class="form-label" for="ab-description">Description <span class="text-danger">*</span></label>
+            <div class="col-md-12 mb-md-0 mb-3">
+              <textarea class="form-control" id="ab-description" rows="6" name="project_description"  placeholder="Describe your project in detail"></textarea>
+            </div>
+        </div>
+
+      </section>
+
+      <!-- Price range-->
+      <section class="card card-body border-0 shadow-sm p-4 mb-4" id="price">
+        <h2 class="h4 mb-4"><i class="fi-cash text-primary fs-5 mt-n1 me-2"></i>Project budget</h2>
+        <label class="form-label" for="ab-price">Price<span class="text-danger">*</span></label>
+        <div class="col-md-8 d-flex flex-sm-row flex-column px-0">
+          <div class="d-flex align-items-center me-sm-2 mb-sm-0 mb-2">
+            <input class="form-control" id="ab-price" type="number" min="50" name="min_price" step="10" placeholder="Min" required>
+            <div class="mx-2">—</div>
+            <input class="form-control" type="number" placeholder="Max" name="max_price" min="60" step="10" required>
+          </div>
+          <select class="form-select w-sm-25 ms-sm-0 ms-auto">
+            <option value="usd" selected>&#36;</option>
+            <option value="eur">&#8364;</option>
+            <option value="gbp">&#163;</option>
+            <option value="jpy">&#165;</option>
+          </select>
+        </div>
+      </section>
+
+
+
+       <!-- Description-->
+       <section class="card card-body border-0 shadow-sm p-4 mb-4" id="description">
+        <h2 class="h4 mb-4"><i class="fi-edit text-primary fs-5 mt-n1 me-2"></i>Product / Service overview</h2>
+        <p>What is this project about, which of your products or services are involved</p>
+        
+        <div class="mb-3">
+            <div class="row">
+                <div class="col-sm-6 mb-3">
+                    <label class="form-label" for="ab-title">Product title<span class="text-danger">*</span></label>
+                    <input class="form-control" type="text" id="ab-title" name="product_title"  value="" placeholder="Title for your project" required><span class="form-text">48 characters left</span>        
+                </div>
+                <div class="col-sm-6 mb-3">
+                    <label class="form-label" for="ab-city">Type <span class="text-danger">*</span></label>
+                    <select class="form-select" id="ab-city"  name="product_type"  required>
+                      <option value="" disabled>Choose type</option>
+                      <option value="product" selected>Product</option>
+                      <option value="service">Service</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+  
+        <div class="row mb-4">
+            <label class="form-label" for="ab-description">Product description</label>
+            <div class="col-md-12 mb-md-0 mb-3">
+            <textarea class="form-control" id="ab-description" name="product_description" rows="3" placeholder="Describe your product"></textarea>
+            </div>
+        </div>
+
+        <div>
+          <label class="form-label d-block mb-2 pb-1" for="ab-award">Upload product/service thumbnail</label>
+          <input class="form-control mb-3" id="ab-award" name="product_thumbnail" type="file">
+        </div>
+      </section>
+
+
+      <!-- requirements and benefits -->
+      <section class="card card-body border-0 shadow-sm p-4 mb-4" id="location">
+        <h2 class="h4 mb-4"><i class="fi-award text-primary fs-5 mt-n1 me-2"></i>Requirements & Benefits</h2>
+
+        <div class="mb-3">
+            <label class="form-label" for="ab-description">Requirements (separated by line breaks)<span class="text-danger">*</span></label>
+            <textarea class="form-control" id="ab-description" name="requirements" rows="6" placeholder="Explain your requirements" required></textarea>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label" for="ab-description">Benefits (separated by line breaks)<span class="text-danger">*</span></label>
+            <textarea class="form-control" id="ab-description" name="benefits" rows="6" placeholder="Motivate endorsers by writing benefits" required></textarea>
+        </div>
+
+      </section>
+
+</div>
+
+
+
+{% endblock section_content %}
