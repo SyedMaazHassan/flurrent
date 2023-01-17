@@ -212,8 +212,11 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static')
 ]
 
-AUTH_USER_MODEL = 'authentication.User'
 
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles/')
+
+
+AUTH_USER_MODEL = 'authentication.User'
 
 
 LOGIN_URL = "/authentication/login"
