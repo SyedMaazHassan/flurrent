@@ -1,0 +1,330 @@
+{% extends 'inc/base.html' %}
+{% load static %}
+{% block title %}
+  Flurrent | Received application
+{% endblock title %}
+
+
+{% block custom_css %}
+<link rel="stylesheet" href="{% static 'css/sidebar.css' %}">
+{% endblock custom_css %}
+
+{% block content %}
+
+
+<!-- application sidebar -->
+<div onclick="closeNav()" style="z-index: 1031; top: 0%; opacity: 0.5; width: 100%; height: 100%; position: fixed; background-color: black; display: none;"
+id="overlay"></div>
+
+
+<div id="mySidenav" class="sidenav">
+    <div class="p-4">
+         <div class="row px-0">
+            <div class="col-sm-10 d-flex align-items-center">
+                <img class="me-2 rounded-circle" src="" id="endorser_profile_pic" width="30" alt="" id="project_org_logo">
+                <h4 class="my-0 mx-3" id="endorser_name">Syed Maaz Hassan</h4>
+            </div>
+            <div class="col-sm-2 d-flex justify-content-end">
+                
+                <i onclick="closeNav()" class="fi-x opacity-100 me-2 fs-6"></i>
+
+                <!-- <i onclick="closeNav()" class="material-icons myIco text-secondary" style="cursor: pointer;"
+                    title="Close">
+                    close
+                </i> -->
+            </div>
+        </div>
+    </div>
+ 
+    <div>
+
+      <div class="px-4">
+
+
+        <div class="my-2">
+          <div class="row mb-4 "> 
+            <div class="col-sm-6 d-flex align-items-center">
+                <p class="text-primary mb-0"><b>Application details (<span id="current_counter"></span>/{{ applications.count }})</b></p>
+            </div>
+            <div class="col-sm-6 d-flex align-items-center justify-content-end">
+                <button title="Previous application" type="button" id="previous-btn" class="btn btn-outline-secondary btn-icon change-btn">
+                    <i class="fi-chevron-left"></i>
+                </button>
+
+                <button title="Next application" type="button" id="next-btn" class="mx-2 btn btn-outline-secondary btn-icon change-btn">
+                    <i class="fi-chevron-right"></i>
+                </button>
+
+            </div>
+          </div>
+          <div class="card text-left shadow mb-4">
+            <div class="card-header">
+              <div class="row">
+                <div class="col-sm-6 my-2">
+                  <p class="card-text mb-1">Offered price</p>
+                  <h6 class="h6 card-title mb-0" id="application_price"></h6>
+                </div>
+                <div class="col-sm-6 my-2">
+                  <p class="card-text mb-1">Estimated time</p>
+                  <h6 class="h6 card-title mb-0" id="application_days"></h6>
+                </div>                
+              </div>
+            </div>
+
+            <div class="card-body">
+              
+
+                <h6 class="h6 card-title">Cover letter</h6>
+                <p class="card-text mb-0" id="application_note">
+
+                </p>
+        
+            </div>
+
+            <div class="card-footer">
+              <div class="row">
+                <div class="col-sm-6 my-2">
+                  <p class="card-text mb-1">Status</p>
+                  <h6 class="h6 card-title mb-0" id="application_status"></h6>
+                </div>  
+                <div class="col-sm-6 my-2">
+                  <p class="card-text mb-1">Submitted</p>
+                  <h6 class="h6 card-title mb-0" id="application_created_at"></h6>
+                </div>              
+              </div>
+            </div>
+
+            <div class="card-footer">
+                <a type="button" id="approve-btn" href="" class="btn btn-primary text-white" style="width: fit-content;">Approve & place order</a>
+            </div>
+            
+          </div>
+
+
+        </div>
+
+
+
+
+
+      </div>
+
+      
+    
+
+        {% if not notifications %}
+
+            <!-- <div class="text-center mt-5" id="no-notification-part">
+                <img class="mt-5" src="{% static 'assets/img/no-notification.png' %}" style="width: 70px" alt="">
+                <h3 class="text-grey my-3">No notifications</h3>
+                <p style="color: grey">Once any job is posted related to your skills<br>You will be instantly notified here</p>
+            </div> -->
+
+        {% endif %}
+
+        <div class="mt-0" id="notification-container">
+            
+
+    
+
+        </div>
+
+
+    </div>
+
+</div>
+
+
+
+
+ <!-- Page content-->
+ <div class="container pt-5 pb-lg-4 mt-5 mb-sm-2">
+    <!-- Breadcrumb-->
+    <nav class="mb-4 pt-md-3" aria-label="Breadcrumb">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="real-estate-home-v1.html">Home</a></li>
+        <li class="breadcrumb-item"><a href="real-estate-account-info.html">Account</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Personal Info</li>
+      </ol>
+    </nav>
+    <!-- Page content-->
+    <div class="row">
+      <!-- Sidebar-->
+      <aside class="col-lg-4 col-md-5 pe-xl-4 mb-5">
+        <!-- Account nav-->
+        <div class="card bg-secondary card-hover">
+            <div class="card-header">
+                <b>Project overview</b>
+            </div>
+
+            <div class="card-body pb-3">
+                <div class="d-flex align-items-center mb-2"><img class="me-2" src="{{ single_project.organization.logo.url }}" width="24" alt="IT Pro Logo"><span class="fs-sm text-dark opacity-80 px-1">{{single_project.organization.name}}</span>
+                {% if single_project.is_active %}
+                <span class="badge bg-faded-success rounded-pill fs-sm mb-2 ms-auto">Active</span>
+                {% else %}
+                    <span class="badge bg-faded-danger rounded-pill fs-sm mb-2 ms-auto">Not active</span>
+                {% endif %}
+                </div>
+                <h3 class="h6 card-title pt-1 mb-2"><a class="text-nav stretched-link text-decoration-none" href="{% url 'org:single-project' single_project.id %}">{{ single_project.getShortTitle }}</a></h3>
+                <p class="fs-sm mb-0">{{ single_project.getShortDescription }}</p>
+            </div>
+            <div class="card-footer d-flex align-items-center justify-content-between border-0 pt-0">
+                <div class="fs-sm"><span class="text-nowrap me-3"><i class="fi-calendar-alt text-muted me-1"> </i>{{ single_project.get_created_at }}</span><span class="text-nowrap me-3"><i class="fi-cash fs-base text-muted me-1"></i>{{ single_project.budget }}</span></div>
+                <button class="btn btn-icon btn-light btn-xs text-primary shadow-sm rounded-circle content-overlay" type="button" data-bs-toggle="tooltip" title="Add to saved jobs"><i class="fi-heart"></i></button>
+            </div>
+        </div>
+
+      </aside>
+      <!-- Content-->
+      <div class="col-lg-8 col-md-7 mb-5">
+        <h1 class="h2">Received applications</h1>
+        <div class="mb-4 pt-1">Endorsers applied to your posted project is being shown below</div>
+        
+        {% include 'inc/msg.inc.html' %}
+        
+        {% if applications.list %}
+
+            <div class="d-flex flex-sm-row flex-column px-0">
+                                
+                <!-- Light table with striped rows -->
+                <div class="table-responsive border w-100 rounded-3">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>Submitted</th>
+                                <th>Offered price</th>
+                                <th>Duration</th>
+                                <th>Posted by</th>
+                                <th>Option</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for application in applications.list %}
+                                <tr data-application-id="{{ application.id }}" data-counter="{{ forloop.counter0 }}" id="row-{{ application.id }}">
+                                    <td>
+                                        {{ application.get_created_at }} <br>
+                                        {% if application.is_approved %}
+                                            <span class="badge rounded-pill bg-success">APPROVED</span>
+                                        {% else %}
+                                            <span class="badge rounded-pill bg-info">PENDING</span>
+                                        {% endif %}  
+                                    </td>
+                                    <td>
+                                        <span class="text-primary">$ {{ application.price }}</span>
+                                    </td>
+                                    <td>
+                                        {{ application.days }} Days
+                                    </td>
+                                    <td>
+                                        <div class="d-flex align-items-center" style="width: fit-content;">
+                                            <img class="me-2 rounded-circle" src="{{ application.created_by.profile_pic.url }}" width="30" alt="{{ project.organization.name }}">
+                                            <span class="fs-sm text-dark opacity-80 ps-0">{{ application.created_by.getFullName }}</span>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="mk-pointer" onclick="setDetails('{{ application.id }}')">
+                                            <i class="fi-eye-on mx-2"></i> View
+                                        </div>
+            
+                                    </td>
+                                
+                                </tr>
+                            {% endfor %}
+                        
+                        </tbody>
+                    </table>
+                </div>
+            
+            </div>
+
+        {% else %}
+            {% include 'inc/no-result.html' with data_type='received application' %}
+        {% endif %}
+
+
+      </div>
+    </div>
+  </div>
+
+
+{% endblock content %}
+
+
+{% block custom_js %}
+<script src="{% static 'js/sidebar.js' %}"></script>
+<script>
+    var application_ids = {{application_ids | safe}};
+
+    $(".change-btn").on("click", function () {
+        let counter = $(this).attr("data-counter");
+        let application_id = application_ids[counter];
+        setDetails(application_id);
+    });
+
+    function setDetails(application_id) {
+        // setting details
+        $(".change-btn").attr("disabled", false);
+        let row_element = $(`#row-${application_id}`);
+        let counter = parseInt(row_element.attr("data-counter"));
+        let previous = counter - 1;
+        let next = counter + 1;
+
+        // Set previous button
+        if (previous < 0) {
+            previous = null;
+            $("#previous-btn").attr("disabled", true);
+        }
+
+        // Set next button
+        if (next >= application_ids.length) {
+            next = null;
+            $("#next-btn").attr("disabled", true);
+        }
+
+        // Set current counter
+        $("#current_counter").text(counter+1);
+
+        
+        
+        
+        $.ajax({
+            url: "{% url 'endorsers:get-single-application' %}",
+            type: "GET",
+            data: {
+                id: application_id
+            },
+            success: function (response) {
+                console.log(response);
+                if (response.status) {
+                    let application = response.data;
+                    $("#application_price").text(`$${application.application_price}`);
+                    $("#application_days").text(`${application.application_days} Days`);
+                    $("#application_created_at").text(application.application_created_at);
+                    $("#application_note").text(application.application_note);
+                    $("#approve-btn").attr("href", application.approve_url);
+                    if (application.application_status) {
+                        $("#application_status").text("APPROVED");    
+                    }else{
+                        $("#application_status").text("PENDING");
+                    }
+                    $("#endorser_name").text(application.endorser_name);
+                    $("#endorser_profile_pic").attr("src", application.endorser_profile_pic);
+                    
+                    // Setting buttons
+                    $("#previous-btn").attr("data-counter", previous);
+                    $("#next-btn").attr("data-counter", next);
+                    
+   
+                }
+            }
+        })
+
+        // openNav
+        openNav();
+    }
+
+
+    
+
+</script>
+{% endblock custom_js %}

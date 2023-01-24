@@ -1,0 +1,330 @@
+{% extends 'inc/base.html' %}
+{% load static %}
+{% block title %}
+  Flurrent | Received application
+{% endblock title %}
+
+
+{% block custom_css %}
+<link rel="stylesheet" href="{% static 'css/sidebar.css' %}">
+{% endblock custom_css %}
+
+{% block content %}
+
+
+<!-- application sidebar -->
+<div onclick="closeNav()" style="z-index: 1031; top: 0%; opacity: 0.5; width: 100%; height: 100%; position: fixed; background-color: black; display: none;"
+id="overlay"></div>
+
+
+<div id="mySidenav" class="sidenav">
+    <div class="p-4">
+         <div class="row px-0">
+            <div class="col-sm-10 d-flex align-items-center">
+                <img class="me-2 rounded-circle" src="" id="endorser_profile_pic" width="30" alt="" id="project_org_logo">
+                <h4 class="my-0 mx-3" id="endorser_name">Syed Maaz Hassan</h4>
+            </div>
+            <div class="col-sm-2 d-flex justify-content-end">
+                
+                <i onclick="closeNav()" class="fi-x opacity-100 me-2 fs-6"></i>
+
+                <!-- <i onclick="closeNav()" class="material-icons myIco text-secondary" style="cursor: pointer;"
+                    title="Close">
+                    close
+                </i> -->
+            </div>
+        </div>
+    </div>
+ 
+    <div>
+
+      <div class="px-4">
+
+
+        <div class="my-2">
+          <div class="row mb-4 "> 
+            <div class="col-sm-6 d-flex align-items-center">
+                <p class="text-primary mb-0"><b>Application details (<span id="current_counter"></span>/{{ applications.count }})</b></p>
+            </div>
+            <div class="col-sm-6 d-flex align-items-center justify-content-end">
+                <button title="Previous application" type="button" id="previous-btn" class="btn btn-outline-secondary btn-icon change-btn">
+                    <i class="fi-chevron-left"></i>
+                </button>
+
+                <button title="Next application" type="button" id="next-btn" class="mx-2 btn btn-outline-secondary btn-icon change-btn">
+                    <i class="fi-chevron-right"></i>
+                </button>
+
+            </div>
+          </div>
+          <div class="card text-left shadow mb-4">
+            <div class="card-header">
+              <div class="row">
+                <div class="col-sm-6 my-2">
+                  <p class="card-text mb-1">Offered price</p>
+                  <h6 class="h6 card-title mb-0" id="application_price"></h6>
+                </div>
+                <div class="col-sm-6 my-2">
+                  <p class="card-text mb-1">Estimated time</p>
+                  <h6 class="h6 card-title mb-0" id="application_days"></h6>
+                </div>                
+              </div>
+            </div>
+
+            <div class="card-body">
+              
+
+                <h6 class="h6 card-title">Cover letter</h6>
+                <p class="card-text mb-0" id="application_note">
+
+                </p>
+        
+            </div>
+
+            <div class="card-footer">
+              <div class="row">
+                <div class="col-sm-6 my-2">
+                  <p class="card-text mb-1">Status</p>
+                  <h6 class="h6 card-title mb-0" id="application_status"></h6>
+                </div>  
+                <div class="col-sm-6 my-2">
+                  <p class="card-text mb-1">Submitted</p>
+                  <h6 class="h6 card-title mb-0" id="application_created_at"></h6>
+                </div>              
+              </div>
+            </div>
+
+            <div class="card-footer">
+                <button type="button" class="btn btn-primary">Approve & place order</button>
+            </div>
+            
+          </div>
+
+
+        </div>
+
+
+
+
+
+      </div>
+
+      
+    
+
+        {% if not notifications %}
+
+            <!-- <div class="text-center mt-5" id="no-notification-part">
+                <img class="mt-5" src="{% static 'assets/img/no-notification.png' %}" style="width: 70px" alt="">
+                <h3 class="text-grey my-3">No notifications</h3>
+                <p style="color: grey">Once any job is posted related to your skills<br>You will be instantly notified here</p>
+            </div> -->
+
+        {% endif %}
+
+        <div class="mt-0" id="notification-container">
+            
+
+    
+
+        </div>
+
+
+    </div>
+
+</div>
+
+
+
+
+ <!-- Page content-->
+ <div class="container pt-5 pb-lg-4 mt-5 mb-sm-2">
+    <!-- Breadcrumb-->
+    <nav class="mb-4 pt-md-3" aria-label="Breadcrumb">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="real-estate-home-v1.html">Home</a></li>
+        <li class="breadcrumb-item"><a href="real-estate-account-info.html">Account</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Personal Info</li>
+      </ol>
+    </nav>
+    <!-- Page content-->
+    <div class="row">
+      <!-- Sidebar-->
+      <aside class="col-lg-5 col-md-5 pe-xl-5 mb-5">
+        <div class="card text-left shadow mb-4">
+            <div class="card-header">
+                <p class="text-primary mb-0"><b>Application</b></p>
+            </div>
+
+
+            <div class="card-header">
+              <div class="row">
+                <div class="col-sm-6 my-2">
+                  <p class="card-text mb-1">Offered price</p>
+                  <h6 class="h6 card-title mb-0" id="application_price">$ {{ application.price }}</h6>
+                </div>
+                <div class="col-sm-6 my-2">
+                  <p class="card-text mb-1">Estimated time</p>
+                  <h6 class="h6 card-title mb-0" id="application_days">{{ application.days }} Days</h6>
+                </div>                
+              </div>
+            </div>
+
+            <div class="card-body">
+              
+
+                <h6 class="h6 card-title">Cover letter</h6>
+                <p class="card-text mb-0" id="application_note">
+                    {{ application.note }}
+                </p>
+        
+            </div>
+
+            <div class="card-footer">
+              <div class="row">
+                <div class="col-sm-6 my-2">
+                  <p class="card-text mb-1">Status</p>
+                  <h6 class="h6 card-title mb-0" id="application_status">
+                    {% if application.is_approved %}
+                        APPROVED
+                    {% else %}
+                        PENDING
+                    {% endif %}
+                  </h6>
+                </div>  
+                <div class="col-sm-6 my-2">
+                  <p class="card-text mb-1">Submitted</p>
+                  <h6 class="h6 card-title mb-0" id="application_created_at">
+                    {{ application.get_created_at }}
+                  </h6>
+                </div>              
+              </div>
+            </div>
+
+            <!-- <div class="card-footer">
+                <a type="button" id="approve-btn" href="" class="btn btn-primary text-white" style="width: fit-content;">Approve & place order</a>
+            </div> -->
+            
+        </div>
+
+      </aside>
+      <!-- Content-->
+      <div class="col-lg-7 col-md-7 mb-5">
+        <h1 class="h2">Confirm order</h1>
+
+        <div class="mb-4 pt-1">Confirm order to approve the application & hire this endorser</div>
+        
+        {% include 'inc/msg.inc.html' %}
+
+        
+        <div class="card text-left shadow mb-4">
+
+
+            <div class="card-header">
+                
+              <div class="row">
+                <div class="col-sm-8 my-2">
+                    <div>
+                        Project title
+                        <a  class="text-decoration-none" href="{% url 'org:single-project' project.id %}">
+                            <h5 class="mb-0" style="color: grey;">{{ project.title }}</h5>
+                        </a>
+                    </div>
+                </div>
+                <div class="col-sm-4 my-2 d-flex align-items-center">
+                  <img src="{{ application.created_by.profile_pic.url }}" class="rounded-circle" width="40" height="40" alt="">
+                  <div class="mx-2">
+                    <small class="text-primary">Endorser</small>
+                    <p class="mb-0">{{ application.created_by.getFullName }}</p>
+                    
+                  </div>
+                </div>                
+              </div>
+            </div>
+
+            <div class="card-body">
+
+                
+
+                <div class="card text-left border">
+                
+
+                    <div class="card-body p-0">
+                        <div class="table-responsive mb-0">
+                            <table class="table mb-0">
+                              <tbody>
+                                <tr class="bg-secondary">
+                                  <th class="text-grey">Item</th>
+                                  <th>Qty.</th>
+                                  <th>Duration</th>
+                                  <th>Price</th>
+                                </tr>
+                                <tr>
+                                  <td>
+                                    <p><b>Requirements</b></p>
+                                    <ul class="list-unstyled">
+                                        {% for requirement in project.getRequirements %}
+                                        <li class="d-flex mb-3">  
+                                            <span class="fi-check text-primary mt-1 fs-sm me-2"></span>
+                                            {{ requirement }}
+                                        </li>
+                                        {% endfor %}
+                                    </ul>
+                                  </td>
+                                  <td>1</td>
+                                  <td>{{ application.days }} days</td>
+                                  <td>${{ application.price }}</td>
+                                </tr>
+                                
+                                <!-- <tr>
+                                    <td>
+                                      <p class="mb-0"><b>Fee</b></p>
+                                      <p class="mb-0">Service charges of flurrent</p>
+                                    </td>
+                                    <td>1</td>
+                                    <td>-</td>
+                                    <td>$2</td>
+                                </tr> -->
+
+                              </tbody>
+                            </table>
+                          </div>
+                    </div>
+
+                    <div class="card-footer bg-secondary px-3">
+                        <div class="d-flex justify-content-between">
+                            <p class="mb-0"><b>TOTAL</b></p>
+                            <p class="mb-0"><b>${{ application.price }}</b></p>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="d-flex justify-content-end mt-3">
+                    <form action="{% url 'org:approve-application' project.id application.id %}" method="post">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-primary text-white" style="width: fit-content;">Place order</button>
+                    </form>
+                </div>
+
+            
+        
+            </div>
+
+
+
+            <!-- <div class="card-footer">
+                <a type="button" id="approve-btn" href="" class="btn btn-primary text-white" style="width: fit-content;">Approve & place order</a>
+            </div> -->
+            
+        </div>
+
+
+
+      </div>
+    </div>
+  </div>
+
+
+{% endblock content %}
+

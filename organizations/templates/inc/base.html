@@ -23,6 +23,9 @@
     <meta name="theme-color" content="#ffffff">
     <!-- Page loading styles-->
     <style>
+      .mk-pointer{
+        cursor: pointer;
+      }
       .page-loading {
         position: fixed;
         top: 0;
@@ -114,7 +117,9 @@
       </div>
     </div>
     <main class="page-wrapper">
-     
+
+
+
       <!-- Navbar-->
       {% if user.mode == 'organization' %}
         {% include 'inc/navbar-org.inc.html' %}

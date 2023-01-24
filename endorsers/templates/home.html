@@ -384,7 +384,7 @@
                         </span>
                         <span class="text-nowrap me-3">
                             <i class="fi-calendar-alt text-muted me-1"> </i>
-                            <b>Created at</b> {{ project.created_at }}
+                            <b>Created at</b> {{ project.get_created_at }}
                         </span>
 
                     </div>
@@ -428,7 +428,7 @@
                   </button>
 
                   <div class="text-center align-center">
-                      <img class="rounded-3 my-3" style="width: 40%;" src="media/{{endorser.created_by.profile_pic}}" alt="Article img">
+                      <img class="rounded-3 my-3" style="width: 40%;" src="{{endorser.created_by.profile_pic.url}}" alt="Article img">
                       <h3 class="my-1 fs-lg"><a class="nav-link stretched-link" href="{% url 'org:single-endorser' endorser.id %}">{{ endorser.created_by.getFullName }}</a></h3>
                       <p class="card-text">{{ endorser.bio }}</p>
 

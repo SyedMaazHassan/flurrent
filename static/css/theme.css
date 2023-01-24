@@ -9,6 +9,10 @@
   border-color: rgba(255, 255, 255, 0.15) !important;
 }
 
+.mk-pointer{
+  cursor: pointer !important;
+}
+
 .swtich-option:hover{
   color: white !important;
 }

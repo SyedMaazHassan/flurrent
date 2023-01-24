@@ -13,5 +13,8 @@ class EndorserAdmin(admin.ModelAdmin):
 
 # Register your models here.
 admin.site.register(Endorser, EndorserAdmin)
+admin.site.register(Order)
 admin.site.register(Application)
 admin.site.register(Approval)
+admin.site.register(OrderUpdate)
+

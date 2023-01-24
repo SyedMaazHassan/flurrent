@@ -351,7 +351,13 @@
                   <div class="text-center align-center">
                       <img class="rounded-3 my-3" style="width: 40%;" src="{{endorser.created_by.profile_pic.url}}" alt="Article img">
                       <h3 class="my-1 fs-lg"><a class="nav-link stretched-link" href="{% url 'org:single-endorser' endorser.id %}">{{ endorser.created_by.getFullName }}</a></h3>
-                      <p class="card-text">{{ endorser.bio }}</p>
+                      <p class="card-text">
+                        {% if endorser.bio %}
+                          {{ endorser.bio }}
+                        {% else %}
+                          Bio not added yet
+                        {% endif %}
+                      </p>
 
                       <div class="d-flex align-items-center justify-content-center">
                              

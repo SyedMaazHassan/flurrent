@@ -84,39 +84,43 @@
                 </div>
             </div>
             
-            <div class="d-flex flex-sm-row flex-column px-0">
-                
-                 <!-- Light table with striped rows -->
-                <div class="table-responsive border w-100 rounded-3">
-                    <table class="table table-striped">
-                        <thead>
-                            <tr>
-                            <th>#</th>
-                            <th>Name</th>
-                            <th>Email</th>
-                            <th>Created at</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {% for staff_member in staff_members %}
-                                <tr>
-                                    <td scope="row">
-                                        <img class="rounded-circle" src="{{ staff_member.user.profile_pic.url }}" width="40" alt="Staff member">
-                                    </td>
-                                    <td>
-                                        {{ staff_member.user.getFullName }} <br>
-                                        <span class="badge rounded-pill bg-faded-accent mt-1"><small>{{ staff_member.designation }}</small></span>
-                                    </td>
-                                    <td>{{ staff_member.user.email }}</td>
-                                    <td>{{ staff_member.user.date_joined }}</td>
-                                </tr>
-                            {% endfor %}
-                        
-                        </tbody>
-                    </table>
-                </div>
+            {% if staff_members %}
+              <div class="d-flex flex-sm-row flex-column px-0">
+                  
+                  <!-- Light table with striped rows -->
+                  <div class="table-responsive border w-100 rounded-3">
+                      <table class="table table-striped">
+                          <thead>
+                              <tr>
+                              <th>#</th>
+                              <th>Name</th>
+                              <th>Email</th>
+                              <th style="min-width: 250px;">Created at</th>
+                              </tr>
+                          </thead>
+                          <tbody>
+                              {% for staff_member in staff_members %}
+                                  <tr>
+                                      <td scope="row">
+                                          <img class="rounded-circle" src="{{ staff_member.user.profile_pic.url }}" width="40" alt="Staff member">
+                                      </td>
+                                      <td>
+                                          {{ staff_member.user.getFullName }} <br>
+                                          <span class="badge rounded-pill bg-faded-accent mt-1"><small>{{ staff_member.designation }}</small></span>
+                                      </td>
+                                      <td>{{ staff_member.user.email }}</td>
+                                      <td>{{ staff_member.user.date_joined }}</td>
+                                  </tr>
+                              {% endfor %}
+                          
+                          </tbody>
+                      </table>
+                  </div>
 
-            </div>
+              </div>
+            {% else %}
+                {% include 'inc/no-result.html' with data_type='Staff member' %}
+            {% endif %}
         </section>
     </div>
 

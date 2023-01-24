@@ -4,14 +4,20 @@
 <header class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" data-scroll-header>
     <div class="container">
         
-      <a class="navbar-brand me-0 me-xl-4" href="{% url 'core:home' %}">
-        {% if user.mode == 'organization' %}
-        <img class="d-block" src="{% static 'img/logo/logo-org.png' %}" width="116" alt="Finder" style="border-radius: 10px;">
-        {% else %}
-        <img class="d-block" src="{% static 'img/logo/logo-endorsers.png' %}" width="116" alt="Finder" style="border-radius: 10px;">
-        {% endif %}
-      </a>
-       <a class="btn btn-primary btn-sm ms-2 order-lg-3 mx-3" href="{% url 'org:profile' 'create-project' %}"><i class="fi-plus me-2"></i>Create project</a>
+      {% if user.mode == 'organization' %}
+      
+        <a class="navbar-brand me-0 me-xl-4" href="{% url 'core:home' %}">
+          <img class="d-block" src="{% static 'img/logo/logo-org.png' %}" width="116" alt="Finder" style="border-radius: 10px;">
+        </a>
+        <a class="btn btn-outline-primary btn-sm ms-2 order-lg-3 mx-3" href="{% url 'org:profile' 'create-project' %}"><i class="fi-plus me-2"></i>Create project</a>
+
+      {% else %}
+
+        <a class="navbar-brand me-0 me-xl-4" href="{% url 'core:home' %}">
+          <img class="d-block" src="{% static 'img/logo/logo-endorsers.png' %}" width="116" alt="Finder" style="border-radius: 10px;">
+        </a>
+
+      {% endif %}
 
      <button class="navbar-toggler ms-auto" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
       <div class="dropdown d-none d-lg-block order-lg-3 my-n2 me-3">
@@ -25,9 +31,17 @@
           </div>
           <div class="px-3 py-2">
             {% if user.mode == 'organization' %}
-              <a type="button" href="{% url 'core:switch' 'endorser' %}" class="w-100 btn btn-primary btn-block">Switch to endorser</a>
+              {% if user.is_endorser %}
+                <a type="button" href="{% url 'core:switch' 'endorser' %}" class="w-100 btn btn-primary btn-block">Switch to endorser</a>              
+              {% else %}
+                <a type="button" href="{% url 'org:profile' 'become-endorser' %}" class="w-100 btn btn-primary btn-block">Switch to endorser</a>
+              {% endif %}
             {% else %}
-              <a type="button" href="{% url 'core:switch' 'endorser' %}" class="w-100 btn btn-primary btn-block">Switch to organization</a>
+              {% if user.is_organization %}
+                <a type="button" href="{% url 'core:switch' 'organization' %}" class="w-100 btn btn-primary btn-block">Switch to organization</a>              
+              {% else %}
+                <a type="button" href="{% url 'endorsers:profile' 'register-organization' %}" class="w-100 btn btn-primary btn-block">Switch to organization</a>
+              {% endif %}
             {% endif %}
           </div>
 
@@ -68,7 +82,7 @@
           </li>
 
           <li class="nav-item">
-            <a class="nav-link" href="{% url 'org:profile' 'orders-placed' %}" role="button">Orders</a>
+            <a class="nav-link" href="{% url 'org:orders' %}" role="button">Orders</a>
           </li>
 
           <li class="nav-item">

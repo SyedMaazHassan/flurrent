@@ -45,7 +45,7 @@
           
             <div>
               <ul class="list-unstyled fs-sm  pb-md-3">
-                <li><a class="nav-link fw-normal py-3 border-bottom d-flex align-items-center px-0 py-1" href="#"><i class="fi-checkbox-checked-alt opacity-70 me-2"></i><span>Member Since</span><span class="text-muted ms-auto">{{ endorser.created_at }}</span></a></li>
+                <li><a class="nav-link fw-normal py-3 border-bottom d-flex align-items-center px-0 py-1" href="#"><i class="fi-checkbox-checked-alt opacity-70 me-2"></i><span>Member Since</span><span class="text-muted ms-auto">{{ endorser.get_created_at }}</span></a></li>
                 <li><a class="nav-link fw-normal py-3 border-bottom d-flex align-items-center px-0 py-1" href="#"><i class="fi-users opacity-70 me-2"></i><span>Followers</span><span class="text-muted ms-auto">{{ endorser.followers }}</span></a></li>
                 <!-- <li><a class="nav-link fw-normal py-3 border-bottom d-flex align-items-center px-0 py-1" href="#"><i class="fi-filter-alt-horizontal opacity-70 me-2"></i><span>Categorie</span><span class="text-muted ms-auto">{{ endorser.interests }}</span></a></li> -->
                 <!-- <li><a class="nav-link fw-normal py-3 border-bottom d-flex align-items-center px-0 py-1" href="#"><i class="fi-bookmark opacity-70 me-2"></i><span>Interest</span><span class="text-muted ms-auto">Facebook</span></a></li> -->
@@ -151,7 +151,7 @@
                                             {% endfor %}
                                         </span>
                                     </div>
-                                </div><span class="text-muted fs-sm">{{ review.created_at }}</span>
+                                </div><span class="text-muted fs-sm">{{ review.get_created_at }}</span>
                                 </div>
                                 <p class="mb-0">{{ review.feedback }}</p>
                                 <!-- <div class="d-flex align-items-center">

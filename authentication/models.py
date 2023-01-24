@@ -167,6 +167,8 @@ class User(AbstractUser):
             self.mode = "organization"
             self.save()
 
+            return new_organization
+
             print("Organization created")
 
 
@@ -184,3 +186,8 @@ class Review(models.Model):
 
     class Meta:
         ordering = ("-created_at",)
+
+    def save(self, *args, **kwargs):
+        if self.created_for == self.created_by:
+            raise Exception("You can't submit the review to yourself")
+        super(Review, self).save(*args, **kwargs)

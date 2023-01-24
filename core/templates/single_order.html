@@ -1,0 +1,473 @@
+{% extends 'inc/base.html' %}
+{% load static %}
+{% block title %}
+  Flurrent | Order # {{ order.id }}
+{% endblock title %}
+
+
+{% block custom_css %}
+<link rel="stylesheet" href="{% static 'css/sidebar.css' %}">
+{% endblock custom_css %}
+
+{% block content %}
+
+
+
+
+
+<div class="modal" tabindex="-1" role="dialog" id="deliver-update">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Deliver update</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <form action="" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+        <div class="modal-body">
+              
+              <div class="mb-4">
+                <label class="form-label mb-2">Note</label>
+                <textarea class="form-control" name="note" id="" cols="30" rows="7" placeholder="Describe what you have done in this delivery" required></textarea>
+                <!-- <input class="form-control" type="text" name="staff_first_name" placeholder="Enter first name" required> -->
+              </div>
+              <div class="mb-4">
+                <label class="form-label mb-2">Work sample</label>
+                <input class="form-control" name="thumbnail" type="file" required>
+                <p class="form-text text-muted">
+                    to be added in your portfolio
+                </p>
+              </div>
+
+              <div class="mb-2">
+                <label class="form-label mb-2">Source file (optional)</label>
+                <input class="form-control" name="source_file" type="file">
+                <p class="form-text text-muted">
+                    Any source file necessary with the work you have done (optional)     
+                </p>
+            </div>
+          
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Close</button>
+          <button type="submit" class="btn btn-primary btn-sm">Submit</button>
+        </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+
+
+
+
+{% with updates=order.getUpdates %}
+
+
+
+<main class="page-wrapper">
+
+    <section class=" pt-5">
+
+        <div class="container py-5">
+
+            <!-- Breadcrumb-->
+            <nav class="my-3" aria-label="Breadcrumb">
+                <ol class="breadcrumb m-0">
+                    <li class="breadcrumb-item"><a href="job-board-home-v1.html">Home</a></li>
+                    <li class="breadcrumb-item"><a href="job-board-catalog.html">Orders</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Single order</li>
+                </ol>
+            </nav>
+
+            <div>
+                <span class="badge badge-pill badge-primary bg-success">{{ order.status }}</span>
+                <h2 class="dark-color">
+                    Order ID # {{ order.id }}
+                    <!-- <span class="badge badge-pill badge-success bg-success rounded-3">{{ order.status }}</span> -->
+                </h2>
+            </div>
+
+            {% include 'inc/msg.inc.html' %}
+
+            <!-- Nav tabs -->
+            <ul class="nav nav-tabs mt-5" role="tablist">
+                <li class="nav-item ">
+                    <a href="#home1" class="nav-link active" data-bs-toggle="tab" role="tab">
+                        Activity
+                    </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="#profile1" class="nav-link" data-bs-toggle="tab" role="tab">
+                        Requirements
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#messages1" class="nav-link" data-bs-toggle="tab" role="tab">
+                        Application
+                    </a>
+                </li>
+            </ul>
+        </div>
+        </div>
+    </section>
+    <!-- Page content-->
+    <section class="position-relative bg-white rounded-xxl-4 zindex-5" style="margin-top: -70px;">
+        <div class="container pt-4 pb-5 mb-md-4">
+
+
+            <div class="row">
+                <div class="col-md-8 my-3" id="main_order_detail">
+                    <!-- Tabs content -->
+                    <div class="tab-content">
+
+                        <!--tab 2 order activity -->
+                        <div class="tab-pane fade show active  rounded-3" id="home1" role="tabpanel">
+                            {% with project=order.project %}
+                                <div class="card bg-secondary card-hover mb-3">
+                                    <div class="card-body">
+                                    <div class="d-flex justify-content-between align-items-start mb-2">
+                                        <div class="d-flex justify-content-between mb-0 align-center">
+                                            <div class="d-flex align-items-center">
+                                                <img class="me-2 rounded-circle" src="{{ project.organization.logo.url }}" width="30" alt="{{ project.organization.name }}">
+                                                <span class="fs-sm text-dark opacity-80 ps-1">{{ project.organization.name }}</span>
+                                            </div>
+                    
+                                            <div class="mx-2">
+                                                {% if project.product.type == 'product' %}
+                                                    <span style="height: fit-content;" class="badge bg-faded-accent rounded-pill fs-sm">
+                                                        <small>Product</small>
+                                                    </span>
+                                                {% else %}
+                                                    <span style="height: fit-content;" class="badge bg-faded-success rounded-pill fs-sm">
+                                                        <small>Service</small>
+                                                    </span>
+                                                {% endif %}
+                                            </div>
+                    
+                                            <!-- <span class="badge bg-faded-danger rounded-pill fs-sm">Hot</span> -->
+                                        </div>
+                                    
+                                        
+                                      
+                                    </div>
+                                    <h3 class="h6 card-title pt-1 mb-2"><a class="text-nav stretched-link text-decoration-none" href="{% url 'org:single-project' project.id %}">{{ project.title }}</a></h3>
+                                    <p class="fs-sm mb-3">{{ project.description }}</p>
+                                    <div class="fs-sm">
+                                            <span class="text-nowrap me-3">
+                                                <i class="fi-cash fs-base text-muted me-1"></i><b>Budget</b> &nbsp; {{ project.budget }} 
+                                            </span>
+                                            <span class="text-nowrap me-3">
+                                                <i class="fi-calendar-alt text-muted me-1"> </i>
+                                                <b>Created at</b> {{ project.get_created_at }}
+                                            </span>
+                    
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endwith %}
+                            
+
+                            <!-- Inline Detail steps: Vertical -->
+                            <div class="steps steps-vertical">
+                                <div class="step active">
+                                    <div class="step-progress">
+                                        <span class="step-progress-end"></span>
+                                        <span class="step-number">1</span>
+                                    </div>
+                                    <div class="step-label">
+                                        <h6 class="mb-2 pb-1">
+                                            Order placed
+                                            <small class="mx-2"><i>{{ order.created_at }}</i> </small>
+                                        </h6>
+                                        <p class="mb-0">
+                                            Order has been placed by <b> {{ order.created_by.getFullName }}</b> on the behalf of <b>{{ order.created_by.is_organization.name }}</b>
+
+                                        </p>
+                                    </div>
+                                </div>
+
+
+
+                                    {% for update in updates %}
+                                    <!-- Inline Detail steps: Vertical -->
+
+                                        <div class="step active">
+                                            <div class="step-progress">
+                                                <span class="step-progress-end"></span>
+                                                <span class="step-number">{{ forloop.counter|add:1 }}</span>
+                                            </div>
+                                            <div class="step-label">
+                                                <h6 class="mb-2 pb-1">
+                                                    Work update
+                                                    <small class="mx-2"><i>{{ update.created_at }}</i> </small>
+                                                </h6>
+                                                <p class="mb-0">
+                                                    A new update about the order has been placed by <b> {{ update.created_by.getFullName }}</b> to explain the progress of the order. Kindly review it</b>
+                                                </p>
+
+                                                <div class="card text-left bg-secondary mt-3">
+                                                    <div class="card-body">
+                                                    <div class="row">
+                                                        <div class="col-sm-2">
+                                                            <a href="{{ update.thumbnail.url }}">
+                                                                <img src="{{ update.thumbnail.url }}" class="w-100 rounded-3" style="border: solid 1px rgb(221, 221, 221);" alt="">
+                                                            </a>
+                                                        </div>
+
+                                                        <div class="col-sm-10">
+                                                            <p class="mb-2"><b>What has been done in this update.</b></p>
+                                                            <p>{{ update.note }}</p>
+                                                            {% if update.source_file %}
+                                                                <div class="card text-left" style="width: fit-content;">
+                                                                    <div class="card-body d-flex p-1 align-items-center">
+                                                                        <img src="{{ update.source_file.url }}" style="width: 30px; height: 30px;" class="rounded-3" alt="">
+                                                                        <p class="card-text my-0 mx-2">
+                                                                            <a href="{{ update.source_file.url }}">
+                                                                                Source file (Click to open)
+                                                                            </a>    
+                                                                        </p>
+                                                                    </div>
+                                                                </div>
+                                                            {% endif %}
+                                                        </div>
+
+                                                    </div>
+                                                
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    {% endfor %}
+
+                                {% if not updates %}
+                                    <br>
+                                    {% include 'inc/no-result.html' with data_type='further activity' %}
+                                {% endif %}
+
+                                
+                            </div>
+
+                         
+
+
+                        </div>
+
+                        {% with project=order.project %}
+                        <!--tab 2 order details  -->
+                        <div class="tab-pane fade rounded-3" id="profile1" role="tabpanel">
+                            
+                                <!-- Product info -->
+                            <div class="card bg-secondary card-hover text-left mb-4">
+                                <div class="card-body">
+                                {% if project.product.thumbnail %}
+
+
+                                    <div class="row">
+                                    <div class="col-sm-3">
+                                        <img src="{{ project.product.thumbnail.url }}" class="my-2 w-100 rounded-3" alt="">
+                                    </div>
+
+                                    <div class="col-sm-9">
+                                        <div class="d-flex align-items-center">
+                                        <h3 class="h6 my-2 w-75">{{ project.product.name }}</h3>
+                                        <div class="text-end w-25">
+                                            {% if project.product.type == 'product' %}
+                                            <span class="badge bg-faded-accent rounded-pill fs-sm">Product</span>
+                                            {% else %}
+                                                <span class="badge bg-faded-success rounded-pill fs-sm">Service</span>
+                                            {% endif %}
+                                        </div>
+                        
+                                        </div>
+                                        <p class="mt-2 mb-0">{{ project.description }}</p>
+                                    </div>
+                                    </div>
+                                
+                                {% else %}
+
+                                    <div class="d-flex align-items-center">
+                                    <h3 class="h6 my-2 w-75">{{ project.product.name }}</h3>
+                                    <div class="text-end w-25">
+                                        {% if project.product.type == 'product' %}
+                                        <span class="badge bg-faded-accent rounded-pill fs-sm">Product</span>
+                                        {% else %}
+                                            <span class="badge bg-faded-success rounded-pill fs-sm">Service</span>
+                                        {% endif %}
+                                    </div>
+
+                                    </div>
+                                    <p class="mt-2 mb-0">{{ project.description }}</p>
+
+                                {% endif %} 
+                                
+                                
+                                
+                                </div>
+                            </div>
+
+                            <h3 class="h6">Project description</h3>
+                            <p>{{ project.description }}</p>
+                            <h3 class="h6 pt-2">Requirements</h3>
+                            <ul class="list-unstyled">
+                                {% for requirement in project.getRequirements %}
+                                <li class="d-flex"><span class="text-primary fs-lg me-2">&#8226;</span>{{ requirement }}</li>
+                                {% endfor %}
+                            </ul>
+                            <h3 class="h6 pt-2">Benefits</h3>
+                            <ul class="list-unstyled">
+                                {% for benefit in project.getBenefits %}
+                                <li class="d-flex"><span class="text-primary fs-lg me-2">&#8226;</span>{{ benefit }}</li>
+                                {% endfor %}
+                            </ul>
+                            
+                        </div>
+                        {% endwith %}
+
+                        <!-- tab 3 sent rewuirements -->
+                        <div class="tab-pane fade " id="messages1" role="tabpanel">
+                            {% with application=order.application %}
+                            <div class="card text-left shadow mb-4">
+                    
+                    
+                                <div class="card-header">
+                                  <div class="row">
+                                    <div class="col-sm-4 my-2">
+                                      <p class="card-text mb-1">Offered price</p>
+                                      <h6 class="h6 card-title mb-0" id="application_price">$ {{ application.price }}</h6>
+                                    </div>
+                                    <div class="col-sm-4 my-2">
+                                      <p class="card-text mb-1">Estimated time</p>
+                                      <h6 class="h6 card-title mb-0" id="application_days">{{ application.days }} Days</h6>
+                                    </div>  
+                                    <div class="col-sm-4 my-2">
+                                        <p class="card-text mb-1">Submitted</p>
+                                        <h6 class="h6 card-title mb-0" id="application_created_at">
+                                          {{ application.get_created_at }}
+                                        </h6>
+                                    </div>                
+                                  </div>
+                                </div>
+                    
+                                <div class="card-body">
+                                  
+                    
+                                    <h6 class="h6 card-title">Cover letter</h6>
+                                    <p class="card-text mb-0" id="application_note">
+                                        {{ application.note }}
+                                    </p>
+                            
+                                </div>
+                    
+                           
+                    
+                                <!-- <div class="card-footer">
+                                    <a type="button" id="approve-btn" href="" class="btn btn-primary text-white" style="width: fit-content;">Approve & place order</a>
+                                </div> -->
+                                
+                            </div>
+                            {% endwith %}
+
+                        </div>
+
+                    </div>
+                </div>
+
+
+
+
+
+
+                <!-- sight information card sticky -->
+
+                <div class="col-md-4  my-3" id="sight_detail_card" >
+                    <!-- Accordion basic -->
+                    <div style="position: sticky !important; top: 300px !important;">
+                        <div class="accordion" id="accordionExample">
+
+                            <!-- Accordion item -->
+                            <div class="accordion-item ">
+                                <div class="accordion-header " id="headingOne">
+                                    <button class="accordion-button fs-5" type="button" data-bs-toggle="collapse"
+                                        data-bs-target="#collapseOne" aria-expanded="true"
+                                        aria-controls="collapseOne">Order Details</button>
+                                    <div class="mx-3">
+                                        <hr>
+                                        <div class="d-flex align-items-center my-3">
+                                            <img src="{{ order.application.created_by.profile_pic.url }}" class="rounded-circle" width="40" height="40" alt="">
+                                            <div class="mx-2">
+                                                <small class="text-dark"><b>Service provider</b></small>
+                                                <p class="mb-0">{{ order.application.created_by.getFullName }}</p>
+                                            </div>
+                                        </div>
+                                        <hr>
+                                        <div class="d-flex align-items-center my-3">
+                                            <img src="{{ order.organization.logo.url }}" class="rounded-circle" width="40" height="40" alt="">
+                                            <div class="mx-2">
+                                                <small class="text-dark"><b>Organization</b></small>
+                                                <p class="mb-0">{{ order.organization.name }}</p>
+                                            </div>
+                                        </div>
+                                        
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="accordion-collapse collapse show" aria-labelledby="headingOne"
+                                    data-bs-parent="#accordionExample" id="collapseOne">
+                                    <div class="accordion-body">
+                                        <div class="d-flex w-100 my-2">
+                                            <p class="w-50 p-0 m-0">Delivery date</p>
+                                            <b class="w-50 p-0 m-0 text-end">{{ order.getDeliveryDate }}</b>
+                                        </div>
+                                        <div class="d-flex w-100 my-2">
+                                            <p class="w-50 p-0 m-0">Total price</p>
+                                            <b class="w-50 p-0 m-0 text-end">${{ order.price }}</b>
+                                        </div>
+                                        <div class="d-flex w-100 my-2">
+                                            <p class="w-50 p-0 m-0">Order number</p>
+                                            <b class="w-50 p-0 m-0 text-end">#{{ order.id }}</b>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        {% if updates and order.status != 'COMPLETED' %}
+                         <a type="button" href="{% url 'org:mark-as-complete' order.id %}" class="mt-3 btn btn-primary btn-lg w-100">Mark as completed</a>
+                        {% endif %}
+
+                        <!-- add notes card -->
+                        <!-- <div class="card p-3 my-3">
+                            <div class=" d-flex align-items-center">
+                                <h5 class="p-0 m-0 dark-color w-50">Private Note</h5>
+                                <h6 class="p-0 m-0 text-primary card-text w-50 text-end ">
+                                    <i class="fi-plus mx-1"></i> Add Note
+                                </h6>
+                            </div>
+                            <small class="my-2">Only visible to you</small>
+                        </div> -->
+                    </div>
+                </div>
+
+            </div>
+
+
+
+
+
+
+        </div>
+    </section>
+    
+
+
+</main>
+
+
+{% endwith %}
+
+
+{% endblock content %}
+

@@ -2,6 +2,8 @@ from django.db import models
 from django.utils import timezone
 from django.db import transaction
 # Create your models here.
+import timeago
+
 
 # python manage.py makemigrations
 # python manage.py migrate
@@ -11,6 +13,12 @@ from django.db import transaction
 class CreatedCommon(models.Model):
     created_at  = models.DateTimeField(default=timezone.now)
     created_by  = models.ForeignKey("authentication.User", on_delete=models.CASCADE)
+
+    def get_created_at(self):
+        current_time = timezone.now()
+        created_at = self.created_at
+        difference = current_time - created_at
+        return timeago.format(difference) 
 
     class Meta:
         abstract = True
@@ -74,6 +82,15 @@ class Organization(CreatedCommon):
     type        = models.CharField(max_length=255)
     location    = models.OneToOneField(Location, on_delete=models.SET_NULL, null=True, blank=True)
     social_media = models.OneToOneField(SocialMedia, on_delete=models.SET_NULL, null=True, blank=True)
+
+
+    def getOrders(self):
+        from endorsers.models import Order
+        all_orders = Order.objects.filter(organization = self)
+        return {
+            "list": all_orders,
+            "count": all_orders.count()
+        }
 
     def createProject(self, title, description, budget, product, requirements, benefits, created_by):
         with transaction.atomic():
@@ -159,6 +176,11 @@ class Project(CreatedCommon):
     organization = models.ForeignKey(Organization, on_delete=models.CASCADE, null=True, blank=True)
     is_active   = models.BooleanField(default=True)
 
+    def isAppliedBy(self, user):
+        from endorsers.models import Application
+        application = Application.objects.filter(project = self, created_by = user).first()
+        return application
+
     def getShortText(self, string, length):
         if len(string) > length:
             string = string[:length] + "..."
@@ -177,6 +199,14 @@ class Project(CreatedCommon):
     def getRequirements(self):
         requirements = self.requirements.split("\n")
         return requirements
+
+    def getReceivedApplications(self):
+        from endorsers.models import Application
+        applications = Application.objects.filter(project = self)
+        return {
+            "list": applications,
+            "count": applications.count()
+        }
 
     def getBenefits(self):
         benefits = self.benefits.split("\n")

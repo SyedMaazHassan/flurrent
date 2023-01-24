@@ -6,6 +6,7 @@ from django.core.paginator import Paginator
 from django.db import transaction
 from authentication.models import User
 from django.views import View
+import json
 # Create your views here.
 
 
@@ -38,14 +39,8 @@ def single_project_view(request, project_id):
         messages.error(request, "No project exists with this id")
         return redirect("core:home")
 
-    if request.method == 'POST':
-        price   = request.POST.get('price')
-        note    = request.POST.get('note')
-        days    = request.POST.get('days')
-        print(price, note, days)
-
-
     context['project'] = project
+    context['application'] = project.isAppliedBy(request.user)
     return render(request, "single-project.html", context)
 
 
@@ -64,6 +59,107 @@ def endorser_profile_view(request, endorser_id):
     return render(request, "endorser_profile_view.html", context)
 
 
+@login_required
+def received_applications_view(request, project_id):
+    context = {}
+    project = Project.objects.filter(id = project_id).first()
+    if not project:
+        messages.error(request, "No project exists with this id")
+        return redirect("core:home")
+
+    applications = project.getReceivedApplications()
+    context['single_project'] = project
+    context['applications'] = applications
+    context['application_ids'] = json.dumps(list(applications['list'].values_list("id", flat=True)))
+    print(context['application_ids'])
+    
+    return render(request, "received_application.html", context)
+
+
+@login_required
+def single_order_view(request, order_id):
+    context = {}
+    organization = request.user.is_organization
+    order = Order.objects.filter(id = order_id, organization = organization).first()
+    if not order:
+        messages.error(request, "No order exists with this id")
+        return redirect("core:home")
+    context = {
+        'order': order
+    }
+    return render(request, "single_order.html", context)
+
+
+def mark_as_complete(request, order_id):
+    context = {}
+    organization = request.user.is_organization
+    order = Order.objects.filter(id = order_id, organization = organization).first()
+    if not order:
+        messages.error(request, "No order exists with this id")
+        return redirect("core:home")
+
+    order.status = "COMPLETED"
+    order.save()
+
+    messages.success(request, "Order has been marked as completed")
+    return redirect("org:single-order", order_id=order_id)
+
+    context = {
+        'order': order
+    }
+    return render(request, "single_order.html", context)
+
+
+
+@login_required
+def manage_orders_view(request):
+    organization = request.user.is_organization
+    orders = organization.getOrders()
+    context = {
+        'orders': orders
+    }
+    return render(request, "manage_orders.html", context)
+
+
+class ApplicationApproval(View):
+    def check_access(self, user, project_id, application_id):
+        project = Project.objects.filter(id = project_id).first()
+        application = Application.objects.filter(id = application_id).first()
+        if not project or not application or application.project != project or project.created_by != user:
+            return False
+
+        return {
+            "project": project,
+            "application": application
+        }
+
+
+    def get(self, request, project_id, application_id):
+        context = {}
+        context = self.check_access(request.user, project_id, application_id)
+        if not context:
+            messages.error(request, "Invalid request")
+            return redirect("core:home")
+        return render(request, "approve-application.html", context)
+
+
+    def post(self, request, project_id, application_id):
+        context = {}
+        context = self.check_access(request.user, project_id, application_id)
+        if not context:
+            messages.error(request, "Invalid request")
+            return redirect("core:home")
+       
+        # approving request
+        application = context['application']
+        order = application.approve(approved_by = request.user)
+        # placing order
+        print(order)
+        # redirecting user to the order page
+        messages.success(request, "Order has been confirmed successfully!")
+        return redirect("org:orders")
+
+    
 
 
 class OrgUserProfileView(View):
@@ -311,7 +407,8 @@ class OrgUserProfileView(View):
                         last_name = staff_last_name,
                         email = staff_email,
                     )
-                    new_staff_user.profile_pic = staff_profile_pic
+                    if staff_profile_pic:
+                        new_staff_user.profile_pic = staff_profile_pic
                     new_staff_user.set_password(staff_password)
                     organization.createStaffMember(new_staff_user, staff_designation, user)
 

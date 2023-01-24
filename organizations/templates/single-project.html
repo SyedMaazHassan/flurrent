@@ -49,25 +49,36 @@ id="overlay"></div>
             <!-- Large input -->
             <div class="mb-3">
               <label class="form-label" for="input-lg">Offer price</label>
-              <input class="form-control form-control-lg" name="price" type="number" min="50" placeholder="Price you will charge for this project" required>
+              <input class="form-control form-control-lg" value="{{ application.price }}" name="price" type="number" min="50" placeholder="Price you will charge for this project" required>
               <small>Provide the price under the budget <b>{{ project.budget }}</b> to maximum the chances of approval.</small>
             </div>
 
             <!-- Textarea -->
             <div class="mb-3">
               <label for="textarea-input" class="form-label">Cover Letter</label>
-              <textarea class="form-control form-control-lg" name="note" rows="8" placeholder="Explain how you can achived the given requirements and why you should be hired." required></textarea>
+              <textarea class="form-control form-control-lg" name="note" rows="8" placeholder="Explain how you can achived the given requirements and why you should be hired." required>{{ application.note }}</textarea>
             </div>
 
             <!-- Large input -->
             <div class="mb-3">
               <label class="form-label" for="input-lg">Days required</label>
-              <input class="form-control form-control-lg" name="days" type="number" placeholder="Days required to complete this project" min="1" required>
+              <input class="form-control form-control-lg" name="days" value="{{ application.days }}" type="number" placeholder="Days required to complete this project" min="1" required>
               <small>Estimated period to completed the job</small>
             </div>
 
-            <button type="submit" class="btn btn-primary">Submit application</button>
+            {% if application %}
+              {% if not application.is_approved %}
+            
 
+                <button type="submit" class="btn btn-primary">Update application</button>
+              {% else %}
+                <div class="alert alert-success" role="alert">
+                  Your application has been approved since it's already approved by the organization
+                </div>
+              {% endif %}
+            {% else %}
+              <button type="submit" class="btn btn-primary">Submit application</button>
+            {% endif %}
           </div>
 
         </form>
@@ -131,18 +142,40 @@ id="overlay"></div>
     <div class="container py-5">
       <p class="fs-lg text-muted mb-1">Projet details</p>
       <h1 class="text-light pt-1 pt-md-3 mb-4">{{ project.title }}</h1>
-      <div class="d-flex">
-        <button class="btn btn-translucent-light btn-sm fs-base fw-normal text-start" type="button">
-          <i class="fi-cash fs-base text-muted me-2"></i>
-          <span><b>Budget</b> &nbsp; {{ project.budget }}</span>
+      <div class="d-flex justify-content-between">
+        <button class="d-flex align-items-center btn btn-translucent-light btn-sm fs-base fw-normal text-start" type="button">
+          <div>
+            <i class="fi-cash fs-base text-muted me-2"></i>
+            <span><b>Budget</b> &nbsp; {{ project.budget }}</span>  
+          </div>
+
+          <div class="mx-4">
+            <i class="fi-calendar-alt fs-base text-muted me-2"></i>
+            <span><b>Posted</b> &nbsp; {{ project.get_created_at }}</span>
+          </div>
+
+          
         </button>
 
-        <button class="btn btn-translucent-light btn-sm fs-base fw-normal text-start" type="button">
-          <i class="fi-calendar-alt fs-base text-muted me-2"></i>
-          <span><b>Posted</b> &nbsp; {{ project.created_at }}</span>
-        </button>
+        {% if project.created_by == user %}
+          <a type="button" href="{% url 'org:received-applications' project.id %}" class="btn btn-primary">
+            View applications 
+            {% with applications=project.getReceivedApplications %}
+              {% if applications.count > 0 %}
+                <span class="badge bg-light ms-1">{{applications.count}}</span>
+              {% endif %}
+            {% endwith %}
+          </a>
 
-
+        {% else %}
+          <button onclick="openNav()" class="btn btn-primary" type="button">
+            {% if application %}
+              View your application                
+            {% else %}
+              Apply for this position
+            {% endif %}
+          </button>
+        {% endif %}
 
       </div>
 
@@ -355,13 +388,47 @@ id="overlay"></div>
               <li class="d-flex"><span class="text-primary fs-lg me-2">&#8226;</span>{{ benefit }}</li>
             {% endfor %}
           </ul>
-          <p class="pt-2 mb-1 fw-bold">Click on the apply button below to win the job as soon as possible</p>
+
+          
+          {% if application %}
+
+            <div class="alert alert-success" role="alert">
+              You have submitted application to this project
+            </div>
+
+          {% else %}
+            <p class="pt-2 mb-1 fw-bold">Click on the apply button below to win the job as soon as possible</p>
+          {% endif %}
+  
           <hr class="my-4">
-          <div class="btn-group btn-group-lg">
-            <button onclick="openNav()" class="btn btn-primary rounded-end-0 ps-4 pe-3" type="button">Apply for this position</button>
-            <div class="position-relative border-start border-light zindex-5" style="margin-left: -1px;"></div>
-            <button class="btn btn-primary rounded-start-0 px-3" type="button"><i class="fi-heart me-1"></i></button>
-          </div>
+          {% if project.created_by == user %}
+            <a type="button" href="{% url 'org:received-applications' project.id %}" class="btn btn-primary">
+              View applications 
+              {% with applications=project.getReceivedApplications %}
+                {% if applications.count > 0 %}
+                  <span class="badge bg-light ms-1">{{applications.count}}</span>
+                {% endif %}
+              {% endwith %}
+            </a>
+
+          {% else %}
+
+            <div class="btn-group btn-group-lg">
+              
+              <button onclick="openNav()" class="btn btn-primary rounded-end-0 ps-4 pe-3" type="button">
+                  {% if application %}
+                    View your application                
+                  {% else %}
+                    Apply for this position
+                  {% endif %}
+              </button>
+              <div class="position-relative border-start border-light zindex-5" style="margin-left: -1px;"></div>
+              <button class="btn btn-primary rounded-start-0 px-3" type="button"><i class="fi-heart me-1"></i></button>
+            </div>
+
+
+          {% endif %}
+          
         </div>
         <!-- Sticky sidebar-->
         <aside class="col-lg-5 mt-4" >
@@ -388,7 +455,7 @@ id="overlay"></div>
           
             <div>
               <ul class="list-unstyled fs-sm  pb-md-3">
-                <li><a class="nav-link fw-normal py-3 border-bottom d-flex align-items-center px-0 py-1" href="#"><i class="fi-checkbox-checked-alt opacity-70 me-2"></i><span>Member Since</span><span class="text-muted ms-auto">{{ project.organization.created_at }}</span></a></li>
+                <li><a class="nav-link fw-normal py-3 border-bottom d-flex align-items-center px-0 py-1" href="#"><i class="fi-checkbox-checked-alt opacity-70 me-2"></i><span>Member Since</span><span class="text-muted ms-auto">{{ project.organization.get_created_at }}</span></a></li>
                 <li><a class="nav-link fw-normal py-3 border-bottom d-flex align-items-center px-0 py-1" href="#"><i class="fi-filter-alt-horizontal opacity-70 me-2"></i><span>Categorie</span><span class="text-muted ms-auto">{{ project.organization.type }}</span></a></li>
                 <!-- <li><a class="nav-link fw-normal py-3 border-bottom d-flex align-items-center px-0 py-1" href="#"><i class="fi-bookmark opacity-70 me-2"></i><span>Interest</span><span class="text-muted ms-auto">Facebook</span></a></li> -->
                 <li><a class="nav-link fw-normal py-3 border-bottom d-flex align-items-center px-0 py-1" href="#"><i class="fi-briefcase opacity-70 me-2"></i><span>Posted Jobs</span><span class="text-muted ms-auto">{{ project.organization.getProjects.count }}</span></a></li>
@@ -439,12 +506,20 @@ id="overlay"></div>
   <!-- Related jobs (carousel)-->
   <section class="container pt-md-2 pb-5 mb-md-4">
     <div class="d-sm-flex align-items-center justify-content-between pb-4 mb-sm-2">
-      <h2 class="h3 mb-sm-0">More projects from this organization</h2><a class="btn btn-link fw-normal p-0" href="job-board-catalog.html">View all<i class="fi-arrow-long-right ms-2"></i></a>
+      <h2 class="h3 mb-sm-0">More projects from this organization</h2>
+      <!-- <a class="btn btn-link fw-normal p-0" href="job-board-catalog.html">View all<i class="fi-arrow-long-right ms-2"></i></a> -->
+    </div>
+
+    {% with more_project_list=project.getMoreFromThisOrg %}
+    <div>
+      {% if not more_project_list %}
+        {% include 'inc/no-result.html'  with data_type='more projects from this organization' %}
+      {% endif %}
     </div>
     <div class="tns-carousel-wrapper tns-controls-outside-xxl tns-nav-outside tns-nav-outside-flush">
       <div class="tns-carousel-inner" data-carousel-options="{&quot;responsive&quot;: {&quot;0&quot;:{&quot;items&quot;:1, &quot;gutter&quot;: 16},&quot;600&quot;:{&quot;items&quot;:2, &quot;gutter&quot;: 16},&quot;768&quot;:{&quot;items&quot;:2, &quot;gutter&quot;: 24},&quot;992&quot;:{&quot;items&quot;:3, &quot;gutter&quot;: 24}}}">
         <!-- Item-->
-        {% for single_project in project.getMoreFromThisOrg %}
+        {% for single_project in more_project_list %}
         <div class="pb-4">
           <div class="card bg-secondary card-hover h-100">
             <div class="card-body pb-3">
@@ -459,15 +534,18 @@ id="overlay"></div>
               <p class="fs-sm mb-0">{{ single_project.getShortDescription }}</p>
             </div>
             <div class="card-footer d-flex align-items-center justify-content-between border-0 pt-0">
-              <div class="fs-sm"><span class="text-nowrap me-3"><i class="fi-calendar-alt text-muted me-1"> </i>{{ single_project.created_at }}</span><span class="text-nowrap me-3"><i class="fi-cash fs-base text-muted me-1"></i>{{ single_project.budget }}</span></div>
+              <div class="fs-sm"><span class="text-nowrap me-3"><i class="fi-calendar-alt text-muted me-1"> </i>{{ single_project.get_created_at }}</span><span class="text-nowrap me-3"><i class="fi-cash fs-base text-muted me-1"></i>{{ single_project.budget }}</span></div>
               <button class="btn btn-icon btn-light btn-xs text-primary shadow-sm rounded-circle content-overlay" type="button" data-bs-toggle="tooltip" title="Add to saved jobs"><i class="fi-heart"></i></button>
             </div>
           </div>
         </div>
         {% endfor %}
+
+
        
       </div>
     </div>
+    {% endwith %}
   </section>
 
 </div>
@@ -478,6 +556,7 @@ id="overlay"></div>
 {% block custom_js %}
 <script src="{% static 'js/sidebar.js' %}"></script>
 <script>
-  openNav();
+  let application_list = [];
+
 </script>
 {% endblock custom_js %}

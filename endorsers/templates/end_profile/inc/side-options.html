@@ -62,22 +62,33 @@
                 Personal info & security
             </a>
         
-            <a class='card-nav-link {% if section == "personal" %}active{% endif %}' href="{% url 'org:profile' 'personal' %}">
+            <a class='card-nav-link {% if section == "personal" %}active{% endif %}' href="{% url 'endorsers:profile' 'personal' %}">
                 <i class="fi-user opacity-60 me-2"></i>
                 Personal Info
             </a>
             
-            <a class="card-nav-link {% if section == 'security' %}active{% endif %}" href="{% url 'org:profile' 'security' %}">
+            <a class="card-nav-link {% if section == 'security' %}active{% endif %}" href="{% url 'endorsers:profile' 'security' %}">
                 <i class="fi-lock opacity-60 me-2"></i>
+                fi-check
+
                 Password &amp; Security
             </a>
             
             {% if not user.is_endorser %}
-                <a class="card-nav-link  {% if section == 'become-endorser' %}active{% endif %}" href="{% url 'org:profile' 'become-endorser' %}">
+                <a class="card-nav-link  {% if section == 'become-endorser' %}active{% endif %}" href="{% url 'endorsers:profile' 'become-endorser' %}">
                     <i class="fi-user-plus opacity-60 me-2"></i>
                     Become endorser
                 </a>
             {% endif %}
+
+
+            {% if not user.is_organization %}
+                <a class="card-nav-link  {% if section == 'register-organization' %}active{% endif %}" href="{% url 'endorsers:profile' 'register-organization' %}">
+                    <i class="fi-plus opacity-60 me-2"></i>
+                    Register organization
+                </a>
+            {% endif %}
+
 
             <div>
                 <a class="rounded-3 card-nav-link text-dark px-3 bg-faded-primary {% if section == 'organization' %}active{% endif %}" href="#org-options" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="collapseExample">
@@ -86,49 +97,31 @@
                 </a>
 
                 <div class="collapse show" id="org-options">
-                
                     
-                    <a class="card-nav-link {% if section == 'organization-info' %}active{% endif %}" href="{% url 'org:profile' 'organization-info' %}">
+
+                    
+                    <a class="card-nav-link {% if section == 'endorser-info' %}active{% endif %}" href="{% url 'endorsers:profile' 'endorser-info' %}">
                         <i class="fi-pencil opacity-60 me-2"></i>
-                        Organization info
+                        Endorser info
                     </a>
 
-                    <a class="card-nav-link {% if section == 'staff' %}active{% endif %}" href="{% url 'org:profile' 'staff' %}">
-                        <i class="fi-users opacity-60 me-2"></i>
-                        Staff members
-                    </a>
-
-                    <a class="card-nav-link {% if section == 'my-projects' %}active{% endif %}" href="{% url 'org:profile' 'my-projects' %}">
-                        <i class="fi-folders opacity-60 me-2"></i>
-                        My projects
+                    <a class="card-nav-link {% if section == 'applications' %}active{% endif %}" href="{% url 'endorsers:profile' 'applications' %}">
+                        <i class="fi-file opacity-60 me-2"></i>
+                        Applications
                     </a>
 
 
-                    <a class="card-nav-link {% if section == 'create-project' %}active{% endif %}" href="{% url 'org:profile' 'create-project' %}">
-                        <i class="fi-plus opacity-60 me-2"></i>
-                        Create project
-                    </a>
-
-
-                    <a class="card-nav-link {% if section == 'organization-reviews' %}active{% endif %}" href="{% url 'org:profile' 'organization-reviews' %}">
+                    <a class="card-nav-link {% if section == 'reviews' %}active{% endif %}" href="{% url 'endorsers:profile' 'reviews' %}">
                         <i class="fi-star opacity-60 me-2"></i>
                         Reviews
                     </a>
-
-
-                    <a class="card-nav-link {% if section == 'organization' %}active{% endif %}" href="{% url 'org:profile' 'organization' %}">
-                        <i class="fi-file opacity-60 me-2"></i>
-                        Orders placed
-                    </a>
-
-
 
                  
                 </div>
     
             </div>
 
-            <!-- <a class="card-nav-link {% if section == 'organization' %}active{% endif %}" href="{% url 'org:profile' 'organization' %}">
+            <!-- <a class="card-nav-link {% if section == 'organization' %}active{% endif %}" href="{% url 'endorsers:profile' 'organization' %}">
                 <i class="fi-folders opacity-60 me-2"></i>
                 My projets
             </a>
@@ -153,7 +146,7 @@
                 Help
             </a> -->
             
-            <a class="card-nav-link" href="{% url 'authentication:login' %}">
+            <a class="card-nav-link" href="{% url 'authentication:logout' %}">
                 <i class="fi-logout opacity-60 me-2"></i>
                 Sign Out
             </a>

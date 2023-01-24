@@ -1,0 +1,54 @@
+{% load static %}
+<div class="d-flex flex-sm-row flex-column px-0">
+                    
+    <!-- Light table with striped rows -->
+    <div class="table-responsive border w-100 rounded-3">
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>Submitted</th>
+                    <th>Project</th>
+                    <th>Posted by</th>
+                    <th>Option</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for application in applications.list %}
+                    <tr>
+                        <td>
+                            {{ application.get_created_at }} <br>
+                            {% if application.is_approved %}
+                                <span class="badge rounded-pill bg-success">APPROVED</span>
+                            {% else %}
+                                <span class="badge rounded-pill bg-info">PENDING</span>
+                            {% endif %}  
+                        </td>
+                        <td>
+                                                            
+                            <a class="text-decoration-none" href="{% url 'org:single-project' application.project.id %}">
+                                <p><b>{{ application.project.title }}</b></p>
+                            </a>
+
+                            <!-- <span class="badge rounded-pill bg-faded-accent mt-1"><small>{{ staff_member.designation }}</small></span> -->
+                        </td>
+                        <td>
+                            <div class="d-flex align-items-center" style="width: fit-content;">
+                                <img class="me-2 rounded-circle" src="{{ application.project.organization.logo.url }}" width="30" alt="{{ project.organization.name }}">
+                                <span class="fs-sm text-dark opacity-80 ps-0">{{ application.project.organization.name }}</span>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="mk-pointer" onclick="setDetails('{{ application.id }}')">
+                                <i class="fi-eye-on mx-2"></i> View
+                            </div>
+
+                        </td>
+                       
+                    </tr>
+                {% endfor %}
+            
+            </tbody>
+        </table>
+    </div>
+
+</div>

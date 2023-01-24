@@ -1,0 +1,105 @@
+{% extends 'end_profile/inc/profile.html' %}
+{% load static %}
+{% block custom_css %}
+<link rel="stylesheet" href="{% static 'css/sidebar.css' %}">
+{% endblock custom_css %}
+{% block section_content %}
+
+
+
+
+
+
+
+<!-- Side bar end -->
+
+
+
+
+
+
+<div>
+     <!-- Tabs content-->
+ <div class="tab-content pt-2">
+    <!-- Reviews about you tab-->
+    <div class="tab-pane fade show active" id="reviews-about-you" role="tabpanel">
+      <div class="d-flex mt-3 flex-sm-row flex-column align-items-sm-center align-items-stretch justify-content-between pb-4 mb-2 mb-md-3">
+        <div class="d-flex align-items-center">
+          <label class="fs-sm me-2 text-nowrap" for="review-sorting1"><i class="fi-arrows-sort text-muted mt-n1 me-2"></i>Sort by:</label>
+          <select class="form-select form-select-sm" id="review-sorting1">
+            <option>Newest</option>
+            <option>Oldest</option>
+            <option>Popular</option>
+            <option>High rating</option>
+            <option>Low rating</option>
+          </select>
+        </div>
+      </div>
+      <!-- Review-->
+      
+
+      {% if applications.list %}
+          {% include 'inc/application-list.html' %}        
+      {% else %}
+          {% include 'inc/no-result.html' with data_type='application' %}
+      {% endif %}
+
+      
+    </div>
+   
+</div>
+
+
+</div>
+
+
+{% endblock section_content %}
+
+{% block custom_js %}
+<script src="{% static 'js/sidebar.js' %}"></script>
+<script>
+    function setDetails(application_id) {
+        // setting details
+        console.log(application_id);
+        $.ajax({
+            url: "{% url 'endorsers:get-single-application' %}",
+            type: "GET",
+            data: {
+                id: application_id
+            },
+            success: function (response) {
+                console.log(response);
+                if (response.status) {
+                    let application = response.data;
+                    $("#project_org_logo").attr("src",application.project_org_logo);
+                    $("#project_org_name").text(application.project_org_name);
+                    $("#project_title").text(application.project_title);
+                    $("#project_description").text(application.project_description);
+                    $("#project_budget").text(application.project_budget);
+                    $("#project_created_at").text(application.project_created_at);
+                    $("#is_service, #is_product").hide();
+                    if (application.project_type == "service") {
+                        $("#is_service").show()
+                    }else{
+                        $("#is_service").show()
+                    }
+                    $("#project_link").attr("href", application.project_url)
+                    $("#application_price").text(`$${application.application_price}`);
+                    $("#application_days").text(`${application.application_days} Days`);
+                    $("#application_created_at").text(application.application_created_at);
+                    $("#application_note").text(application.application_note);
+                    if (application.application_status) {
+                        $("#application_status").text("APPROVED");    
+                    }else{
+                        $("#application_status").text("PENDING");
+                    }
+   
+                }
+            }
+        })
+
+        // openNav
+        openNav();
+    }
+</script>
+{% endblock custom_js %}
