@@ -2,7 +2,7 @@
 
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as DjangoUserAdmin
-from .models import User, Review
+from .models import User, Review, Refer
 from django.utils.html import mark_safe
 
 
@@ -68,4 +68,10 @@ class ReviewAdmin(admin.ModelAdmin):
     model = Review
 
 
+class ReferAdmin(admin.ModelAdmin):
+    list_display = ["user_joined", "invited_by", "points", "register_at"]
+    model = Refer
+
+
 admin.site.register(Review, ReviewAdmin)
+admin.site.register(Refer, ReferAdmin)

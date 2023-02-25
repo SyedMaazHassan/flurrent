@@ -242,3 +242,14 @@ class Review(models.Model):
         if self.created_for == self.created_by:
             raise Exception("You can't submit the review to yourself")
         super(Review, self).save(*args, **kwargs)
+
+
+class Refer(models.Model):
+    user_joined = models.ForeignKey(
+        "authentication.User", on_delete=models.CASCADE, related_name="user_joined"
+    )
+    invited_by = models.ForeignKey(
+        "authentication.User", on_delete=models.CASCADE, related_name="invited_by"
+    )
+    points = models.IntegerField(default=2)
+    register_at = models.DateTimeField(auto_now_add=True)
