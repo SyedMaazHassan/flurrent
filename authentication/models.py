@@ -51,6 +51,17 @@ class UserManager(BaseUserManager):
         return self._create_user(email, password, **extra_fields)
 
 
+class Refer(models.Model):
+    user_joined = models.ForeignKey(
+        "authentication.User", on_delete=models.CASCADE, related_name="user_joined"
+    )
+    invited_by = models.ForeignKey(
+        "authentication.User", on_delete=models.CASCADE, related_name="invited_by"
+    )
+    points = models.IntegerField(default=2)
+    register_at = models.DateTimeField(auto_now_add=True)
+
+
 class User(AbstractUser):
     username = None
     USERNAME_FIELD = "email"
@@ -213,9 +224,16 @@ class User(AbstractUser):
 
             print("Organization created")
 
+    def getRefers(self):
+        return Refer.objects.filter(invited_by=self.pk)
+
+    def getInviteLink(self):
+        base_url = "http://127.0.0.1:8000"
+        return f"{base_url}/authentication/signup?refer_id={self.refer_id}"
+
     def save(self, *args, **kwargs):
-        # pre-populating the refer_id field
-        self.refer_id = self.generate_unique_number()
+        if not self.pk:
+            self.refer_id = self.generate_unique_number()
         super().save(*args, **kwargs)
 
 
@@ -242,14 +260,3 @@ class Review(models.Model):
         if self.created_for == self.created_by:
             raise Exception("You can't submit the review to yourself")
         super(Review, self).save(*args, **kwargs)
-
-
-class Refer(models.Model):
-    user_joined = models.ForeignKey(
-        "authentication.User", on_delete=models.CASCADE, related_name="user_joined"
-    )
-    invited_by = models.ForeignKey(
-        "authentication.User", on_delete=models.CASCADE, related_name="invited_by"
-    )
-    points = models.IntegerField(default=2)
-    register_at = models.DateTimeField(auto_now_add=True)

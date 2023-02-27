@@ -13,7 +13,7 @@ import json
 @login_required
 def home_view(request):
     all_endorsers = Endorser.objects.all()
-    paginator = Paginator(all_endorsers, 18)    
+    paginator = Paginator(all_endorsers, 18)
     page = 1
     page_1 = request.GET.get("page")
     page_numbers = paginator.page_range
@@ -24,7 +24,7 @@ def home_view(request):
         all_endorsers = paginator.get_page(1)
 
     context = {
-        'all_endorsers': all_endorsers, 
+        'all_endorsers': all_endorsers,
         'page_numbers': page_numbers,
         'page': page
     }
@@ -72,7 +72,7 @@ def received_applications_view(request, project_id):
     context['applications'] = applications
     context['application_ids'] = json.dumps(list(applications['list'].values_list("id", flat=True)))
     print(context['application_ids'])
-    
+
     return render(request, "received_application.html", context)
 
 
@@ -149,7 +149,7 @@ class ApplicationApproval(View):
         if not context:
             messages.error(request, "Invalid request")
             return redirect("core:home")
-       
+
         # approving request
         application = context['application']
         order = application.approve(approved_by = request.user)
@@ -159,14 +159,22 @@ class ApplicationApproval(View):
         messages.success(request, "Order has been confirmed successfully!")
         return redirect("org:orders")
 
-    
+
 
 
 class OrgUserProfileView(View):
     def get(self, request, section):
-        # get the user's profile information
+        # get the user's profile information.
         print(section)
         user = request.user
+        # get the referral's query set and invite link for the current user.
+        referrals = user.getRefers()
+        invite_link = user.getInviteLink()
+        # calculating total number of points for the current users.
+        total_points = 0
+        for refer in referrals:
+            total_points += refer.points
+        # dynamic template info.
         template_info = {
             "personal": {
                 "outline": "",
@@ -181,6 +189,16 @@ class OrgUserProfileView(View):
                 "template": "org_profile/security.html",
                 "title": "Password & Security",
                 "subtitle": "Manage your password settings and secure your account."
+            },
+            "referrals": {
+                "outline": "-outline",
+                "template": "org_profile/referrals.html",
+                "title": "Your Referrals",
+                "subtitle": "See all the people who have accepted your refer link, total earned points and more.",
+                "referrals_list": referrals,
+                "referrals_count": referrals.count(),
+                "total_points": total_points,
+                "invite_link": invite_link
             },
             "organization-info": {
                 "outline": "",
@@ -230,12 +248,7 @@ class OrgUserProfileView(View):
                 "subtitle": "Get a chance to apply on jobs and start selling",
                 "endorser": user.is_endorser,
             },
-            
-                     
-            
         }
-            
-
 
         context = template_info[section]
         context["section"] = section
@@ -270,7 +283,7 @@ class OrgUserProfileView(View):
                 user.phone = phone
                 user.save()
                 messages.success(request, "Personal info has been updated successfully!")
-            
+
             except Exception as e:
                 messages.error(request, str(e))
 
@@ -280,7 +293,7 @@ class OrgUserProfileView(View):
             current_password = request.POST.get('current_password')
             new_password1 = request.POST.get('new_password1')
             new_password2 = request.POST.get('new_password2')
-            
+
             if not user.check_password(current_password):
                 messages.error(request, "Current password is wrong!")
             else:
@@ -317,13 +330,13 @@ class OrgUserProfileView(View):
                 instagram = request.POST.get('instagram')
                 youtube = request.POST.get('youtube')
                 tiktok = request.POST.get('tiktok')
-                
+
                 if organization.social_media:
                     organization.social_media.website = website
                     organization.social_media.facebook = facebook
                     organization.social_media.instagram = instagram
                     organization.social_media.youtube = youtube
-                    organization.social_media.tiktok = tiktok                
+                    organization.social_media.tiktok = tiktok
                     organization.social_media.save()
                 else:
                     if website or facebook or instagram or youtube or tiktok:
@@ -431,7 +444,7 @@ class OrgUserProfileView(View):
             instagram           = request.POST.get("instagram")
             youtube             = request.POST.get("youtube")
             tiktok              = request.POST.get("tiktok")
-            
+
 
             try:
                 with transaction.atomic():
@@ -444,7 +457,7 @@ class OrgUserProfileView(View):
                             'tiktok'    : tiktok,
                             'instagram' : instagram
                         }
- 
+
                     if not tagline or not followers:
                         raise Exception("Tagline and followers are required")
 
@@ -454,7 +467,7 @@ class OrgUserProfileView(View):
                         description = description,
                         interests = interests,
                         social_media = social_media
-                    )           
+                    )
                     messages.success(request, "Endorser profile has been created")
                     return redirect("core:profile")
 

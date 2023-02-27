@@ -1,32 +1,32 @@
 {% load static %}
 
 <div class="card card-body border-0 shadow-sm pb-1 me-lg-1">
-    
+
     <div class="d-flex">
         {% if user.is_organization %}
-            
+
             <a href="{% url 'core:switch' 'organization' %}" class="swtich-option badge d-flex align-items-center rounded-pill bg-success mx-0"  style="background-color:#c4380a; width: fit-content; text-decoration:none !important;">
-                {% if user.mode == "organization" %}      
+                {% if user.mode == "organization" %}
                     <i class="fi-check p-1 opacity-60 bg-dark text-white rounded-circle" style="margin-right: 3px;"></i>
                 {% endif %}
                 Organization
             </a>
-            
-        {% endif %}        
+
+        {% endif %}
 
         {% if user.is_endorser %}
             <a href="{% url 'core:switch' 'endorser' %}" class="swtich-option badge d-flex align-items-center rounded-pill badge-dark mx-1" style="background-color:#c4380a; width: fit-content; text-decoration:none !important;">
-                {% if user.mode == "endorser" %}                
+                {% if user.mode == "endorser" %}
                     <i class="fi-check p-1 opacity-60 bg-dark text-white rounded-circle" style="margin-right: 3px;"></i>
                 {% endif %}
-           
+
                 Endorser
             </a>
-        {% endif %}        
+        {% endif %}
 
         {% if user.is_staff_member %}
             <span class="badge rounded-pill text-white mx-1" style="background-color:#6726ff;  width: fit-content;">Staff member</span>
-        {% endif %} 
+        {% endif %}
     </div>
 
     <div class="text-center align-center mt-2">
@@ -34,16 +34,16 @@
         <h2 class="my-1">{{ user.getFullName }}</h2>
         <p class="card-text my-2">{{ user.email }}</p>
 
-     
+
 
         <!-- Outline button + badge -->
         <!-- <button type="button" class="btn btn-outline-secondary">
             Messages <span class="badge bg-success ms-1">18</span>
         </button> -->
-                                
+
     </div>
 
-    
+
     <!-- <a class="btn btn-primary btn-lg w-100 mb-3" href="real-estate-add-property.html">
         <i class="fi-plus me-2"></i>
         Add property
@@ -53,8 +53,8 @@
         <i class="fi-align-justify me-2"></i>
         Menu
     </a>
-    
-    
+
+
     <div class="collapse d-md-block mt-3" id="account-nav">
       <div class="card-nav">
 
@@ -62,17 +62,22 @@
                 <!-- <i class="fi-apartment opacity-60 me-2"></i> -->
                 Personal info & security
             </a>
-        
+
             <a class='card-nav-link {% if section == "personal" %}active{% endif %}' href="{% url 'org:profile' 'personal' %}">
                 <i class="fi-user opacity-60 me-2"></i>
                 Personal Info
             </a>
-            
+
             <a class="card-nav-link {% if section == 'security' %}active{% endif %}" href="{% url 'org:profile' 'security' %}">
                 <i class="fi-lock opacity-60 me-2"></i>
                 Password &amp; Security
             </a>
-            
+
+            <a class="card-nav-link {% if section == 'referrals' %}active{% endif %}" href="{% url 'org:profile' 'referrals' %}">
+                <i class="fi-users opacity-60 me-2"></i>
+                Referrals
+            </a>
+
             {% if not user.is_endorser %}
                 <a class="card-nav-link  {% if section == 'become-endorser' %}active{% endif %}" href="{% url 'org:profile' 'become-endorser' %}">
                     <i class="fi-user-plus opacity-60 me-2"></i>
@@ -88,8 +93,8 @@
 
                 <!-- <div class="collapse show" id="org-options"> -->
                 <div class="">
-                
-                    
+
+
                     <a class="card-nav-link {% if section == 'organization-info' %}active{% endif %}" href="{% url 'org:profile' 'organization-info' %}">
                         <i class="fi-pencil opacity-60 me-2"></i>
                         Organization info
@@ -125,36 +130,36 @@
 
 
 
-                 
+
                 </div>
-    
+
             </div>
 
             <!-- <a class="card-nav-link {% if section == 'organization' %}active{% endif %}" href="{% url 'org:profile' 'organization' %}">
                 <i class="fi-folders opacity-60 me-2"></i>
                 My projets
             </a>
-            
+
             <a class="card-nav-link {% if section == 'endorser' %}active{% endif %}" href="real-estate-account-wishlist.html">
                 <i class="fi-heart opacity-60 me-2"></i>
                 Wishlist
             </a>
-                
+
             <a class="card-nav-link" href="real-estate-account-reviews.html">
                 <i class="fi-star opacity-60 me-2"></i>
                 Reviews
             </a>
-            
+
             <a class="card-nav-link" href="real-estate-account-notifications.html">
                 <i class="fi-bell opacity-60 me-2"></i>
                 Notifications
             </a> -->
-            
+
             <!-- <a class="card-nav-link" href="real-estate-help-center.html">
                 <i class="fi-help opacity-60 me-2"></i>
                 Help
             </a> -->
-            
+
             <a class="card-nav-link" href="{% url 'authentication:logout' %}">
                 <i class="fi-logout opacity-60 me-2"></i>
                 Sign Out
