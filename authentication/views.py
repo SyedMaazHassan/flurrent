@@ -1,14 +1,11 @@
 # myapp/views.py
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
-from .models import User
+from .models import User, Refer
 from organizations.models import Organization
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.db import transaction
-from django.http import HttpResponse
-import random
-import uuid
 
 
 def login_view(request):
@@ -155,6 +152,13 @@ def signup_view(request):
                             followers=profile_type["data"]["endorser_followers"],
                         )
                         # endorser created
+                    refer_id = request.POST.get("refer_id")
+                    invited_by = User.objects.filter(refer_id=refer_id)
+                    if invited_by.count():
+                        new_refer = Refer(
+                            user_joined=new_user, invited_by=invited_by[0]
+                        )
+                        new_refer.save()
 
                     messages.success(request, "Profile has been created successfully!")
                     return redirect("authentication:login")
@@ -181,5 +185,4 @@ def signup_view(request):
             "profile_type": profile_type,
             "set_password": set_password,
         }
-
     return render(request, "signup.html", context)
