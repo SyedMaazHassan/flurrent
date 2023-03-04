@@ -47,7 +47,7 @@ def single_order_view(request, order_id):
         note = request.POST.get('note')
         thumbnail = request.FILES.get('thumbnail')
         source_file = request.FILES.get('source_file')
-    
+
         try:
             order.createUpdate(
                 note,
@@ -94,7 +94,7 @@ def get_single_application(request):
                 "application_status" : True if application.is_approved else False,
                 "application_note"   : application.note,
                 "endorser_name"      : application.created_by.getFullName(),
-                "endorser_profile_pic": application.created_by.profile_pic.url,                
+                "endorser_profile_pic": application.created_by.profile_pic.url,
             }
             output['data'] = data_object
             output['status'] = True
@@ -137,10 +137,18 @@ def apply_on_project(request, project_id):
 
 class EndorserUserProfileView(View):
     def get(self, request, section):
-        # get the user's profile information
+        # get the user's profile information.
         print(section)
         user = request.user
         endorser = user.is_endorser
+        # get the referral's query set and invite link for the current user.
+        referrals = user.getRefers()
+        invite_link = user.getInviteLink()
+        # calculating total number of points for the current users.
+        total_points = 0
+        for refer in referrals:
+            total_points += refer.points
+        # dynamic template info.
         template_info = {
             "personal": {
                 "outline": "",
@@ -155,6 +163,16 @@ class EndorserUserProfileView(View):
                 "template": "end_profile/security.html",
                 "title": "Password & Security",
                 "subtitle": "Manage your password settings and secure your account."
+            },
+            "referrals": {
+                "outline": "-outline",
+                "template": "org_profile/referrals.html",
+                "title": "Your Referrals",
+                "subtitle": "See all the people who have accepted your refer link, total earned points and more.",
+                "referrals_list": referrals,
+                "referrals_count": referrals.count(),
+                "total_points": total_points,
+                "invite_link": invite_link,
             },
             "endorser-info": {
                 "outline": "",
@@ -187,11 +205,11 @@ class EndorserUserProfileView(View):
                 "template": "end_profile/create_organization.html",
                 "title": "Register organization",
                 "subtitle": "List your organization on our platform to find best endorsers",
-                # "applications": endorser.getApplications(),  
+                # "applications": endorser.getApplications(),
             }
-        
+
         }
-            
+
 
 
         context = template_info[section]
@@ -227,7 +245,7 @@ class EndorserUserProfileView(View):
                 user.phone = phone
                 user.save()
                 messages.success(request, "Personal info has been updated successfully!")
-            
+
             except Exception as e:
                 messages.error(request, str(e))
 
@@ -237,7 +255,7 @@ class EndorserUserProfileView(View):
             current_password = request.POST.get('current_password')
             new_password1 = request.POST.get('new_password1')
             new_password2 = request.POST.get('new_password2')
-            
+
             if not user.check_password(current_password):
                 messages.error(request, "Current password is wrong!")
             else:
@@ -250,7 +268,7 @@ class EndorserUserProfileView(View):
                     messages.error(request, "New password must be same")
 
         elif section == 'endorser-info':
-            
+
             description = request.POST.get('description')
             tagline     = request.POST.get('tagline')
             bio         = request.POST.get('bio')
@@ -274,13 +292,13 @@ class EndorserUserProfileView(View):
                 instagram = request.POST.get('instagram')
                 youtube = request.POST.get('youtube')
                 tiktok = request.POST.get('tiktok')
-                
+
                 if endorser.social_media:
                     endorser.social_media.website = website
                     endorser.social_media.facebook = facebook
                     endorser.social_media.instagram = instagram
                     endorser.social_media.youtube = youtube
-                    endorser.social_media.tiktok = tiktok                
+                    endorser.social_media.tiktok = tiktok
                     endorser.social_media.save()
                 else:
                     if website or facebook or instagram or youtube or tiktok:
@@ -300,8 +318,8 @@ class EndorserUserProfileView(View):
             except Exception as e:
                 messages.error(request, str(e))
 
-        elif section == 'register-organization':            
-            organization_logo = request.FILES.get('organization_logo')            
+        elif section == 'register-organization':
+            organization_logo = request.FILES.get('organization_logo')
             organization_name = request.POST.get('organization_name')
             organization_type = request.POST.get('organization_type')
             description       = request.POST.get('description')
@@ -333,7 +351,7 @@ class EndorserUserProfileView(View):
                     description = description,
                     social_media = social_media
                 )
-                
+
                 messages.success(request, "Organization profile has been created")
                 return redirect("org:profile", section="organization-info")
 
