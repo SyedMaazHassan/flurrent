@@ -1,7 +1,7 @@
 .referrals__card,
 .total_points__card,
 .invite_link__card {
-  width: 15rem !important;
+  width: 10rem !important;
   border: 1px solid rgba(202, 202, 202, 0.8) !important;
   border-radius: 8px;
   box-sizing: border-box !important;

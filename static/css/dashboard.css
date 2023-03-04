@@ -1,0 +1,13 @@
+.chart__container {
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+@media screen and (min-width: 768px) {
+  .chart__container {
+    height: 20rem;
+  }
+}

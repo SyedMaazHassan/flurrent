@@ -7,6 +7,7 @@ from django.db import transaction
 from authentication.models import User
 from django.views import View
 import json
+
 # Create your views here.
 
 
@@ -24,9 +25,9 @@ def home_view(request):
         all_endorsers = paginator.get_page(1)
 
     context = {
-        'all_endorsers': all_endorsers,
-        'page_numbers': page_numbers,
-        'page': page
+        "all_endorsers": all_endorsers,
+        "page_numbers": page_numbers,
+        "page": page,
     }
     return render(request, "org_home.html", context)
 
@@ -34,44 +35,46 @@ def home_view(request):
 @login_required
 def single_project_view(request, project_id):
     context = {}
-    project = Project.objects.filter(id = project_id).first()
+    project = Project.objects.filter(id=project_id).first()
     if not project:
         messages.error(request, "No project exists with this id")
         return redirect("core:home")
 
-    context['project'] = project
-    context['application'] = project.isAppliedBy(request.user)
+    context["project"] = project
+    context["application"] = project.isAppliedBy(request.user)
     return render(request, "single-project.html", context)
 
 
 @login_required
 def endorser_profile_view(request, endorser_id):
     context = {"range_var": range(1, 6)}
-    endorser = Endorser.objects.filter(id = endorser_id).first()
+    endorser = Endorser.objects.filter(id=endorser_id).first()
     if not endorser:
         messages.error(request, "No endorser exists with this id")
         return redirect("core:home")
-    context['endorser'] = endorser
+    context["endorser"] = endorser
     if request.GET.get("section") == "completed-projects":
-        context['projects'] = []
+        context["projects"] = []
     else:
-        context['reviews'] = endorser.created_by.getEndorserReviews()
+        context["reviews"] = endorser.created_by.getEndorserReviews()
     return render(request, "endorser_profile_view.html", context)
 
 
 @login_required
 def received_applications_view(request, project_id):
     context = {}
-    project = Project.objects.filter(id = project_id).first()
+    project = Project.objects.filter(id=project_id).first()
     if not project:
         messages.error(request, "No project exists with this id")
         return redirect("core:home")
 
     applications = project.getReceivedApplications()
-    context['single_project'] = project
-    context['applications'] = applications
-    context['application_ids'] = json.dumps(list(applications['list'].values_list("id", flat=True)))
-    print(context['application_ids'])
+    context["single_project"] = project
+    context["applications"] = applications
+    context["application_ids"] = json.dumps(
+        list(applications["list"].values_list("id", flat=True))
+    )
+    print(context["application_ids"])
 
     return render(request, "received_application.html", context)
 
@@ -80,20 +83,18 @@ def received_applications_view(request, project_id):
 def single_order_view(request, order_id):
     context = {}
     organization = request.user.is_organization
-    order = Order.objects.filter(id = order_id, organization = organization).first()
+    order = Order.objects.filter(id=order_id, organization=organization).first()
     if not order:
         messages.error(request, "No order exists with this id")
         return redirect("core:home")
-    context = {
-        'order': order
-    }
+    context = {"order": order}
     return render(request, "single_order.html", context)
 
 
 def mark_as_complete(request, order_id):
     context = {}
     organization = request.user.is_organization
-    order = Order.objects.filter(id = order_id, organization = organization).first()
+    order = Order.objects.filter(id=order_id, organization=organization).first()
     if not order:
         messages.error(request, "No order exists with this id")
         return redirect("core:home")
@@ -104,35 +105,31 @@ def mark_as_complete(request, order_id):
     messages.success(request, "Order has been marked as completed")
     return redirect("org:single-order", order_id=order_id)
 
-    context = {
-        'order': order
-    }
+    context = {"order": order}
     return render(request, "single_order.html", context)
-
 
 
 @login_required
 def manage_orders_view(request):
     organization = request.user.is_organization
     orders = organization.getOrders()
-    context = {
-        'orders': orders
-    }
+    context = {"orders": orders}
     return render(request, "manage_orders.html", context)
 
 
 class ApplicationApproval(View):
     def check_access(self, user, project_id, application_id):
-        project = Project.objects.filter(id = project_id).first()
-        application = Application.objects.filter(id = application_id).first()
-        if not project or not application or application.project != project or project.created_by != user:
+        project = Project.objects.filter(id=project_id).first()
+        application = Application.objects.filter(id=application_id).first()
+        if (
+            not project
+            or not application
+            or application.project != project
+            or project.created_by != user
+        ):
             return False
 
-        return {
-            "project": project,
-            "application": application
-        }
-
+        return {"project": project, "application": application}
 
     def get(self, request, project_id, application_id):
         context = {}
@@ -142,7 +139,6 @@ class ApplicationApproval(View):
             return redirect("core:home")
         return render(request, "approve-application.html", context)
 
-
     def post(self, request, project_id, application_id):
         context = {}
         context = self.check_access(request.user, project_id, application_id)
@@ -151,15 +147,13 @@ class ApplicationApproval(View):
             return redirect("core:home")
 
         # approving request
-        application = context['application']
-        order = application.approve(approved_by = request.user)
+        application = context["application"]
+        order = application.approve(approved_by=request.user)
         # placing order
         print(order)
         # redirecting user to the order page
         messages.success(request, "Order has been confirmed successfully!")
         return redirect("org:orders")
-
-
 
 
 class OrgUserProfileView(View):
@@ -181,14 +175,14 @@ class OrgUserProfileView(View):
                 "button_text": "Save changes",
                 "template": "org_profile/personal_info.html",
                 "title": "Personal Info",
-                "subtitle": "Your personal info is 50% completed"
+                "subtitle": "Your personal info is 50% completed",
             },
             "security": {
                 "outline": "-outline",
                 "button_text": "Update password",
                 "template": "org_profile/security.html",
                 "title": "Password & Security",
-                "subtitle": "Manage your password settings and secure your account."
+                "subtitle": "Manage your password settings and secure your account.",
             },
             "referrals": {
                 "outline": "-outline",
@@ -198,7 +192,13 @@ class OrgUserProfileView(View):
                 "referrals_list": referrals,
                 "referrals_count": referrals.count(),
                 "total_points": total_points,
-                "invite_link": invite_link
+                "invite_link": invite_link,
+            },
+            "dashboard": {
+                "outline": "-outline",
+                "template": "org_profile/dashboard.html",
+                "title": "Dashboard",
+                "subtitle": "See the number of endorsers, staff, earnings and their analytics here.",
             },
             "organization-info": {
                 "outline": "",
@@ -206,7 +206,7 @@ class OrgUserProfileView(View):
                 "template": "org_profile/info.html",
                 "title": "Organization profile",
                 "subtitle": "Manage your organization profile, update basic info, location or social ids",
-                "organization": user.is_organization
+                "organization": user.is_organization,
             },
             "my-projects": {
                 "outline": "",
@@ -214,7 +214,7 @@ class OrgUserProfileView(View):
                 "template": "org_profile/my_projects.html",
                 "title": "My projects",
                 "subtitle": "Manage your projects, edit or create a new one",
-                "projects": user.is_organization.getProjects()
+                "projects": user.is_organization.getProjects(),
             },
             "create-project": {
                 "outline": "",
@@ -230,7 +230,7 @@ class OrgUserProfileView(View):
                 "title": "Organization reviews",
                 "subtitle": "Reviews your organization has received after exchange of service or product",
                 "reviews": user.getOrgReviews(),
-                "range_var": range(1, 6)
+                "range_var": range(1, 6),
             },
             "staff": {
                 "outline": "",
@@ -254,19 +254,18 @@ class OrgUserProfileView(View):
         context["section"] = section
         return render(request, context["template"], context)
 
-
     def post(self, request, section):
         # update the user's profile information
         user = request.user
         organization = user.is_organization
         # return redirect("org:profile", section="security")
-        if section == 'personal':
-            first_name = request.POST.get('first_name')
-            last_name = request.POST.get('last_name')
+        if section == "personal":
+            first_name = request.POST.get("first_name")
+            last_name = request.POST.get("last_name")
             # email = request.POST.get('email')
-            phone = request.POST.get('phone')
-            bio = request.POST.get('bio')
-            profile_pic = request.FILES.get('profile_pic')
+            phone = request.POST.get("phone")
+            bio = request.POST.get("bio")
+            profile_pic = request.FILES.get("profile_pic")
 
             try:
                 if not (first_name and last_name):
@@ -282,17 +281,19 @@ class OrgUserProfileView(View):
                 user.bio = bio
                 user.phone = phone
                 user.save()
-                messages.success(request, "Personal info has been updated successfully!")
+                messages.success(
+                    request, "Personal info has been updated successfully!"
+                )
 
             except Exception as e:
                 messages.error(request, str(e))
 
-        elif section == 'security':
+        elif section == "security":
             # update the user's password
 
-            current_password = request.POST.get('current_password')
-            new_password1 = request.POST.get('new_password1')
-            new_password2 = request.POST.get('new_password2')
+            current_password = request.POST.get("current_password")
+            new_password1 = request.POST.get("new_password1")
+            new_password2 = request.POST.get("new_password2")
 
             if not user.check_password(current_password):
                 messages.error(request, "Current password is wrong!")
@@ -305,13 +306,13 @@ class OrgUserProfileView(View):
                 else:
                     messages.error(request, "New password must be same")
 
-        elif section == 'organization-info':
+        elif section == "organization-info":
             # update the user's organizations
 
-            organization_name = request.POST.get('organization_name')
-            organization_type = request.POST.get('organization_type')
-            description = request.POST.get('description')
-            logo = request.FILES.get('logo')
+            organization_name = request.POST.get("organization_name")
+            organization_type = request.POST.get("organization_type")
+            description = request.POST.get("description")
+            logo = request.FILES.get("logo")
             print(request.FILES)
             try:
                 if not (organization_name and organization_type):
@@ -325,11 +326,11 @@ class OrgUserProfileView(View):
                 organization.save()
 
                 # Updating social media
-                website = request.POST.get('website')
-                facebook = request.POST.get('facebook')
-                instagram = request.POST.get('instagram')
-                youtube = request.POST.get('youtube')
-                tiktok = request.POST.get('tiktok')
+                website = request.POST.get("website")
+                facebook = request.POST.get("facebook")
+                instagram = request.POST.get("instagram")
+                youtube = request.POST.get("youtube")
+                tiktok = request.POST.get("tiktok")
 
                 if organization.social_media:
                     organization.social_media.website = website
@@ -341,11 +342,11 @@ class OrgUserProfileView(View):
                 else:
                     if website or facebook or instagram or youtube or tiktok:
                         new_social_media = SocialMedia(
-                            website = website,
-                            facebook = facebook,
-                            instagram = instagram,
-                            youtube = youtube,
-                            tiktok = tiktok
+                            website=website,
+                            facebook=facebook,
+                            instagram=instagram,
+                            youtube=youtube,
+                            tiktok=tiktok,
                         )
                         new_social_media.save()
                         organization.social_media = new_social_media
@@ -357,20 +358,19 @@ class OrgUserProfileView(View):
                 messages.error(request, str(e))
 
         elif section == "create-project":
-
-            project_title       = request.POST.get("project_title")
+            project_title = request.POST.get("project_title")
             project_description = request.POST.get("project_description")
 
-            min_price           = request.POST.get("min_price")
-            max_price           = request.POST.get("max_price")
+            min_price = request.POST.get("min_price")
+            max_price = request.POST.get("max_price")
 
-            product_title       = request.POST.get("product_title")
-            product_type        = request.POST.get("product_type")
+            product_title = request.POST.get("product_title")
+            product_type = request.POST.get("product_type")
             product_description = request.POST.get("product_description")
-            product_thumbnail   = request.FILES.get("product_thumbnail")
+            product_thumbnail = request.FILES.get("product_thumbnail")
 
-            requirements        = request.POST.get("requirements")
-            benefits            = request.POST.get("benefits")
+            requirements = request.POST.get("requirements")
+            benefits = request.POST.get("benefits")
 
             try:
                 with transaction.atomic():
@@ -382,7 +382,7 @@ class OrgUserProfileView(View):
                         product_type,
                         product_description,
                         user,
-                        product_thumbnail
+                        product_thumbnail,
                     )
                     print("Product or service created")
 
@@ -394,7 +394,7 @@ class OrgUserProfileView(View):
                         product_or_service,
                         requirements,
                         benefits,
-                        user
+                        user,
                     )
 
                     messages.success(request, "Project has been posted successfully!")
@@ -404,75 +404,75 @@ class OrgUserProfileView(View):
                 messages.error(request, str(e))
 
         elif section == "staff":
-            staff_first_name       = request.POST.get("staff_first_name")
-            staff_last_name        = request.POST.get("staff_last_name")
-            staff_designation      = request.POST.get("staff_designation")
-            staff_email            = request.POST.get("staff_email")
-            staff_password         = request.POST.get("staff_password")
-            staff_profile_pic      = request.FILES.get("staff_profile_pic")
+            staff_first_name = request.POST.get("staff_first_name")
+            staff_last_name = request.POST.get("staff_last_name")
+            staff_designation = request.POST.get("staff_designation")
+            staff_email = request.POST.get("staff_email")
+            staff_password = request.POST.get("staff_password")
+            staff_profile_pic = request.FILES.get("staff_profile_pic")
 
             try:
                 with transaction.atomic():
-
                     # Creating staff
                     new_staff_user = User.objects.create(
-                        first_name = staff_first_name,
-                        last_name = staff_last_name,
-                        email = staff_email,
+                        first_name=staff_first_name,
+                        last_name=staff_last_name,
+                        email=staff_email,
                     )
                     if staff_profile_pic:
                         new_staff_user.profile_pic = staff_profile_pic
                     new_staff_user.set_password(staff_password)
-                    organization.createStaffMember(new_staff_user, staff_designation, user)
+                    organization.createStaffMember(
+                        new_staff_user, staff_designation, user
+                    )
 
-                    messages.success(request, "Staff member has been added successfully")
+                    messages.success(
+                        request, "Staff member has been added successfully"
+                    )
 
             except Exception as e:
                 messages.error(request, str(e))
 
         elif section == "become-endorser":
-
-            description         = request.POST.get("description")
-            interests           = request.POST.get("interests")
-            tagline             = request.POST.get("tagline")
-            bio                 = request.POST.get("bio")
-            followers           = request.POST.get("followers")
+            description = request.POST.get("description")
+            interests = request.POST.get("interests")
+            tagline = request.POST.get("tagline")
+            bio = request.POST.get("bio")
+            followers = request.POST.get("followers")
 
             # Social media
-            website             = request.POST.get("website")
-            facebook            = request.POST.get("facebook")
-            instagram           = request.POST.get("instagram")
-            youtube             = request.POST.get("youtube")
-            tiktok              = request.POST.get("tiktok")
-
+            website = request.POST.get("website")
+            facebook = request.POST.get("facebook")
+            instagram = request.POST.get("instagram")
+            youtube = request.POST.get("youtube")
+            tiktok = request.POST.get("tiktok")
 
             try:
                 with transaction.atomic():
                     social_media = None
                     if website or facebook or instagram or youtube or tiktok:
                         social_media = {
-                            'website'   : website,
-                            'facebook'  : facebook,
-                            'youtube'   : youtube,
-                            'tiktok'    : tiktok,
-                            'instagram' : instagram
+                            "website": website,
+                            "facebook": facebook,
+                            "youtube": youtube,
+                            "tiktok": tiktok,
+                            "instagram": instagram,
                         }
 
                     if not tagline or not followers:
                         raise Exception("Tagline and followers are required")
 
                     new_endorser = user.createEndorser(
-                        tagline = tagline,
-                        followers = followers,
-                        description = description,
-                        interests = interests,
-                        social_media = social_media
+                        tagline=tagline,
+                        followers=followers,
+                        description=description,
+                        interests=interests,
+                        social_media=social_media,
                     )
                     messages.success(request, "Endorser profile has been created")
                     return redirect("core:profile")
 
             except Exception as e:
                 messages.error(request, str(e))
-
 
         return redirect("org:profile", section=section)
