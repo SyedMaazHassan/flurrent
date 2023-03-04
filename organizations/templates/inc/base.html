@@ -119,8 +119,11 @@
     </div>
     <main class="page-wrapper">
       <!-- Navbar-->
-      {% if user.mode == 'organization' %} {% include 'inc/navbar-org.inc.html' %} {% else %}
-      {% include 'inc/navbar.inc.html' %} {% endif %}
+      {% if user.mode == 'organization' %}
+        {% include 'inc/navbar-org.inc.html' %}
+      {% else %}
+        {% include 'inc/navbar.inc.html' %}
+      {% endif %}
 
       <!-- Page content-->
       <!-- Page container-->

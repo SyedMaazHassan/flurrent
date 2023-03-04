@@ -31,4 +31,8 @@
 <script src="{% static 'js/referrals.js' %}"></script>
 
 <!-- Script for loading charts -->
+{% if user.mode == 'organization' %}
 <script src="{% static 'js/dashboard.js' %}"></script>
+{% else %}
+<script src="{% static 'js/end_dashboard.js' %}"></script>
+{% endif %}

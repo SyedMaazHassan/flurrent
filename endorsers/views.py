@@ -174,6 +174,12 @@ class EndorserUserProfileView(View):
                 "total_points": total_points,
                 "invite_link": invite_link,
             },
+             "dashboard": {
+                "outline": "-outline",
+                "template": "end_profile/dashboard.html",
+                "title": "Dashboard",
+                "subtitle": "See the number of organizations, projects, earnings and their analytics here.",
+            },
             "endorser-info": {
                 "outline": "",
                 "button_text": "Save changes",
