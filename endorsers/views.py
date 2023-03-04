@@ -166,7 +166,7 @@ class EndorserUserProfileView(View):
             },
             "referrals": {
                 "outline": "-outline",
-                "template": "org_profile/referrals.html",
+                "template": "end_profile/referrals.html",
                 "title": "Your Referrals",
                 "subtitle": "See all the people who have accepted your refer link, total earned points and more.",
                 "referrals_list": referrals,
