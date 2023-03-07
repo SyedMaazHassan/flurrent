@@ -3,23 +3,26 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="utf-8">
+    <meta charset="utf-8" />
     <title>Finder | Sign In Page</title>
     <!-- SEO Meta Tags-->
-    <meta name="description" content="Finder - Directory &amp; Listings Bootstrap Template">
-    <meta name="keywords" content="bootstrap, business, directory, listings, e-commerce, car dealer, city guide, real estate, job board, user account, multipurpose, ui kit, html5, css3, javascript, gallery, slider, touch">
-    <meta name="author" content="Createx Studio">
+    <meta name="description" content="Finder - Directory &amp; Listings Bootstrap Template" />
+    <meta
+      name="keywords"
+      content="bootstrap, business, directory, listings, e-commerce, car dealer, city guide, real estate, job board, user account, multipurpose, ui kit, html5, css3, javascript, gallery, slider, touch"
+    />
+    <meta name="author" content="Createx Studio" />
     <!-- Viewport-->
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <!-- Favicon and Touch Icons-->
-    <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
-    <link rel="manifest" href="site.webmanifest">
-    <link rel="mask-icon" color="#5bbad5" href="safari-pinned-tab.svg">
+    <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png" />
+    <link rel="manifest" href="site.webmanifest" />
+    <link rel="mask-icon" color="#5bbad5" href="safari-pinned-tab.svg" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
-    <meta name="msapplication-TileColor" content="#766df4">
-    <meta name="theme-color" content="#ffffff">
+    <meta name="msapplication-TileColor" content="#766df4" />
+    <meta name="theme-color" content="#ffffff" />
     <!-- Page loading styles-->
     <style>
       .page-loading {
@@ -30,8 +33,8 @@
         left: 0;
         width: 100%;
         height: 100%;
-        -webkit-transition: all .4s .2s ease-in-out;
-        transition: all .4s .2s ease-in-out;
+        -webkit-transition: all 0.4s 0.2s ease-in-out;
+        transition: all 0.4s 0.2s ease-in-out;
         background-color: #fff;
         opacity: 0;
         visibility: hidden;
@@ -49,8 +52,8 @@
         text-align: center;
         -webkit-transform: translateY(-50%);
         transform: translateY(-50%);
-        -webkit-transition: opacity .2s ease-in-out;
-        transition: opacity .2s ease-in-out;
+        -webkit-transition: opacity 0.2s ease-in-out;
+        transition: opacity 0.2s ease-in-out;
         opacity: 0;
       }
       .page-loading.active > .page-loading-inner {
@@ -60,22 +63,22 @@
         display: block;
         font-size: 1rem;
         font-weight: normal;
-        color: #666276;;
+        color: #666276;
       }
       .page-spinner {
         display: inline-block;
         width: 2.75rem;
         height: 2.75rem;
-        margin-bottom: .75rem;
+        margin-bottom: 0.75rem;
         vertical-align: text-bottom;
-        border: .15em solid #bbb7c5;
+        border: 0.15em solid #bbb7c5;
         border-right-color: transparent;
         border-radius: 50%;
-        -webkit-animation: spinner .75s linear infinite;
-        animation: spinner .75s linear infinite;
+        -webkit-animation: spinner 0.75s linear infinite;
+        animation: spinner 0.75s linear infinite;
       }
 
-      .mk-pointer{
+      .mk-pointer {
         cursor: pointer;
       }
       @-webkit-keyframes spinner {
@@ -90,195 +93,316 @@
           transform: rotate(360deg);
         }
       }
-      
     </style>
     <!-- Page loading scripts-->
     <script>
-      (function () {
+      ;(function () {
         window.onload = function () {
-          var preloader = document.querySelector('.page-loading');
-          preloader.classList.remove('active');
+          var preloader = document.querySelector(".page-loading")
+          preloader.classList.remove("active")
           setTimeout(function () {
-            preloader.remove();
-          }, 2000);
-        };
-      })();
-      
+            preloader.remove()
+          }, 2000)
+        }
+      })()
     </script>
     <!-- {% static 'vendor Styles-->
-    <link rel="stylesheet" media="screen" href="{% static 'vendor/simplebar/dist/simplebar.min.css' %}"/>
+    <link
+      rel="stylesheet"
+      media="screen"
+      href="{% static 'vendor/simplebar/dist/simplebar.min.css' %}"
+    />
     <!-- Main Theme Styles + Bootstrap-->
-    <link rel="stylesheet" media="screen" href="{% static 'css/theme.min.css' %}">
+    <link rel="stylesheet" media="screen" href="{% static 'css/theme.min.css' %}" />
   </head>
   <!-- Body-->
   <body class="bg-secondary">
     <!-- Page loading spinner-->
     <div class="page-loading active">
       <div class="page-loading-inner">
-        <div class="page-spinner"></div><span>Loading...</span>
+        <div class="page-spinner"></div>
+        <span>Loading...</span>
       </div>
     </div>
     <main class="page-wrapper">
       <!-- Page content-->
-      <div class="container-fluid d-flex h-100 align-items-center justify-content-center py-4 py-sm-5">
-        <div class="card card-body" style="max-width: 940px"><a class="position-absolute top-0 end-0 nav-link fs-sm py-1 px-2 mt-3 me-3" href="#" onclick="window.history.go(-1); return false;"><i class="fi-arrow-long-left fs-base me-2"></i>Go back</a>
+      <div
+        class="container-fluid d-flex h-100 align-items-center justify-content-center py-4 py-sm-5"
+      >
+        <div class="card card-body" style="max-width: 940px">
+          <a
+            class="position-absolute top-0 end-0 nav-link fs-sm py-1 px-2 mt-3 me-3"
+            href="#"
+            onclick="window.history.go(-1); return false;"
+            ><i class="fi-arrow-long-left fs-base me-2"></i>Go back</a
+          >
           <div class="row mx-0 align-items-center">
             <div class="col-md-6 border-end-md p-2 p-sm-5">
-              <h2 class="h3 mb-4 mb-sm-5">Register!<br>To boost your business.</h2>
-              <img class="d-block mx-auto" src="{% static 'img/signin-modal/signin.svg' %}" width="344" alt="Illustartion">
-              <div class="mt-4 mt-sm-5">Already registered? <a href="{% url 'authentication:login' %}">Login here</a></div>
+              <h2 class="h3 mb-4 mb-sm-5">Register!<br />To boost your business.</h2>
+              <img
+                class="d-block mx-auto"
+                src="{% static 'img/signin-modal/signin.svg' %}"
+                width="344"
+                alt="Illustartion"
+              />
+              <div class="mt-4 mt-sm-5">
+                Already registered? <a href="{% url 'authentication:login' %}">Login here</a>
+              </div>
             </div>
             <div class="col-md-6 px-2 pt-2 pb-4 px-sm-5 pb-sm-5 pt-md-5">
-              
-              <img src="{% static 'img/logo/logo-flurrent.png' %}" width="100" class="mb-4" alt="">
-
+              <img
+                src="{% static 'img/logo/logo-flurrent.png' %}"
+                width="100"
+                class="mb-4"
+                alt=""
+              />
 
               <div>
                 <div class="bg-light rounded-3 py-2 mb-3 px-0">
-                    <div class="steps pt-4 pb-1">
-                      <div class="step mk-pointer active" id="step-1-icon" onclick="show_section('1', true)">
-                        <div class="step-progress"><span class="step-progress-start"></span><span class="step-progress-end"></span><span class="step-number">1</span></div>
-                        <div class="step-label">Personal info</div>
+                  <div class="steps pt-4 pb-1">
+                    <div
+                      class="step mk-pointer active"
+                      id="step-1-icon"
+                      onclick="show_section('1', true)"
+                    >
+                      <div class="step-progress">
+                        <span class="step-progress-start"></span
+                        ><span class="step-progress-end"></span><span class="step-number">1</span>
                       </div>
-                      <div class="step mk-pointer" id="step-2-icon" onclick="show_section('2', true)">
-                        <div class="step-progress"><span class="step-progress-start"></span><span class="step-progress-end"></span><span class="step-number">2</span></div>
-                        <div class="step-label">Profile type</div>
-                      </div>
-                      <div class="step mk-pointer" id="step-3-icon" onclick="show_section('3', true)">
-                        <div class="step-progress"><span class="step-progress-start"></span><span class="step-progress-end"></span><span class="step-number">3</span></div>
-                        <div class="step-label">Set password</div>
-                      </div>
+                      <div class="step-label">Personal info</div>
                     </div>
+                    <div class="step mk-pointer" id="step-2-icon" onclick="show_section('2', true)">
+                      <div class="step-progress">
+                        <span class="step-progress-start"></span
+                        ><span class="step-progress-end"></span><span class="step-number">2</span>
+                      </div>
+                      <div class="step-label">Profile type</div>
+                    </div>
+                    <div class="step mk-pointer" id="step-3-icon" onclick="show_section('3', true)">
+                      <div class="step-progress">
+                        <span class="step-progress-start"></span
+                        ><span class="step-progress-end"></span><span class="step-number">3</span>
+                      </div>
+                      <div class="step-label">Set password</div>
+                    </div>
+                  </div>
                 </div>
 
-
                 <div>
-                    <form method="post" class="needs-validation" action="{% url 'authentication:signup' %}" id="signup-form">
-                        {% csrf_token %}
-                        <div id="step-1" class="register-form-section">
-                            <div class="mb-4">
-                                <label class="form-label mb-2">First Name</label>
-                                <input class="form-control" type="text" name="first_name" id="first_name"  value="{{ personal_info.data.first_name }}" placeholder="Enter first name" required>
-                            </div>
-                            <div class="mb-4">
-                                <label class="form-label mb-2">Last Name</label>
-                                <input class="form-control" type="text" name="last_name"  id="last_name" value="{{ personal_info.data.last_name }}" placeholder="Enter last name" required>
-                            </div>
-                            <div class="mb-4">
-                                <label class="form-label mb-2">Email address</label>
-                                <input class="form-control" type="email" name="email"  id="email" value="{{ personal_info.data.email }}" placeholder="Enter your email" required>
-                            </div>
+                  <form
+                    method="post"
+                    class="needs-validation"
+                    action="{% url 'authentication:signup' %}"
+                    id="signup-form"
+                  >
+                    {% csrf_token %}
+                    <input type="hidden" name="refer_id" value="{{request.GET.refer_id}}" />
+                    <div id="step-1" class="register-form-section">
+                      <div class="mb-4">
+                        <label class="form-label mb-2">First Name</label>
+                        <input
+                          class="form-control"
+                          type="text"
+                          name="first_name"
+                          id="first_name"
+                          value="{{ personal_info.data.first_name }}"
+                          placeholder="Enter first name"
+                          required
+                        />
+                      </div>
+                      <div class="mb-4">
+                        <label class="form-label mb-2">Last Name</label>
+                        <input
+                          class="form-control"
+                          type="text"
+                          name="last_name"
+                          id="last_name"
+                          value="{{ personal_info.data.last_name }}"
+                          placeholder="Enter last name"
+                          required
+                        />
+                      </div>
+                      <div class="mb-4">
+                        <label class="form-label mb-2">Email address</label>
+                        <input
+                          class="form-control"
+                          type="email"
+                          name="email"
+                          id="email"
+                          value="{{ personal_info.data.email }}"
+                          placeholder="Enter your email"
+                          required
+                        />
+                      </div>
+                    </div>
+
+                    <div id="step-2" class="register-form-section" style="display: none">
+                      <!-- Light tabs -->
+                      <ul
+                        class="nav nav-tabs rounded-3 p-3 nav-tabs-light bg-dark"
+                        style="width: fit-content"
+                        role="tablist"
+                      >
+                        <li class="nav-item" onclick="set_profile_tye('organization')">
+                          <a class="nav-link active" href="#" data-bs-toggle="tab" role="tab">
+                            <i class="fi-apartment me-2"></i>
+                            Organization
+                          </a>
+                        </li>
+                        <li class="nav-item" onclick="set_profile_tye('endorser')">
+                          <a class="nav-link" href="#" data-bs-toggle="tab" role="tab">
+                            <i class="fi-user-check me-2"></i>
+                            Endorser
+                          </a>
+                        </li>
+                      </ul>
+                      <input
+                        type="hidden"
+                        id="profile_type"
+                        value="organization"
+                        name="profile_type"
+                        required
+                      />
+                      <div id="organization-section" class="d-sections">
+                        <div class="mb-4">
+                          <label class="form-label mb-2">Organization name</label>
+                          <input
+                            class="form-control"
+                            type="text"
+                            id="organization_name"
+                            name="organization_name"
+                            value="{{ profile_type.data.organization_name }}"
+                            placeholder="Enter organization name"
+                          />
                         </div>
-
-                        <div id="step-2" class="register-form-section" style="display:none">
-                            <!-- Light tabs -->
-                            <ul class="nav nav-tabs rounded-3 p-3 nav-tabs-light bg-dark" style="width: fit-content;" role="tablist">
-                                <li class="nav-item" onclick="set_profile_tye('organization')">
-                                    <a class="nav-link active" href="#" data-bs-toggle="tab" role="tab">
-                                        <i class="fi-apartment me-2"></i>
-                                        Organization
-                                    </a>
-                                </li>
-                                <li class="nav-item" onclick="set_profile_tye('endorser')">
-                                <a class="nav-link" href="#" data-bs-toggle="tab" role="tab">
-                                    <i class="fi-user-check me-2"></i>
-                                    Endorser
-                                </a>
-                                </li>
-                            </ul>
-                            <input type="hidden" id="profile_type" value="organization" name="profile_type" required>
-                            <div id="organization-section" class="d-sections">
-                                <div class="mb-4">
-                                    <label class="form-label mb-2">Organization name</label>
-                                    <input class="form-control" type="text" id="organization_name" name="organization_name" value="{{ profile_type.data.organization_name }}" placeholder="Enter organization name">
-                                </div>
-                                <div class="mb-4">
-                                    <label class="form-label mb-2">Type</label>
-                                    <input class="form-control" type="text" id="organization_type" name="organization_type" value="{{ profile_type.data.organization_type }}" placeholder="Enter organization type">
-                                </div>
-                            </div>
-
-                            <div id="endorser-section" class="d-sections" style="display: none;">
-                              <div class="mb-4">
-                                <label class="form-label mb-2">Tagline</label>
-                                <input class="form-control" type="text" id="endorser_tagline" name="endorser_tagline" value="{{ profile_type.data.endorser_tagline }}" placeholder="Tagline to attract organizations">
-                              </div>
-                              <div class="mb-4">
-                                    <label class="form-label mb-2">Followers</label>
-                                    <input class="form-control" type="number" id="endorser_followers" name="endorser_followers" value="{{ profile_type.data.endorser_followers }}" placeholder="Enter social media followers">
-                                </div>
-
-                            </div>
-
-                            <p>You will complete detailed profile once you get registered</p>
-
-                           
+                        <div class="mb-4">
+                          <label class="form-label mb-2">Type</label>
+                          <input
+                            class="form-control"
+                            type="text"
+                            id="organization_type"
+                            name="organization_type"
+                            value="{{ profile_type.data.organization_type }}"
+                            placeholder="Enter organization type"
+                          />
                         </div>
+                      </div>
 
-                        <div id="step-3" class="register-form-section" style="display: none;">
-                            <div class="mb-4">
-                                <div class="d-flex align-items-center justify-content-between mb-2">
-                                    <label class="form-label mb-0">Password</label>
-                                </div>
-                                <div class="password-toggle">
-                                    <input class="form-control" type="password" value="{{ set_password.data.password1 }}" id="password1" placeholder="Enter password" name="password1" required>
-                                    <label class="password-toggle-btn" aria-label="Show/hide password">
-                                    <input class="password-toggle-check" type="checkbox"><span class="password-toggle-indicator"></span>
-                                    </label>
-                                </div>
-                            </div>
-
-                            <div class="mb-4">
-                                <div class="d-flex align-items-center justify-content-between mb-2">
-                                    <label class="form-label mb-0">Password</label>
-                                </div>
-                                <div class="password-toggle">
-                                    <input class="form-control" type="password"  value="{{ set_password.data.password2 }}"  id="password2" placeholder="Confirm password" name="password2" required>
-                                    <label class="password-toggle-btn" aria-label="Show/hide password">
-                                    <input class="password-toggle-check" type="checkbox"><span class="password-toggle-indicator"></span>
-                                    </label>
-                                </div>
-                            </div>
-                          
+                      <div id="endorser-section" class="d-sections" style="display: none">
+                        <div class="mb-4">
+                          <label class="form-label mb-2">Tagline</label>
+                          <input
+                            class="form-control"
+                            type="text"
+                            id="endorser_tagline"
+                            name="endorser_tagline"
+                            value="{{ profile_type.data.endorser_tagline }}"
+                            placeholder="Tagline to attract organizations"
+                          />
                         </div>
-
-                        {% include 'inc/msg.inc.html' %}
-
-                        <div class="alert alert-primary d-flex d-none" role="alert" id="next-step-error">
-                            <i class="fi-bell me-2 me-sm-3 lead"></i>
-                            <div>Enter valid details to continue</div>
+                        <div class="mb-4">
+                          <label class="form-label mb-2">Followers</label>
+                          <input
+                            class="form-control"
+                            type="number"
+                            id="endorser_followers"
+                            name="endorser_followers"
+                            value="{{ profile_type.data.endorser_followers }}"
+                            placeholder="Enter social media followers"
+                          />
                         </div>
+                      </div>
 
+                      <p>You will complete detailed profile once you get registered</p>
+                    </div>
 
-                        <div>
-                            <button onclick="next_step()" class="btn btn-primary btn-lg rounded-pill ms-sm-auto" type="button">
-                                <span id="next-step-button">Next step</span>
-                                <i class="fi-chevron-right fs-sm ms-2"></i>
-                            </button>
+                    <div id="step-3" class="register-form-section" style="display: none">
+                      <div class="mb-4">
+                        <div class="d-flex align-items-center justify-content-between mb-2">
+                          <label class="form-label mb-0">Password</label>
                         </div>
-        
-                        <!-- <button class="btn btn-primary btn-lg w-100" type="submit">Sign in</button> -->
-                      </form>
-                  </div>
+                        <div class="password-toggle">
+                          <input
+                            class="form-control"
+                            type="password"
+                            value="{{ set_password.data.password1 }}"
+                            id="password1"
+                            placeholder="Enter password"
+                            name="password1"
+                            required
+                          />
+                          <label class="password-toggle-btn" aria-label="Show/hide password">
+                            <input class="password-toggle-check" type="checkbox" /><span
+                              class="password-toggle-indicator"
+                            ></span>
+                          </label>
+                        </div>
+                      </div>
 
+                      <div class="mb-4">
+                        <div class="d-flex align-items-center justify-content-between mb-2">
+                          <label class="form-label mb-0">Password</label>
+                        </div>
+                        <div class="password-toggle">
+                          <input
+                            class="form-control"
+                            type="password"
+                            value="{{ set_password.data.password2 }}"
+                            id="password2"
+                            placeholder="Confirm password"
+                            name="password2"
+                            required
+                          />
+                          <label class="password-toggle-btn" aria-label="Show/hide password">
+                            <input class="password-toggle-check" type="checkbox" /><span
+                              class="password-toggle-indicator"
+                            ></span>
+                          </label>
+                        </div>
+                      </div>
+                    </div>
 
+                    {% include 'inc/msg.inc.html' %}
+
+                    <div
+                      class="alert alert-primary d-flex d-none"
+                      role="alert"
+                      id="next-step-error"
+                    >
+                      <i class="fi-bell me-2 me-sm-3 lead"></i>
+                      <div>Enter valid details to continue</div>
+                    </div>
+
+                    <div>
+                      <button
+                        onclick="next_step()"
+                        class="btn btn-primary btn-lg rounded-pill ms-sm-auto"
+                        type="button"
+                      >
+                        <span id="next-step-button">Next step</span>
+                        <i class="fi-chevron-right fs-sm ms-2"></i>
+                      </button>
+                    </div>
+
+                    <!-- <button class="btn btn-primary btn-lg w-100" type="submit">Sign in</button> -->
+                  </form>
+                </div>
               </div>
 
               <div class="row justify-content-center pb-sm-2">
                 <div class="col-lg-11 col-xl-10">
                   <!-- Steps-->
-        
                 </div>
               </div>
-
-
-            
             </div>
           </div>
         </div>
       </div>
     </main>
-    <!-- Back to top button--><a class="btn-scroll-top" href="#top" data-scroll><span class="btn-scroll-top-tooltip text-muted fs-sm me-2">Top</span><i class="btn-scroll-top-icon fi-chevron-up">   </i></a>
+    <!-- Back to top button--><a class="btn-scroll-top" href="#top" data-scroll
+      ><span class="btn-scroll-top-tooltip text-muted fs-sm me-2">Top</span
+      ><i class="btn-scroll-top-icon fi-chevron-up"> </i
+    ></a>
     <!-- {% static 'vendor scrits: js libraries and plugins-->
     <script src="{% static 'vendor/bootstrap/dist/js/bootstrap.bundle.min.js' %}"></script>
     <script src="{% static 'vendor/simplebar/dist/simplebar.min.js' %}"></script>
@@ -287,108 +411,98 @@
     <script src="{% static 'js/theme.min.js' %}"></script>
 
     <script>
-        let states = {
-            1: false,
-            2: false,
-            3: false
-        }
-        let current_step = 1;
-        function show_section(id, is_through_click = false){
-            console.log(states);
-            if (!is_through_click || (states[parseInt(id)] || states[parseInt(id) + 1])) {
-                current_step = parseInt(id);
-                $(".register-form-section").hide();
-                $(`#step-${id}`).show(); 
-                $(".step").removeClass("active");
-                for (let i = current_step; i >= 1; i--) {
-                    $(`#step-${i}-icon`).addClass("active");
-                }
+      let states = {
+        1: false,
+        2: false,
+        3: false,
+      }
+      let current_step = 1
+      function show_section(id, is_through_click = false) {
+        console.log(states)
+        if (!is_through_click || states[parseInt(id)] || states[parseInt(id) + 1]) {
+          current_step = parseInt(id)
+          $(".register-form-section").hide()
+          $(`#step-${id}`).show()
+          $(".step").removeClass("active")
+          for (let i = current_step; i >= 1; i--) {
+            $(`#step-${i}-icon`).addClass("active")
+          }
 
-                if (current_step == 3) {
-                    $("#next-step-button").text("Submit to register");
-                }else{
-                    $("#next-step-button").text("Next step");
-                }
-            }
-
-    
-
-            // Change text of next step button
-            // }
+          if (current_step == 3) {
+            $("#next-step-button").text("Submit to register")
+          } else {
+            $("#next-step-button").text("Next step")
+          }
         }
 
-        function set_profile_tye(type) {
-            $("#profile_type").val(type);
-            $(".d-sections").hide();
-            $(`#${type}-section`).show();
+        // Change text of next step button
+        // }
+      }
+
+      function set_profile_tye(type) {
+        $("#profile_type").val(type)
+        $(".d-sections").hide()
+        $(`#${type}-section`).show()
+      }
+
+      function next_step() {
+        if (current_step == 1) {
+          let first_name = $("#first_name").val()
+          let last_name = $("#last_name").val()
+          let email = $("#email").val()
+          if (first_name && last_name && email) {
+            states[1] = true
+            $("#next-step-error").addClass("d-none")
+            current_step += 1
+            show_section(current_step)
+          } else {
+            $("#next-step-error").removeClass("d-none")
+          }
+          return
         }
 
-        function next_step(){
-            if (current_step == 1) {
-                let first_name = $("#first_name").val();
-                let last_name = $("#last_name").val();
-                let email = $("#email").val();
-                if (first_name && last_name && email) {
-                    states[1] = true;
-                    $("#next-step-error").addClass("d-none");
-                    current_step += 1;
-                    show_section(current_step);
-                }else{
-                    $("#next-step-error").removeClass("d-none");
-                }
-                return;
+        if (current_step == 2) {
+          let profile_type = $("#profile_type").val()
+          if (profile_type == "organization") {
+            let org_name = $("#organization_name").val()
+            let org_type = $("#organization_type").val()
+            if (org_name && org_type) {
+              states[2] = true
+              $("#next-step-error").addClass("d-none")
+              current_step += 1
+              show_section(current_step)
+            } else {
+              $("#next-step-error").removeClass("d-none")
             }
+            return
+          }
 
-            if (current_step == 2) {
-                let profile_type = $("#profile_type").val();
-                if (profile_type == "organization") {
-                    let org_name = $("#organization_name").val();
-                    let org_type = $("#organization_type").val();
-                    if (org_name && org_type) {
-                        states[2] = true;
-                        $("#next-step-error").addClass("d-none");
-                        current_step += 1;
-                        show_section(current_step);
-                    }else{
-                        $("#next-step-error").removeClass("d-none");
-                    }
-                    return;
-                }
-
-                if (profile_type == "endorser") {
-                    console.log("abc");
-                    let endorser_tagline = $("#endorser_tagline").val();
-                    let endorser_followers = $("#endorser_followers").val();
-                    if (endorser_tagline && endorser_followers) {
-                        states[2] = true;
-                        $("#next-step-error").addClass("d-none");
-                        current_step += 1;
-                        show_section(current_step);
-                    }else{
-                        $("#next-step-error").removeClass("d-none");
-                    }
-                    return;
-                }
-            
+          if (profile_type == "endorser") {
+            console.log("abc")
+            let endorser_tagline = $("#endorser_tagline").val()
+            let endorser_followers = $("#endorser_followers").val()
+            if (endorser_tagline && endorser_followers) {
+              states[2] = true
+              $("#next-step-error").addClass("d-none")
+              current_step += 1
+              show_section(current_step)
+            } else {
+              $("#next-step-error").removeClass("d-none")
             }
-
-
-            if (current_step == 3) {
-                let password1 = $("#password1").val();
-                let password2 = $("#password2").val();
-                if (password1 && password2 && password1 == password2) {
-                    document.getElementById("signup-form").submit();
-                }else{
-                    $("#next-step-error").removeClass("d-none");
-                }
-            }
-
-            
+            return
+          }
         }
+
+        if (current_step == 3) {
+          let password1 = $("#password1").val()
+          let password2 = $("#password2").val()
+          if (password1 && password2 && password1 == password2) {
+            document.getElementById("signup-form").submit()
+          } else {
+            $("#next-step-error").removeClass("d-none")
+          }
+        }
+      }
     </script>
-
-</body>
-
+  </body>
 </html>
-
-

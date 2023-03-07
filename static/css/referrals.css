@@ -1,0 +1,48 @@
+.referrals__card,
+.total_points__card,
+.invite_link__card {
+  width: 10rem !important;
+  border: 1px solid rgba(202, 202, 202, 0.8) !important;
+  border-radius: 8px;
+  box-sizing: border-box !important;
+}
+
+.cards__container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.total_referrals_heading,
+.total_points_heading,
+.invite_link_heading {
+  margin-bottom: 0.5rem !important;
+}
+
+.invite_link_btn {
+  border: 1px solid #fd5631;
+  width: 6rem;
+  padding: 0.1rem 0.5rem;
+  font-size: 0.9rem;
+  margin: 0 0 1.2rem 0;
+  border-radius: 5px;
+  color: white;
+  text-align: center;
+  cursor: pointer;
+}
+
+@media screen and (min-width: 768px) {
+  .referrals__card,
+  .total_points__card,
+  .invite_link__card {
+    margin-right: 15px;
+    width: 15rem !important;
+  }
+  .cards__container {
+    display: flex;
+    flex-direction: row;
+    justify-content: start;
+    align-items: center;
+  }
+}
