@@ -69,19 +69,34 @@
     Menu
   </a>
 
-  <div class="collapse d-md-block mt-3" id="account-nav">
-    <div class="card-nav">
-      <a
-        class="rounded-3 card-nav-link text-dark px-3 bg-faded-primary {% if section == 'organization' %}active{% endif %}"
-        href="#org-options"
-        data-bs-toggle="collapse"
-        role="button"
-        aria-expanded="false"
-        aria-controls="collapseExample"
-      >
-        <!-- <i class="fi-apartment opacity-60 me-2"></i> -->
-        Personal info & security
-      </a>
+        <a class="rounded-3 card-nav-link text-dark px-3 bg-faded-primary {% if section == 'organization' %}active{% endif %}" href="#org-options" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="collapseExample">
+            <!-- <i class="fi-apartment opacity-60 me-2"></i> -->
+            Personal info & security
+        </a>
+    
+        <a class='card-nav-link {% if section == "personal" %}active{% endif %}' href="{% url 'org:profile' 'personal' %}">
+            <i class="fi-user opacity-60 me-2"></i>
+            Personal Info
+        </a>
+        
+        <a class="card-nav-link {% if section == 'security' %}active{% endif %}" href="{% url 'org:profile' 'security' %}">
+            <i class="fi-lock opacity-60 me-2"></i>
+            Password &amp; Security
+        </a>
+
+        <a class="card-nav-link {% if section == 'security' %}active{% endif %}" href="{% url 'org:profile' 'security' %}">
+            <i class="fi-users opacity-60 me-2"></i>
+            Referrals
+        </a>
+
+            
+        
+        {% if not user.is_endorser %}
+            <a class="card-nav-link  {% if section == 'become-endorser' %}active{% endif %}" href="{% url 'org:profile' 'become-endorser' %}">
+                <i class="fi-user-plus opacity-60 me-2"></i>
+                Become endorser
+            </a>
+        {% endif %}
 
       <a
         class="card-nav-link {% if section == personal %}active{% endif %}"

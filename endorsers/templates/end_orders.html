@@ -29,12 +29,12 @@
             </nav>
 
             <div>
-                <h2 class="dark-color">Manage Orders</h2>
+                <h2 class="dark-color">Manage received Orders</h2>
             </div>
 
             <!-- Nav tabs -->
-            <ul class="nav nav-tabs mt-5" role="tablist">
-                <li class="nav-item ">
+            <ul class="nav nav-tabs" role="tablist">
+                <!-- <li class="nav-item ">
                     
 
                     <a href="#home1" class="nav-link active" data-bs-toggle="tab" role="tab">
@@ -53,7 +53,7 @@
                         Cancelled
                         <span class="badge rounded-pill m-0 mx-1 bg-danger">2</span>
                     </a>
-                </li>
+                </li> -->
             </ul>
         </div>
         </div>
@@ -100,18 +100,24 @@
                                         <img src="{{ order.organization.logo.url }}" width="50" class="rounded-1" alt="">
                                         <div class="mx-3">
                                             <h6 class="m-0 p-0">{{ order.organization.name }}</h6>
-                                            <!-- <p class="mb-0 d-flex align-items-center">
+                                            <p class="mb-0 d-flex align-items-center">
                                                 <i class="fi-star-filled text-warning" style="margin-right: 8px;"></i>
-                                                <span class="text-warning">{{ order.service_provider.getEndorserReviews.average }}</span>
+                                                <span class="text-warning">
+                                                    {{ order.organization.created_by.getOrgReviews.average }}
+                                                </span>
                                                 
-                                            </p> -->
+                                            </p>
                                         </div>
                                     </td>
                                     <td class="pt-3">{{ order.created_at.date }}</td>
                                     <td>Dec 20, 2022</td>
                                     <th>$ {{ order.price }}</th>
                                     <td>
-                                        <span class="badge bg-success">{{ order.status }}</span>
+                                        {% if order.status == 'ACTIVE' %}
+                                            <span class="badge bg-primary">{{ order.status }}</span>
+                                        {% else %}
+                                            <span class="badge bg-success">{{ order.status }}</span>
+                                        {% endif %}
                                     </td>
                                     <td>
                                         <div class="mk-pointer">

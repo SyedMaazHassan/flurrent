@@ -52,10 +52,9 @@
           <button type="button" class="btn btn-primary btn-sm">Search</button>
         </form> -->
         <ul class="navbar-nav navbar-nav-scroll" style="max-height: 35rem;">
-          <!-- Menu items-->
+
           <li class="nav-item">
             <a class="nav-link" href="{% url 'core:home' %}" role="button">Home</a>
-
           </li>
 
           <li class="nav-item">
@@ -63,11 +62,11 @@
           </li>
 
           <li class="nav-item">
-            <a class="nav-link" href="{% url 'org:profile' 'earnings' %}" role="button">Earnings</a>
+            <a class="nav-link" href="{% url 'core:earnings' %}" role="button">Earnings</a>
           </li>
 
           <li class="nav-item">
-            <a class="nav-link" href="{% url 'org:profile' 'inbox' %}" role="button">Inbox</a>
+            <a class="nav-link" href="{% url 'core:inbox' %}" role="button">Inbox</a>
           </li>
 
           <!-- <li class="nav-item dropdown"><a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Catalog</a>
