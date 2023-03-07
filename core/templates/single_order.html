@@ -81,7 +81,12 @@
             </nav>
 
             <div>
-                <span class="badge badge-pill badge-primary bg-success">{{ order.status }}</span>
+                {% if order.status == 'ACTIVE' %}
+                    <span class="badge badge-pill bg-primary badge-primary">{{ order.status }}</span>
+                {% else %}
+                    <span class="badge badge-pill bg-success badge-success">{{ order.status }}</span>
+                {% endif %}
+                
                 <h2 class="dark-color">
                     Order ID # {{ order.id }}
                     <!-- <span class="badge badge-pill badge-success bg-success rounded-3">{{ order.status }}</span> -->
@@ -429,8 +434,13 @@
                                             <p class="w-50 p-0 m-0">Order number</p>
                                             <b class="w-50 p-0 m-0 text-end">#{{ order.id }}</b>
                                         </div>
+
                                     </div>
+
+
                                 </div>
+
+
                             </div>
                         </div>
 

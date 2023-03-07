@@ -63,15 +63,22 @@
                 Personal info & security
             </a>
         
-            <a class='card-nav-link {% if section == "personal" %}active{% endif %}' href="{% url 'org:profile' 'personal' %}">
-                <i class="fi-user opacity-60 me-2"></i>
-                Personal Info
-            </a>
-            
-            <a class="card-nav-link {% if section == 'security' %}active{% endif %}" href="{% url 'org:profile' 'security' %}">
-                <i class="fi-lock opacity-60 me-2"></i>
-                Password &amp; Security
-            </a>
+                <a class='card-nav-link {% if section == "personal" %}active{% endif %}' href="{% url 'org:profile' 'personal' %}">
+                    <i class="fi-user opacity-60 me-2"></i>
+                    Personal Info
+                </a>
+                
+                <a class="card-nav-link {% if section == 'security' %}active{% endif %}" href="{% url 'org:profile' 'security' %}">
+                    <i class="fi-lock opacity-60 me-2"></i>
+                    Password &amp; Security
+                </a>
+
+                <a class="card-nav-link {% if section == 'security' %}active{% endif %}" href="{% url 'org:profile' 'security' %}">
+                    <i class="fi-users opacity-60 me-2"></i>
+                    Referrals
+                </a>
+
+                
             
             {% if not user.is_endorser %}
                 <a class="card-nav-link  {% if section == 'become-endorser' %}active{% endif %}" href="{% url 'org:profile' 'become-endorser' %}">

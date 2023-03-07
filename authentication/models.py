@@ -64,7 +64,7 @@ class User(AbstractUser):
     is_organization = models.OneToOneField("organizations.Organization", on_delete=models.SET_NULL, null=True, blank=True, related_name="organization_object")
     is_endorser     = models.OneToOneField("endorsers.Endorser", on_delete=models.SET_NULL, null=True, blank=True, related_name="endorser_object")
     mode            = models.CharField(max_length=15, choices=[("endorser", "Endorser"), ("organization", "Organization")], default="organization")
-
+    
 
     objects = UserManager() ## This is the new line in the User model. ##
 

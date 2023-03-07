@@ -23,6 +23,7 @@ def home_view(request):
 @login_required
 def manage_orders_view(request):
     endorser = request.user.is_endorser
+    print(endorser)
     orders = endorser.getOrders()
     context = {
         'orders': orders

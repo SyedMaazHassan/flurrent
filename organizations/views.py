@@ -114,7 +114,9 @@ def mark_as_complete(request, order_id):
 @login_required
 def manage_orders_view(request):
     organization = request.user.is_organization
+    print(organization)
     orders = organization.getOrders()
+    print(orders)
     context = {
         'orders': orders
     }

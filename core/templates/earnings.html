@@ -1,0 +1,209 @@
+{% extends 'inc/base.html' %}
+{% load static %}
+
+{% block title %}
+  Flurrent | Earnings
+{% endblock title %}
+
+{% block content %}
+
+<div class="container mt-5 pt-5 p-0">
+
+    <section class="position-relative bg-white rounded-xxl-4 zindex-5" style="margin-top: -30px;">
+        <div class="container pt-4 pb-5 mb-md-4">
+          <!-- Breadcrumb-->
+          <nav class="pb-4 my-2" aria-label="Breadcrumb">
+            <ol class="breadcrumb m-0">
+              <!-- <li class="breadcrumb-item"><a href="job-board-home-v1.html">Home</a></li>
+              <li class="breadcrumb-item"><a href="job-board-catalog.html">Find jobs</a></li>
+              <li class="breadcrumb-item active" aria-current="page">Partnership Manager</li> -->
+            </ol>
+          </nav>
+          <div class="container">
+            <div class="row" style="margin-bottom: 150px;">
+                <div class="col-md-4 ">
+                    <div class="d-flex align-items-center">
+                        <div class="w-50 d-flex align-items-center">
+                            <h3 class="m-0 p-0">Inbox</h3>
+                        </div>
+                        <div class="w-50 d-flex align-items-center justify-content-end">
+                            <i class="fi-plus fs-5 border p-1 rounded-2 px-2"></i>
+                        </div>
+                    </div>
+
+                    <ul class="nav my-4  nav-pills mb-3 bg-secondary p-2 rounded-3">
+                        <div class="d-flex w-100">
+                            <li class="nav-item w-50">
+                                <a href="#"
+                                    class="nav-link rounded-3 active d-flex justify-content-center align-items-center"
+                                    id="pills-home1" data-bs-toggle="pill" role="tab" aria-controls="home1"
+                                    aria-selected="true">
+                                    <i class="fi-chat-circle me-2"></i>
+                                    read
+                                </a>
+                            </li>
+                            <li class="nav-item w-50">
+                                <a href="#" class="nav-link rounded-3 d-flex justify-content-center align-items-center"
+                                    id="pills-profile1" data-bs-toggle="pill" role="tab" aria-controls="profile1"
+                                    aria-selected="false">
+                                    <i class="fi-eye-off me-2"></i>
+                                    Unread
+                                </a>
+                            </li>
+                        </div>
+                    </ul>
+
+                    <!-- all _cards -->
+                    <div class="card my-3 bg-secondary card-hover card-horizontal p-3 align-items-center">
+                        <img src="{% static 'img/avatars/02.jpg' %}" width="80" class="rounded-3" alt="">
+                        <div class="mx-3">
+                            <h5 class="p-0 m-0">Syed Maaz Hassan</h5>
+                            <p class="p-0 m-0 my-1 fs-sm">Project Manager </p>
+                            <p class="p-0 m-0 text-dark">Send You the file</p>
+                        </div>
+                        <div class="mx-2" style="position: absolute; right: 0;">
+                            <span class="badge rounded-pill bg-info">1+</span>
+                        </div>
+                    </div>
+
+                    <div class="card my-3 bg-secondary card-hover card-horizontal p-3 align-items-center">
+                        <img src="{% static 'img/avatars/03.jpg' %}" width="80" class="rounded-3" alt="">
+                        <div class="mx-3">
+                            <h5 class="p-0 m-0">Syed Maaz Hassan</h5>
+                            <p class="p-0 m-0 my-1 fs-sm">Project Manager </p>
+                            <p class="p-0 m-0 text-dark">Hi🙃 I checked the lay.. </p>
+                        </div>
+                        <div class="mx-2" style="position: absolute; right: 0;">
+                            <span class="badge rounded-pill bg-warning">3+</span>
+                        </div>
+                    </div>
+
+                    <div class="card border-0 my-3 border-bottom rounded-0 card-horizontal p-3 align-items-center">
+                        <img src="{% static 'img/avatars/05.jpg' %}" width="80" class="rounded-3" alt="">
+                        <div class="mx-3">
+                            <h5 class="p-0 m-0">Syed Maaz Hassan</h5>
+                            <p class="p-0 m-0 my-1 fs-sm">Project Manager </p>
+                            <p class="p-0 m-0 text-dark">Hi🙃 I checked the lay.. </p>
+                        </div>
+                    </div>
+
+                    <div
+                        class="card my-3 border-0 border-bottom rounded-0 card-hover card-horizontal p-3 align-items-center">
+                        <img src="{% static 'img/avatars/04.jpg' %}" width="80" class="rounded-3" alt="">
+                        <div class="mx-3">
+                            <h5 class="p-0 m-0">Syed Maaz Hassan</h5>
+                            <p class="p-0 m-0 my-1 fs-sm">Project Manager </p>
+                            <p class="p-0 m-0 text-dark">Hi🙃 I checked the lay.. </p>
+                        </div>
+                    </div>
+
+
+
+                </div>
+
+                <!-- all chats -->
+                <div class="col-md-8 px-0 rounded-0 rounded-bottom border-end border-start ">
+                    <!-- header -->
+                    <div class="px-4 py-4 border-bottom d-flex align-items-center">
+                        <div class="d-flex align-items-center w-50">
+                            <img src="{% static 'img/avatars/03.jpg' %}" width="50" class="rounded-circle" alt="">
+                            <div class="ps-2">
+                                <h6 class="fs-base mb-0">Daniel Adams</h6>
+                                <span class="text-muted fs-sm">Online</span>
+                            </div>
+                        </div>
+
+                        <!-- header / search bar -->
+                        <div class="w-50 d-flex align-items-center justify-content-end">
+                            <!-- Small form group -->
+                            <form class="form-group py-0 bg-secondary" style="box-shadow:  0 0 0 0;">
+                                <div class="input-group  input-group-sm">
+                                    <input type="text" class="form-control" placeholder="Search query...">
+                                    <span class="input-group-text text-muted">
+                                        <i class="fi-search"></i>
+                                    </span>
+                                </div>
+                            </form>
+                            <a href="#" class="mx-2 btn btn-icon btn-translucent-primary btn-xs rounded-circle">
+                                <i class="fi-microphone"></i>
+                            </a>
+                            <a href="#" class=" btn btn-icon btn-translucent-primary btn-xs rounded-circle">
+                                <i class="fi-map-pin"></i>
+                            </a>
+                        </div>
+
+                    </div>
+                    <!-- middle chats -->
+                    <div class="px-3" style="height: 60vh; overflow-y: auto;">
+                        <footer class="text-center py-3 blockquote-footer">
+                            July 26, Tuesday
+                        </footer>
+
+                        <div id="all_chats">
+                            <div class="mx-3 d-flex">
+                                <div>
+                                    <p class="bg-secondary p-0 m-0 msg p-2 rounded-3">Hey Basit</p>
+                                    <div class="my-2 mx-1" style="font-size: 10px;">02:00 pm</div>
+                                </div>  
+                            </div>
+                            <div class="d-flex justify-content-end">
+                                <div>
+                                    <p class="bg-white border mx-3 p-0 m-0 p-2 rounded-3">Hey Baist</p>
+                                    <div class="my-2 mx-1 text-center" style="font-size: 10px;">02:00 pm</div>
+                                </div>
+                            </div>
+
+                            
+                        </div>
+
+                    </div>
+
+                    <!-- send msg input -->
+                    <form
+                        class="form-group rounded-0 rounded-bottom border-0 border-top border-bottom bg-secondary py-3"
+                        style="box-shadow: 0 0 0 0;">
+                        <div class="input-group">
+                            <span class="input-group-text text-muted">
+                                <i class="fi-microphone"></i>
+                            </span>
+                            <input type="text" id="msg_value" class="form-control" placeholder="Send Meesage...">
+                        </div>
+
+                        <i onclick="sendMsg()"
+                            class="p-4 fs-5 fi-search mx-1 btn btn-icon btn-translucent-primary btn-xs rounded-circle"></i>
+                        <i
+                            class="p-4 fs-5 fi-image  mx-1 btn btn-icon btn-translucent-primary btn-xs rounded-circle"></i>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+        </div>
+    </section>
+
+ 
+</div>
+
+<button class="btn btn-primary btn-sm w-100 rounded-0 fixed-bottom d-lg-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#filters-sidebar"><i class="fi-filter me-2"></i>Filters</button>
+
+
+<script>
+    function sendMsg() {
+        let msg_value = document.getElementById('msg_value').value;
+        if (msg_value) {    
+            let html = `<div class="d-flex justify-content-end my-4">
+                            <div>
+                                <p class="bg-white border mx-3 p-2 rounded-3">${msg_value}</p>
+                                <div class="my-2 mx-1 text-center" style="font-size: 10px;">02:00 pm</div>
+                            </div>
+                        </div>`;
+            document.getElementById('all_chats').innerHTML += html;
+            document.getElementById('msg_value').value = null
+        }else{
+            return;
+        }
+    }
+</script>
+
+
+{% endblock content %}

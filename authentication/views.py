@@ -159,6 +159,8 @@ def signup_view(request):
                         )
                         # endorser created
 
+                    
+
                     messages.success(request, "Profile has been created successfully!")
                     return redirect("authentication:login")
             

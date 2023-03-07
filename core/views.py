@@ -230,6 +230,16 @@ def switch_mode(request, mode):
     return redirect("core:home")
 
 
+@login_required
+def earnings_view(request):
+    return render(request, "transactions.html")
+
+
+@login_required
+def inbox_view(request):
+    return render(request, "inbox.html")
+
+
 class UserProfileView(View):
     def get(self, request, section):
         # get the user's profile information
