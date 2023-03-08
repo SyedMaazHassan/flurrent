@@ -12,6 +12,11 @@ from django.db.models import Sum
 # python manage.py runserver
 
 
+class Escrow(models.Model):
+    order = models.ForeignKey('endorsers.Order', on_delete=models.CASCADE)
+    created_at = models.DateTimeField(default=timezone.now)
+    
+
 class Account(models.Model):
     account_id = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
     title = models.CharField(max_length=255, null=True, blank = True)

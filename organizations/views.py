@@ -155,6 +155,13 @@ class ApplicationApproval(View):
         order = application.approve(approved_by=request.user)
         # placing order
         print(order)
+
+        # Transferring money start
+        
+
+
+        # Transferring money end
+
         # redirecting user to the order page
         messages.success(request, "Order has been confirmed successfully!")
         return redirect("org:orders")
