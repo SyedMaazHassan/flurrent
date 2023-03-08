@@ -1,5 +1,7 @@
 # myapp/views.py
 from django.shortcuts import render, redirect
+from django.urls import reverse
+from django.http import HttpResponseRedirect
 from django.contrib.auth import authenticate, login, logout
 from .models import User, Refer
 from organizations.models import Organization
@@ -112,6 +114,7 @@ def validatePassword(request):
 def signup_view(request):
     context = {"error": False}
     if request.method == "POST":
+        refer_id = request.POST.get("refer_id")
         # for personal information
         personal_info = validatePersonalInfo(request)
         profile_type = validateProfileType(request)
@@ -152,7 +155,6 @@ def signup_view(request):
                             followers=profile_type["data"]["endorser_followers"],
                         )
                         # endorser created
-                    refer_id = request.POST.get("refer_id")
                     if refer_id:
                         invited_by = User.objects.filter(refer_id=refer_id).first()
                         if invited_by:
@@ -179,6 +181,8 @@ def signup_view(request):
                 error_msg += "»" + set_password["message"] + "\n"
 
             messages.error(request, error_msg)
+            if refer_id:
+                return redirect(f"{reverse('authentication:signup')}?refer_id={refer_id}")
 
         context = {
             "error": True,
