@@ -77,6 +77,11 @@ class User(AbstractUser):
     mode            = models.CharField(max_length=15, choices=[("endorser", "Endorser"), ("organization", "Organization")], default="organization")
     refer_id        = models.CharField(null=True, blank=True, max_length=8)
 
+    def getAccount(self):
+        from wallet.models import Account
+        account = Account.objects.filter(user = self).first()
+        return account
+
     def generate_unique_number(self):
         alphanumeric_chars = string.ascii_uppercase + string.digits 
         return ''.join(random.choice(alphanumeric_chars) for _ in range(10))

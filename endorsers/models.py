@@ -91,6 +91,7 @@ class Order(CreatedCommon):
         self.price = application.price
         self.days = application.days
         self.service_provider = self.application.created_by
+        self.organization = self.application.project.organization
         self.created_by = created_by
     
     def getDeliveryDate(self):
