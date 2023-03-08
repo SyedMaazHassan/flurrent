@@ -23,7 +23,8 @@ urlpatterns = [
     path('', include('core.urls')),
     path('authentication/', include('authentication.urls')),
     path('', include('organizations.urls')),
-    path('', include('endorsers.urls'))
+    path('', include('endorsers.urls')),
+    path('', include('wallet.urls'))
 ]
 
 if settings.DEBUG:

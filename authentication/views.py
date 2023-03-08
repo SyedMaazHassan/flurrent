@@ -153,14 +153,13 @@ def signup_view(request):
                         )
                         # endorser created
                     refer_id = request.POST.get("refer_id")
-                    invited_by = User.objects.filter(refer_id=refer_id)
-                    if invited_by.count():
-                        new_refer = Refer(
-                            user_joined=new_user, invited_by=invited_by[0]
-                        )
-                        new_refer.save()
-
-                    
+                    if refer_id:
+                        invited_by = User.objects.filter(refer_id=refer_id).first()
+                        if invited_by:
+                            new_refer = Refer(
+                                user_joined=new_user, invited_by=invited_by
+                            )
+                            new_refer.save()
 
                     messages.success(request, "Profile has been created successfully!")
                     return redirect("authentication:login")

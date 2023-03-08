@@ -33,6 +33,7 @@ ALLOWED_HOSTS = ['*']
 INSTALLED_APPS = [
     'jazzmin',
     'core',
+    'wallet',
     'endorsers',
     'organizations',
     'authentication',

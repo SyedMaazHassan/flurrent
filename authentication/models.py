@@ -5,7 +5,7 @@ from django.db import transaction
 from phonenumber_field.modelfields import PhoneNumberField
 from django.utils import timezone
 from django.db.models import Avg
-import random
+import random, string
 import uuid
 
 # from endorsers.models import Endorser
@@ -75,18 +75,11 @@ class User(AbstractUser):
     is_organization = models.OneToOneField("organizations.Organization", on_delete=models.SET_NULL, null=True, blank=True, related_name="organization_object")
     is_endorser     = models.OneToOneField("endorsers.Endorser", on_delete=models.SET_NULL, null=True, blank=True, related_name="endorser_object")
     mode            = models.CharField(max_length=15, choices=[("endorser", "Endorser"), ("organization", "Organization")], default="organization")
-    
+    refer_id        = models.CharField(null=True, blank=True, max_length=8)
 
     def generate_unique_number(self):
-        used_ids = set()
-        while True:
-            random_number = random.randint(0, 99999999)
-            unique_number = str(random_number).zfill(8)
-            uuid_string = str(uuid.uuid5(uuid.NAMESPACE_DNS, unique_number))
-            unique_id = uuid_string[:8]
-            if unique_id not in used_ids:
-                used_ids.add(unique_id)
-                return unique_id
+        alphanumeric_chars = string.ascii_uppercase + string.digits 
+        return ''.join(random.choice(alphanumeric_chars) for _ in range(10))
 
     def getFullName(self):
         return f"{self.first_name} {self.last_name}"
@@ -199,7 +192,7 @@ class User(AbstractUser):
             print("Organization created")
 
     def getRefers(self):
-        return Refer.objects.filter(invited_by=self.pk)
+        return Refer.objects.filter(invited_by=self)
 
     def getInviteLink(self):
         base_url = "http://127.0.0.1:8000"
@@ -209,6 +202,9 @@ class User(AbstractUser):
         if not self.pk:
             self.refer_id = self.generate_unique_number()
         super().save(*args, **kwargs)
+
+
+
 
 
 # Create your models here.

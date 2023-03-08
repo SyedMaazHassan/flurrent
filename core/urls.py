@@ -10,8 +10,7 @@ urlpatterns = [
     path('landing', landing_view, name="landing"),
     path('switch/<str:mode>', switch_mode, name="switch"),
     path('profile', profile_view, name="profile"),
-    path('inbox', inbox_view, name="inbox"),
-    path('earnings', earnings_view, name="earnings")  
+    path('inbox', inbox_view, name="inbox")
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

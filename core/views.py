@@ -230,9 +230,6 @@ def switch_mode(request, mode):
     return redirect("core:home")
 
 
-@login_required
-def earnings_view(request):
-    return render(request, "transactions.html")
 
 
 @login_required

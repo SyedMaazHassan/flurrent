@@ -31,7 +31,7 @@
                 <h6 class="card-title" style="color: rgb(49, 49, 49);">Balance available for use. 
                   <i class="fi-alert-circle text-primary mx-1" data-bs-container="body" data-bs-toggle="popover" data-bs-placement="top" data-bs-trigger="hover" data-bs-content="This balance can be used for purchases or withdrawn using a service provider."></i>
                 </h6>
-                <h1 class=" mt-3 mb-5 pb-5">$8699</h1>
+                <h1 class=" mt-3 mb-5 pb-5">${{ wallet_summary.balance }}</h1>
                 <button type="button" class="btn btn-primary mt-5" disabled>withdrawn</button>
               </div>
             </div>
@@ -62,13 +62,13 @@
                 <h6 class="card-title " style="color: rgb(49, 49, 49);">Earnings to date
                   <i class="fi-alert-circle text-primary mx-1" data-bs-container="body" data-bs-toggle="popover" data-bs-placement="top" data-bs-trigger="hover" data-bs-content="Payments move into your Available funds balance after they clear."></i>
                 </h6>
-                <h3 class="">$800</h3>
+                <h3 class="">${{ wallet_summary.income }}</h3>
                 <p>Your earnings since joining.</p>
                 <hr class="my-4">
                 <h6 class="card-title" style="color: rgb(49, 49, 49);">Expenses to date
                   <i class="fi-alert-circle text-primary mx-1" data-bs-container="body" data-bs-toggle="popover" data-bs-placement="top" data-bs-trigger="hover" data-bs-content="Payments move into your Available funds balance after they clear."></i>
                 </h6>
-                <h3 class="">$140</h3>
+                <h3 class="">${{ wallet_summary.expenses }}</h3>
                 <p>Earnings spent on purchases since joining.</p>
               </div>
             </div>
@@ -1576,13 +1576,16 @@
   <!-- Back to top button--><a class="btn-scroll-top" href="#top" data-scroll><span
       class="btn-scroll-top-tooltip text-muted fs-sm me-2">Top</span><i class="btn-scroll-top-icon fi-chevron-up">
     </i></a>
+
   <!-- Vendor scrits: js libraries and plugins-->
-  <script src="vendor/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+  <!-- <script src="vendor/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
   <script src="vendor/simplebar/dist/simplebar.min.js"></script>
   <script src="vendor/smooth-scroll/dist/smooth-scroll.polyfills.min.js"></script>
-  <script src="vendor/tiny-slider/dist/min/tiny-slider.js"></script>
+  <script src="vendor/tiny-slider/dist/min/tiny-slider.js"></script> -->
   <!-- Main theme script-->
-  <script src="js/theme.min.js"></script>
+  <!-- <script src="js/theme.min.js"></script> -->
+
+
 </body>
 
 </html>
