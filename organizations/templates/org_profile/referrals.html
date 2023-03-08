@@ -13,19 +13,35 @@
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
       </div>
       <!-- Cards of Total Referrals, Total Points and Copy Referral Link  -->
-      <div class="row my-4 conatiner-fluid cards__container">
-        <div class="col-12 col-md-4 pt-3 ps-4 shadow referrals__card my-2">
-          <h6 class="total_referrals_heading">Total Referrals</h6>
-          <p class="total_referrals">{{referrals_count}}</p>
+      <div class="row my-4 cards__container">
+        <div class="col-sm-4">
+          <div class="card text-left">
+            <div class="card-body">
+              <h6 class="card-title">Total Referrals</h6>
+              <p class="card-text">{{ referrals_count }}</p>
+            </div>
+          </div>
         </div>
-        <div class="col-12 col-md-4 pt-3 ps-4 shadow total_points__card my-2">
-          <h6 class="total_points_heading">Total Points</h6>
-          <p class="total_points">{{total_points}}</p>
+
+        <div class="col-sm-4">
+          <div class="card text-left">
+            <div class="card-body">
+              <h6 class="card-title">Total Points</h6>
+              <p class="card-text">{{ total_points }}</p>
+            </div>
+          </div>
         </div>
-        <div class="col-12 col-md-4 pt-3 ps-4 shadow invite_link__card my-2">
-          <h6 class="invite_link_heading">Invite Link</h6>
-          <p class="invite_link_btn bg-primary" onclick="copyText('{{invite_link}}')">Copy Link</p>
+
+        <div class="col-sm-4">
+          <div class="card text-left">
+            <div class="card-body">
+              <h6 class="card-title">Invite Link</h6>
+              <p class="invite_link_btn bg-primary mb-0" onclick="copyText('{{invite_link}}')">Copy Link</p>
+            </div>
+          </div>
         </div>
+
+        
       </div>
       <!-- Referrals Table  -->
       {% if total_points > 0 %}

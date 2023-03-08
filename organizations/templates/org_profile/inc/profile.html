@@ -1,43 +1,215 @@
-{% extends 'inc/base.html' %} {% load static %} {% block title %} Flurrent | My profile
-{% endblock title %} {% block content %}
+{% extends 'inc/base.html' %}
+{% load static %}
+{% block title %}
+  Flurrent | My profile
+{% endblock title %}
 
-<!-- Page content-->
-<div class="container pt-5 pb-lg-4 mt-5 mb-sm-2">
-  <!-- Breadcrumb-->
-  <nav class="mb-4 pt-md-3" aria-label="Breadcrumb">
-    <ol class="breadcrumb">
-      <li class="breadcrumb-item"><a href="real-estate-home-v1.html">Home</a></li>
-      <li class="breadcrumb-item"><a href="real-estate-account-info.html">Account</a></li>
-      <li class="breadcrumb-item active" aria-current="page">Personal Info</li>
-    </ol>
-  </nav>
-  <!-- Page content-->
-  <div class="row">
-    <!-- Sidebar-->
-    <aside class="col-lg-4 col-md-5 pe-xl-4 mb-5">
-      <!-- Account nav-->
-      {% include 'org_profile/inc/side-options.html' %}
-    </aside>
-    <!-- Content-->
-    <div class="col-lg-8 col-md-7 mb-5">
-        <h1 class="h2 mb-2">{{ title }}</h1>
-        <div class="mb-2">{{ subtitle }}</div>
+{% block content %}
 
-      {% include 'inc/msg.inc.html' %}
 
-      <form action="{% url 'org:profile' section %}" method="post" enctype="multipart/form-data">
-        {% csrf_token %} {% block section_content %} {% endblock section_content %}
-        {% if button_text %}
-        <div class="d-flex align-items-center justify-content-between border-top mt-4 pt-4 pb-1">
-          <button class="btn btn{{outline}}-primary px-3 px-sm-4" type="submit">
-            {{ button_text }}
-          </button>
-          <!-- <button class="btn btn-link btn-sm px-0" type="button"><i class="fi-trash me-2"></i>Delete account</button> -->
+<!-- application sidebar -->
+{% if section == 'applications' %}
+<div onclick="closeNav()" style="z-index: 1031; top: 0%; opacity: 0.5; width: 100%; height: 100%; position: fixed; background-color: black; display: none;"
+id="overlay"></div>
+
+
+<div id="mySidenav" class="sidenav">
+    <div class="p-4">
+         <div class="row px-0">
+            <div class="col-sm-10 d-flex align-items-center">
+                <i class="fi-file opacity-100 me-2 fs-3"></i>
+                <h4 class="my-0 mx-3">Application summary</h4>
+            </div>
+            <div class="col-sm-2 d-flex justify-content-end">
+                
+                <i onclick="closeNav()" class="fi-x opacity-100 me-2 fs-6"></i>
+
+                <!-- <i onclick="closeNav()" class="material-icons myIco text-secondary" style="cursor: pointer;"
+                    title="Close">
+                    close
+                </i> -->
+            </div>
         </div>
+    </div>
+ 
+    <div>
+
+      <div class="px-4">
+
+        <div class="card shadow mb-3">
+      
+          <div class="card-body">
+            <!-- <div>
+                <span style="height: fit-content; display: none;" id="is_product" class="badge bg-faded-accent rounded-pill fs-sm">
+                    <small>Product</small>
+                </span>
+                <span style="height: fit-content; display: none;" id="is_service" class="badge bg-faded-success rounded-pill fs-sm">
+                    <small>Service</small>
+                </span>
+            </div> -->
+          
+            <div class="d-flex justify-content-between align-items-start mb-2">
+            
+                <p class="mb-2"><b>Project overview</b></p>
+                <div class="d-flex justify-content-between mb-0 align-center">
+                    <div class="d-flex align-items-center">
+                        <img class="me-2 rounded-circle" src="" width="30" alt="" id="project_org_logo">
+                        <span class="fs-sm text-dark opacity-80 ps-1" id="project_org_name"></span>
+                    </div>
+
+                    
+
+                    <!-- <span class="badge bg-faded-danger rounded-pill fs-sm">Hot</span> -->
+                </div>
+            
+                
+          
+            </div>
+            
+            <h3 class="h6 card-title pt-1 mb-2" id="project_title"></h3>
+            <p class="fs-sm mb-3"  id="project_description"></p>
+            <div class="fs-sm">
+                    <span class="text-nowrap me-3">
+                        <i class="fi-cash fs-base text-muted me-1"></i><b>Budget</b> &nbsp; <span id="project_budget"></span> 
+                    </span>
+                    <span class="text-nowrap me-3">
+                        <i class="fi-calendar-alt text-muted me-1"> </i>
+                        <b>Created</b> <span id="project_created_at"></span>
+                    </span>
+
+                </div>
+
+                <a type="button" href="" id="project_link" class="btn btn-primary mt-3 text-white">View complete project</a>
+
+            </div>
+        </div>
+
+
+        <div class="my-2">
+          <p class="my-4 text-primary"><b>Your proposal / application</b></p>
+          <div class="card text-left shadow mb-4">
+            <div class="card-header">
+              <div class="row">
+                <div class="col-sm-6 my-2">
+                  <p class="card-text mb-1">Offered price</p>
+                  <h6 class="h6 card-title mb-0" id="application_price"></h6>
+                </div>
+                <div class="col-sm-6 my-2">
+                  <p class="card-text mb-1">Estimated time</p>
+                  <h6 class="h6 card-title mb-0" id="application_days"></h6>
+                </div>                
+              </div>
+            </div>
+
+            <div class="card-body">
+              
+
+                <h6 class="h6 card-title">Cover letter</h6>
+                <p class="card-text mb-0" id="application_note">
+
+                </p>
+        
+            </div>
+
+            <div class="card-footer">
+              <div class="row">
+                <div class="col-sm-6 my-2">
+                  <p class="card-text mb-1">Status</p>
+                  <h6 class="h6 card-title mb-0" id="application_status"></h6>
+                </div>  
+                <div class="col-sm-6 my-2">
+                  <p class="card-text mb-1">Submitted</p>
+                  <h6 class="h6 card-title mb-0" id="application_created_at"></h6>
+                </div>              
+              </div>
+            </div>
+            
+          </div>
+
+
+        </div>
+
+
+
+
+
+      </div>
+
+      
+    
+
+        {% if not notifications %}
+
+            <!-- <div class="text-center mt-5" id="no-notification-part">
+                <img class="mt-5" src="{% static 'assets/img/no-notification.png' %}" style="width: 70px" alt="">
+                <h3 class="text-grey my-3">No notifications</h3>
+                <p style="color: grey">Once any job is posted related to your skills<br>You will be instantly notified here</p>
+            </div> -->
+
         {% endif %}
-      </form>
+
+        <div class="mt-0" id="notification-container">
+            
+
+    
+
+        </div>
+
+
+    </div>
+
+</div>
+{% endif %}
+
+
+
+ <!-- Page content-->
+ <div class="container pt-5 pb-lg-4 mt-5 mb-sm-2">
+    <!-- Breadcrumb-->
+    <nav class="mb-4 pt-md-3" aria-label="Breadcrumb">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="real-estate-home-v1.html">Home</a></li>
+        <li class="breadcrumb-item"><a href="real-estate-account-info.html">Account</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Personal Info</li>
+      </ol>
+    </nav>
+    <!-- Page content-->
+    <div class="row">
+      <!-- Sidebar-->
+      <aside class="col-lg-4 col-md-5 pe-xl-4 mb-5">
+        <!-- Account nav-->
+        {% include 'org_profile/inc/side-options.html' %}
+      </aside>
+      <!-- Content-->
+      <div class="col-lg-8 col-md-7 mb-5">
+        <h1 class="h2">{{ title }}</h1>
+        <div class="mb-2 pt-1">{{ subtitle }}</div>
+        
+        {% include 'inc/msg.inc.html' %}
+
+        <form action="{% url 'endorsers:profile' section %}" method="post" enctype="multipart/form-data">
+          {% csrf_token %}
+
+          {% block section_content %}
+          
+          {% endblock section_content %}
+
+          {% if button_text %}
+          <div class="d-flex align-items-center justify-content-between border-top mt-4 pt-4 pb-1">
+            
+            <button class="btn btn{{outline}}-primary px-3 px-sm-4" type="submit">{{ button_text }}</button>
+            <!-- <button class="btn btn-link btn-sm px-0" type="button"><i class="fi-trash me-2"></i>Delete account</button> -->
+          </div>
+          {% endif %}
+          
+        </form>
+
+      </div>
     </div>
   </div>
-</div>
+
 
 {% endblock content %}
+
+
+
