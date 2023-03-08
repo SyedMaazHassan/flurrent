@@ -160,6 +160,8 @@ def signup_view(request):
                         )
                         new_refer.save()
 
+                    
+
                     messages.success(request, "Profile has been created successfully!")
                     return redirect("authentication:login")
 

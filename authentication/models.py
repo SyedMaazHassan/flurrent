@@ -67,41 +67,15 @@ class User(AbstractUser):
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = []
 
-    refer_id = models.CharField(null=True, blank=True, max_length=8)
-    phone = PhoneNumberField(null=True, blank=True)
-    bio = models.TextField(null=True, blank=True)
-    email = models.EmailField(unique=True)
-    profile_pic = models.ImageField(
-        upload_to="profile_pics", default="profile_pics/default.png"
-    )
-    is_staff_member = models.OneToOneField(
-        "organizations.Staff",
-        on_delete=models.SET_NULL,
-        null=True,
-        blank=True,
-        related_name="staff_member_object",
-    )
-    is_organization = models.OneToOneField(
-        "organizations.Organization",
-        on_delete=models.SET_NULL,
-        null=True,
-        blank=True,
-        related_name="organization_object",
-    )
-    is_endorser = models.OneToOneField(
-        "endorsers.Endorser",
-        on_delete=models.SET_NULL,
-        null=True,
-        blank=True,
-        related_name="endorser_object",
-    )
-    mode = models.CharField(
-        max_length=15,
-        choices=[("endorser", "Endorser"), ("organization", "Organization")],
-        default="organization",
-    )
-
-    objects = UserManager()  ## This is the new line in the User model.
+    phone           = PhoneNumberField(null=True, blank=True)
+    bio             = models.TextField(null=True, blank=True)
+    email           = models.EmailField(unique=True)
+    profile_pic     = models.ImageField(upload_to="profile_pics", default="profile_pics/default.png")
+    is_staff_member = models.OneToOneField("organizations.Staff", on_delete=models.SET_NULL, null=True, blank=True, related_name="staff_member_object")
+    is_organization = models.OneToOneField("organizations.Organization", on_delete=models.SET_NULL, null=True, blank=True, related_name="organization_object")
+    is_endorser     = models.OneToOneField("endorsers.Endorser", on_delete=models.SET_NULL, null=True, blank=True, related_name="endorser_object")
+    mode            = models.CharField(max_length=15, choices=[("endorser", "Endorser"), ("organization", "Organization")], default="organization")
+    
 
     def generate_unique_number(self):
         used_ids = set()
