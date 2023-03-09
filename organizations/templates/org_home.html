@@ -81,6 +81,7 @@
                       class="form-control"
                       type="text"
                       name="name"
+                      value="{{name}}"
                     />
                   </div>
                   <!-- Price  -->
@@ -91,13 +92,13 @@
                       <div class="d-flex align-items-center">
                         <div class="w-50 pe-2">
                           <div class="input-group"><span class="input-group-text fs-base">$</span>
-                            <input class="form-control range-slider-value-min" type="number" name="lower_price">
+                            <input class="form-control range-slider-value-min" type="number" name="lower_price" value="{{lower_price}}">
                           </div>
                         </div>
                         <div class="text-muted">&mdash;</div>
                         <div class="w-50 ps-2">
                           <div class="input-group"><span class="input-group-text fs-base">$</span>
-                            <input class="form-control range-slider-value-max" type="number" name="upper_price">
+                            <input class="form-control range-slider-value-max" type="number" name="upper_price" value="{{upper_price}}">
                           </div>
                         </div>
                       </div>
@@ -171,28 +172,28 @@
                   <div class="pb-4 mb-2">
                     <h3 class="h6">Average rating</h3>
                     <div class="form-radio">
-                      <input class="form-radio-input" type="radio" id="5-star" name="rating" value="5">
+                      <input class="form-radio-input" type="radio" id="5-star" name="rating" value="5" {% if rating == '5' %}checked{% endif %}>
                       <label class="form-radio-label fs-sm align-middle mt-n2" for="5-star">
                       <span class="star-rating"><i class="star-rating-icon fi-star-filled active"></i><i class="star-rating-icon fi-star-filled active"></i><i class="star-rating-icon fi-star-filled active"></i><i class="star-rating-icon fi-star-filled active"></i><i class="star-rating-icon fi-star-filled active"></i></span>
                       </label>
                     </div>
                     <div class="form-radio">
-                      <input class="form-radio-input" type="radio" id="4-star" name="rating" value="4">
+                      <input class="form-radio-input" type="radio" id="4-star" name="rating" value="4" {% if rating == '4' %}checked{% endif %}>
                       <label class="form-radio-label fs-sm align-middle mt-n2" for="4-star"><span class="star-rating"><i class="star-rating-icon fi-star-filled active"></i><i class="star-rating-icon fi-star-filled active"></i><i class="star-rating-icon fi-star-filled active"></i><i class="star-rating-icon fi-star-filled active"></i><i class="star-rating-icon fi-star"></i></span>
                       </label>
                     </div>
                     <div class="form-radio">
-                      <input class="form-radio-input" type="radio" id="3-star" name="rating" value="3">
+                      <input class="form-radio-input" type="radio" id="3-star" name="rating" value="3" {% if rating == '3' %}checked{% endif %}>
                       <label class="form-radio-label fs-sm align-middle mt-n2" for="3-star"><span class="star-rating"><i class="star-rating-icon fi-star-filled active"></i><i class="star-rating-icon fi-star-filled active"></i><i class="star-rating-icon fi-star-filled active"></i><i class="star-rating-icon fi-star"></i><i class="star-rating-icon fi-star"></i></span>
                       </label>
                     </div>
                     <div class="form-radio">
-                      <input class="form-radio-input" type="radio" id="2-star" name="rating" value="2">
+                      <input class="form-radio-input" type="radio" id="2-star" name="rating" value="2" {% if rating == '2' %}checked{% endif %}>
                       <label class="form-radio-label fs-sm align-middle mt-n2" for="2-star"><span class="star-rating"><i class="star-rating-icon fi-star-filled active"></i><i class="star-rating-icon fi-star-filled active"></i><i class="star-rating-icon fi-star"></i><i class="star-rating-icon fi-star"></i><i class="star-rating-icon fi-star"></i></span>
                       </label>
                     </div>
                     <div class="form-radio">
-                      <input class="form-radio-input" type="radio" id="1-star" name="rating" value="1">
+                      <input class="form-radio-input" type="radio" id="1-star" name="rating" value="1" {% if rating == '1' %}checked{% endif %}>
                       <label class="form-radio-label fs-sm align-middle mt-n2" for="1-star"><span class="star-rating"><i class="star-rating-icon fi-star-filled active"></i><i class="star-rating-icon fi-star"></i><i class="star-rating-icon fi-star"></i><i class="star-rating-icon fi-star"></i><i class="star-rating-icon fi-star"></i></span>
                       </label>
                     </div>
@@ -253,6 +254,8 @@
                       {% with reviews=endorser.created_by.getEndorserReviews %}
                         <i class="fi-star-filled mt-n1 me-1 fs-base text-warning align-middle"></i><b>{{ reviews.average }}</b><span class="text-muted">&nbsp;({{ reviews.count }})</span>
                       {% endwith %}
+                      {{endorser.rating}} <br>
+                      {{endorser.price}}
                   </div>
 
                   <button class="btn btn-icon btn-light-primary btn-xs text-primary rounded-circle position-absolute top-0 end-0 m-3 zindex-5" type="button" data-bs-toggle="tooltip" data-bs-placement="left" title="Add to Favorites">

@@ -20,22 +20,19 @@ def home_view(request):
         upper_price = int(request.POST.get("upper_price"))
         name = request.POST.get("name")
         rating = request.POST.get("rating")
-        print(f"Ratings are: {rating}")
+        if name:
+            endorsers_id = []
+            for endorser in Endorser.objects.all():
+                if name in endorser.created_by.getFullName():
+                    endorsers_id.append(endorser.pk)
+            filtered_endorsers_with_name = Endorser.objects.filter(id__in=endorsers_id)
         if name and rating:
-            filtered_endorsers = Endorser.objects.filter(
-                (
-                    Q(created_by__first_name__icontains=name)
-                    | Q(created_by__last_name__icontains=name)
-                ),
+            filtered_endorsers = filtered_endorsers_with_name.filter(
                 Q(price__gte=lower_price) & Q(price__lte=upper_price),
                 Q(rating=rating),
             )
         elif name:
-            filtered_endorsers = Endorser.objects.filter(
-                (
-                    Q(created_by__first_name__icontains=name)
-                    | Q(created_by__last_name__icontains=name)
-                ),
+            filtered_endorsers = filtered_endorsers_with_name.filter(
                 Q(price__gte=lower_price) & Q(price__lte=upper_price),
             )
         elif rating:
@@ -44,16 +41,20 @@ def home_view(request):
                 Q(price__gte=lower_price) & Q(price__lte=upper_price),
             )
         else:
-            filtered_endorsers = Endorser.objects.filter(
+            filtered_endorsers = Endorser.filter(
                 Q(price__gte=lower_price) & Q(price__lte=upper_price),
             )
-
         print(filtered_endorsers)
-        return HttpResponse(f"From Submitted")
+        context = {
+            "all_endorsers": filtered_endorsers,
+            "lower_price":lower_price,
+            "upper_price":upper_price,
+            "name":name,
+            "rating":rating,
+        }
+        return render(request, "org_home.html", context)
 
     all_endorsers = Endorser.objects.all()
-    # for i in all_endorsers:
-        # print(f"The price of {i} is: {i.price} and reviews are: {i.reviews} stars")
     paginator = Paginator(all_endorsers, 18)
     page = 1
     page_1 = request.GET.get("page")
