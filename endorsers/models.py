@@ -18,6 +18,7 @@ class Endorser(CreatedCommon):
     interests   = models.TextField(null = True, blank = True)
     location    = models.OneToOneField(Location, on_delete=models.SET_NULL, null=True, blank=True)
     social_media = models.OneToOneField(SocialMedia, on_delete=models.SET_NULL, null=True, blank=True)
+    price = models.IntegerField(default=300)
 
     def getOrders(self):
         orders = Order.objects.filter(service_provider = self.created_by)
@@ -47,7 +48,7 @@ class Endorser(CreatedCommon):
 
     def __str__(self) -> str:
         return self.created_by.getFullName()
-        
+
 
 class OrderUpdate(CreatedCommon):
     note = models.TextField()
@@ -93,13 +94,13 @@ class Order(CreatedCommon):
         self.service_provider = self.application.created_by
         self.organization = self.application.project.organization
         self.created_by = created_by
-    
+
     def getDeliveryDate(self):
         from datetime import timedelta
         delivery_date = self.created_at + timedelta(days=8)
         return delivery_date
 
-class Approval(CreatedCommon): 
+class Approval(CreatedCommon):
     order = models.ForeignKey("endorsers.Order", on_delete=models.CASCADE, null=True, blank=True)
 
 
@@ -120,7 +121,7 @@ class Application(CreatedCommon):
 
                 # creating approval object
                 new_approval = Approval(
-                    order = new_order, 
+                    order = new_order,
                     created_by = approved_by
                 )
                 new_approval.save()
