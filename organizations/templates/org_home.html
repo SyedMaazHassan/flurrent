@@ -71,227 +71,138 @@
               </div>
             </div>
             <!-- Filters-->
-            <div class="tab-pane fade show active" id="filters" role="tabpanel">
-              <div class="pb-4 mb-2">
-                <h3 class="h6">Location</h3>
-                <select class="form-select mb-2">
-                  <option value="" disabled>Choose city</option>
-                  <option value="Berlin" selected>Berlin</option>
-                  <option value="Hamburg">Hamburg</option>
-                  <option value="Munich">Munich</option>
-                  <option value="Koln">Koln</option>
-                  <option value="Frankfurt am Main">Frankfurt am Main</option>
-                </select>
-                <select class="form-select">
-                  <option value="" selected disabled>Choose district</option>
-                  <option value="Berlin-Mitte">Berlin-Mitte</option>
-                  <option value="Charlottenburg">Charlottenburg</option>
-                  <option value="Prenzlauer Berg">Prenzlauer Berg</option>
-                  <option value="Friedrichshain">Friedrichshain</option>
-                  <option value="Kreuzberg">Kreuzberg</option>
-                </select>
-              </div>
-              <div class="pb-4 mb-2">
-                <h3 class="h6">Category</h3>
-                <div class="dropdown mb-sm-0 mb-3" data-bs-toggle="select">
-                  <button class="btn btn-outline-secondary d-flex align-items-center w-100 px-4 fw-normal text-start dropdown-toggle" type="button" data-bs-toggle="dropdown"><i class="fi-list me-2 text-muted"></i><span class="dropdown-toggle-label d-block w-100">All categories</span></button>
-                  <input type="hidden">
-                  <ul class="dropdown-menu w-100">
-                    <li><a class="dropdown-item" href="#"><i class="fi-bed me-2 fs-lg opacity-60"></i><span class="dropdown-item-label">Accomodation</span></a></li>
-                    <li><a class="dropdown-item" href="#"><i class="fi-cafe me-2 fs-lg opacity-60"></i><span class="dropdown-item-label">Food &amp; Drink</span></a></li>
-                    <li><a class="dropdown-item" href="#"><i class="fi-shopping-bag me-2 fs-lg opacity-60"></i><span class="dropdown-item-label">Shopping</span></a></li>
-                    <li><a class="dropdown-item" href="#"><i class="fi-museum me-2 fs-lg opacity-60"></i><span class="dropdown-item-label">Art &amp; History</span></a></li>
-                    <li><a class="dropdown-item" href="#"><i class="fi-entertainment me-2 fs-lg opacity-60"></i><span class="dropdown-item-label">Entertainment</span></a></li>
-                    <li><a class="dropdown-item" href="#"><i class="fi-meds me-2 fs-lg opacity-60"></i><span class="dropdown-item-label">Medicine</span></a></li>
-                    <li><a class="dropdown-item" href="#"><i class="fi-makeup me-2 fs-lg opacity-60"></i><span class="dropdown-item-label">Beauty</span></a></li>
-                    <li><a class="dropdown-item" href="#"><i class="fi-car me-2 fs-lg opacity-60"></i><span class="dropdown-item-label">Auto Service</span></a></li>
-                  </ul>
-                </div>
-              </div>
-              <div class="pb-4 mb-2">
-                <h3 class="h6">Subcategory</h3>
-                <div class="overflow-auto" data-simplebar data-simplebar-auto-hide="false" style="height: 11rem;">
-                  <div class="form-check">
-                    <input class="form-check-input" type="checkbox" id="hotel">
-                    <label class="form-check-label fs-sm" for="hotel">Hotel</label>
+              <div class="tab-pane fade show active" id="filters" role="tabpanel">
+                <form action="{% url 'org:home' %}" method="POST">
+                  {% csrf_token %}
+                  <!-- Name  -->
+                  <div class="pb-4 mb-2">
+                    <h3 class="h6">Name</h3>
+                    <input
+                      class="form-control"
+                      type="text"
+                      name="name"
+                    />
                   </div>
-                  <div class="form-check">
-                    <input class="form-check-input" type="checkbox" id="hostel">
-                    <label class="form-check-label fs-sm" for="hostel">Hostel</label>
-                  </div>
-                  <div class="form-check">
-                    <input class="form-check-input" type="checkbox" id="motel">
-                    <label class="form-check-label fs-sm" for="motel">Motel</label>
-                  </div>
-                  <div class="form-check">
-                    <input class="form-check-input" type="checkbox" id="apartment" checked>
-                    <label class="form-check-label fs-sm" for="apartment">Apartment</label>
-                  </div>
-                  <div class="form-check">
-                    <input class="form-check-input" type="checkbox" id="cottage">
-                    <label class="form-check-label fs-sm" for="cottage">Cottage</label>
-                  </div>
-                  <div class="form-check">
-                    <input class="form-check-input" type="checkbox" id="boutique-hotel">
-                    <label class="form-check-label fs-sm" for="boutique-hotel">Boutique Hotel</label>
-                  </div>
-                  <div class="form-check">
-                    <input class="form-check-input" type="checkbox" id="room">
-                    <label class="form-check-label fs-sm" for="room">Room</label>
-                  </div>
-                  <div class="form-check">
-                    <input class="form-check-input" type="checkbox" id="land">
-                    <label class="form-check-label fs-sm" for="land">Land</label>
-                  </div>
-                  <div class="form-check">
-                    <input class="form-check-input" type="checkbox" id="commercial">
-                    <label class="form-check-label fs-sm" for="commercial">Commercial</label>
-                  </div>
-                  <div class="form-check">
-                    <input class="form-check-input" type="checkbox" id="parking-lot">
-                    <label class="form-check-label fs-sm" for="parking-lot">Parking lot</label>
-                  </div>
-                </div>
-              </div>
-              <div class="pb-4 mb-2">
-                <h3 class="h6">Price</h3>
-                <div class="range-slider" data-start-min="300" data-start-max="700" data-min="50" data-max="1000" data-step="20">
-                  <div class="range-slider-ui"></div>
-                  <div class="d-flex align-items-center">
-                    <div class="w-50 pe-2">
-                      <div class="input-group"><span class="input-group-text fs-base">$</span>
-                        <input class="form-control range-slider-value-min" type="text">
-                      </div>
-                    </div>
-                    <div class="text-muted">&mdash;</div>
-                    <div class="w-50 ps-2">
-                      <div class="input-group"><span class="input-group-text fs-base">$</span>
-                        <input class="form-control range-slider-value-max" type="text">
+                  <!-- Price  -->
+                  <div class="pb-4 mb-2">
+                    <h3 class="h6">Price</h3>
+                    <div class="range-slider" data-start-min="300" data-start-max="700" data-min="50" data-max="3000" data-step="5">
+                      <div class="range-slider-ui"></div>
+                      <div class="d-flex align-items-center">
+                        <div class="w-50 pe-2">
+                          <div class="input-group"><span class="input-group-text fs-base">$</span>
+                            <input class="form-control range-slider-value-min" type="number" name="lower_price">
+                          </div>
+                        </div>
+                        <div class="text-muted">&mdash;</div>
+                        <div class="w-50 ps-2">
+                          <div class="input-group"><span class="input-group-text fs-base">$</span>
+                            <input class="form-control range-slider-value-max" type="number" name="upper_price">
+                          </div>
+                        </div>
                       </div>
                     </div>
                   </div>
-                </div>
+                  <!-- Category  -->
+                  <div class="pb-4 mb-2">
+                    <h3 class="h6">Category</h3>
+                    <div class="dropdown mb-sm-0 mb-3" data-bs-toggle="select">
+                      <button class="btn btn-outline-secondary d-flex align-items-center w-100 px-4 fw-normal text-start dropdown-toggle" type="button" data-bs-toggle="dropdown"><i class="fi-list me-2 text-muted"></i><span class="dropdown-toggle-label d-block w-100">All categories</span></button>
+                      <input type="hidden">
+                      <ul class="dropdown-menu w-100">
+                        <li><a class="dropdown-item" href="#"><i class="fi-bed me-2 fs-lg opacity-60"></i><span class="dropdown-item-label">Accomodation</span></a></li>
+                        <li><a class="dropdown-item" href="#"><i class="fi-cafe me-2 fs-lg opacity-60"></i><span class="dropdown-item-label">Food &amp; Drink</span></a></li>
+                        <li><a class="dropdown-item" href="#"><i class="fi-shopping-bag me-2 fs-lg opacity-60"></i><span class="dropdown-item-label">Shopping</span></a></li>
+                        <li><a class="dropdown-item" href="#"><i class="fi-museum me-2 fs-lg opacity-60"></i><span class="dropdown-item-label">Art &amp; History</span></a></li>
+                        <li><a class="dropdown-item" href="#"><i class="fi-entertainment me-2 fs-lg opacity-60"></i><span class="dropdown-item-label">Entertainment</span></a></li>
+                        <li><a class="dropdown-item" href="#"><i class="fi-meds me-2 fs-lg opacity-60"></i><span class="dropdown-item-label">Medicine</span></a></li>
+                        <li><a class="dropdown-item" href="#"><i class="fi-makeup me-2 fs-lg opacity-60"></i><span class="dropdown-item-label">Beauty</span></a></li>
+                        <li><a class="dropdown-item" href="#"><i class="fi-car me-2 fs-lg opacity-60"></i><span class="dropdown-item-label">Auto Service</span></a></li>
+                      </ul>
+                    </div>
+                  </div>
+                  <!-- Subcategory -->
+                  <div class="pb-4 mb-2">
+                    <h3 class="h6">Subcategory</h3>
+                    <div class="overflow-auto" data-simplebar data-simplebar-auto-hide="false" style="height: 11rem;">
+                      <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="hotel">
+                        <label class="form-check-label fs-sm" for="hotel">Hotel</label>
+                      </div>
+                      <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="hostel">
+                        <label class="form-check-label fs-sm" for="hostel">Hostel</label>
+                      </div>
+                      <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="motel">
+                        <label class="form-check-label fs-sm" for="motel">Motel</label>
+                      </div>
+                      <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="apartment" checked>
+                        <label class="form-check-label fs-sm" for="apartment">Apartment</label>
+                      </div>
+                      <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="cottage">
+                        <label class="form-check-label fs-sm" for="cottage">Cottage</label>
+                      </div>
+                      <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="boutique-hotel">
+                        <label class="form-check-label fs-sm" for="boutique-hotel">Boutique Hotel</label>
+                      </div>
+                      <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="room">
+                        <label class="form-check-label fs-sm" for="room">Room</label>
+                      </div>
+                      <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="land">
+                        <label class="form-check-label fs-sm" for="land">Land</label>
+                      </div>
+                      <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="commercial">
+                        <label class="form-check-label fs-sm" for="commercial">Commercial</label>
+                      </div>
+                      <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="parking-lot">
+                        <label class="form-check-label fs-sm" for="parking-lot">Parking lot</label>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- Avg. Rating  -->
+                  <div class="pb-4 mb-2">
+                    <h3 class="h6">Average rating</h3>
+                    <div class="form-radio">
+                      <input class="form-radio-input" type="radio" id="5-star" name="rating" value="5">
+                      <label class="form-radio-label fs-sm align-middle mt-n2" for="5-star">
+                      <span class="star-rating"><i class="star-rating-icon fi-star-filled active"></i><i class="star-rating-icon fi-star-filled active"></i><i class="star-rating-icon fi-star-filled active"></i><i class="star-rating-icon fi-star-filled active"></i><i class="star-rating-icon fi-star-filled active"></i></span>
+                      </label>
+                    </div>
+                    <div class="form-radio">
+                      <input class="form-radio-input" type="radio" id="4-star" name="rating" value="4">
+                      <label class="form-radio-label fs-sm align-middle mt-n2" for="4-star"><span class="star-rating"><i class="star-rating-icon fi-star-filled active"></i><i class="star-rating-icon fi-star-filled active"></i><i class="star-rating-icon fi-star-filled active"></i><i class="star-rating-icon fi-star-filled active"></i><i class="star-rating-icon fi-star"></i></span>
+                      </label>
+                    </div>
+                    <div class="form-radio">
+                      <input class="form-radio-input" type="radio" id="3-star" name="rating" value="3">
+                      <label class="form-radio-label fs-sm align-middle mt-n2" for="3-star"><span class="star-rating"><i class="star-rating-icon fi-star-filled active"></i><i class="star-rating-icon fi-star-filled active"></i><i class="star-rating-icon fi-star-filled active"></i><i class="star-rating-icon fi-star"></i><i class="star-rating-icon fi-star"></i></span>
+                      </label>
+                    </div>
+                    <div class="form-radio">
+                      <input class="form-radio-input" type="radio" id="2-star" name="rating" value="2">
+                      <label class="form-radio-label fs-sm align-middle mt-n2" for="2-star"><span class="star-rating"><i class="star-rating-icon fi-star-filled active"></i><i class="star-rating-icon fi-star-filled active"></i><i class="star-rating-icon fi-star"></i><i class="star-rating-icon fi-star"></i><i class="star-rating-icon fi-star"></i></span>
+                      </label>
+                    </div>
+                    <div class="form-radio">
+                      <input class="form-radio-input" type="radio" id="1-star" name="rating" value="1">
+                      <label class="form-radio-label fs-sm align-middle mt-n2" for="1-star"><span class="star-rating"><i class="star-rating-icon fi-star-filled active"></i><i class="star-rating-icon fi-star"></i><i class="star-rating-icon fi-star"></i><i class="star-rating-icon fi-star"></i><i class="star-rating-icon fi-star"></i></span>
+                      </label>
+                    </div>
+                  </div>
+                  <!-- Apply Filter Button  -->
+                  <div class="border-top py-4">
+                    <button class="btn btn-outline-primary rounded-pill" type="submit"><i class="fi-filter me-2"></i>Apply Filters</button>
+                  </div>
+                </form>
               </div>
-              <div class="pb-4 mb-2">
-                <h3 class="h6">Average rating</h3>
-                <div class="form-check">
-                  <input class="form-check-input" type="checkbox" id="5-star">
-                  <label class="form-check-label fs-sm align-middle mt-n2" for="5-star"><span class="star-rating"><i class="star-rating-icon fi-star-filled active"></i><i class="star-rating-icon fi-star-filled active"></i><i class="star-rating-icon fi-star-filled active"></i><i class="star-rating-icon fi-star-filled active"></i><i class="star-rating-icon fi-star-filled active"></i></span>
-                  </label>
-                </div>
-                <div class="form-check">
-                  <input class="form-check-input" type="checkbox" id="4-star">
-                  <label class="form-check-label fs-sm align-middle mt-n2" for="4-star"><span class="star-rating"><i class="star-rating-icon fi-star-filled active"></i><i class="star-rating-icon fi-star-filled active"></i><i class="star-rating-icon fi-star-filled active"></i><i class="star-rating-icon fi-star-filled active"></i><i class="star-rating-icon fi-star"></i></span>
-                  </label>
-                </div>
-                <div class="form-check">
-                  <input class="form-check-input" type="checkbox" id="3-star">
-                  <label class="form-check-label fs-sm align-middle mt-n2" for="3-star"><span class="star-rating"><i class="star-rating-icon fi-star-filled active"></i><i class="star-rating-icon fi-star-filled active"></i><i class="star-rating-icon fi-star-filled active"></i><i class="star-rating-icon fi-star"></i><i class="star-rating-icon fi-star"></i></span>
-                  </label>
-                </div>
-                <div class="form-check">
-                  <input class="form-check-input" type="checkbox" id="2-star">
-                  <label class="form-check-label fs-sm align-middle mt-n2" for="2-star"><span class="star-rating"><i class="star-rating-icon fi-star-filled active"></i><i class="star-rating-icon fi-star-filled active"></i><i class="star-rating-icon fi-star"></i><i class="star-rating-icon fi-star"></i><i class="star-rating-icon fi-star"></i></span>
-                  </label>
-                </div>
-                <div class="form-check">
-                  <input class="form-check-input" type="checkbox" id="1-star">
-                  <label class="form-check-label fs-sm align-middle mt-n2" for="1-star"><span class="star-rating"><i class="star-rating-icon fi-star-filled active"></i><i class="star-rating-icon fi-star"></i><i class="star-rating-icon fi-star"></i><i class="star-rating-icon fi-star"></i><i class="star-rating-icon fi-star"></i></span>
-                  </label>
-                </div>
-              </div>
-              <div class="pb-4 mb-2">
-                <h3 class="h6">Number of rooms</h3>
-                <select class="form-select mb-2">
-                  <option value="1-room" selected>1 room</option>
-                  <option value="2-rooms">2 rooms</option>
-                  <option value="3-rooms">3 rooms</option>
-                  <option value="4-rooms">4 rooms</option>
-                  <option value="5-rooms">5 rooms</option>
-                </select>
-              </div>
-              <div class="pb-4 mb-2">
-                <h3 class="h6">Amenities</h3>
-                <div class="overflow-auto" data-simplebar data-simplebar-auto-hide="false" style="height: 11rem;">
-                  <div class="form-check">
-                    <input class="form-check-input" type="checkbox" id="parking">
-                    <label class="form-check-label fs-sm" for="parking">Parking</label>
-                  </div>
-                  <div class="form-check">
-                    <input class="form-check-input" type="checkbox" id="restaurant">
-                    <label class="form-check-label fs-sm" for="restaurant">Restaurant</label>
-                  </div>
-                  <div class="form-check">
-                    <input class="form-check-input" type="checkbox" id="pet-friendly">
-                    <label class="form-check-label fs-sm" for="pet-friendly">Pet Friendly</label>
-                  </div>
-                  <div class="form-check">
-                    <input class="form-check-input" type="checkbox" id="room-service" checked>
-                    <label class="form-check-label fs-sm" for="room-service">Room Service</label>
-                  </div>
-                  <div class="form-check">
-                    <input class="form-check-input" type="checkbox" id="fitness-center">
-                    <label class="form-check-label fs-sm" for="fitness-center">Fitness Center</label>
-                  </div>
-                  <div class="form-check">
-                    <input class="form-check-input" type="checkbox" id="free-wifi" checked>
-                    <label class="form-check-label fs-sm" for="free-wifi">Free WiFi</label>
-                  </div>
-                  <div class="form-check">
-                    <input class="form-check-input" type="checkbox" id="spa-lounge">
-                    <label class="form-check-label fs-sm" for="spa-lounge">Spa lounge</label>
-                  </div>
-                  <div class="form-check">
-                    <input class="form-check-input" type="checkbox" id="bar">
-                    <label class="form-check-label fs-sm" for="bar">Bar</label>
-                  </div>
-                  <div class="form-check">
-                    <input class="form-check-input" type="checkbox" id="swimming-pool">
-                    <label class="form-check-label fs-sm" for="swimming-pool">Swimming pool</label>
-                  </div>
-                </div>
-              </div>
-              <div class="pb-4 mb-2">
-                <h3 class="h6">Room facilities</h3>
-                <div class="overflow-auto" data-simplebar data-simplebar-auto-hide="false" style="height: 11rem;">
-                  <div class="form-check">
-                    <input class="form-check-input" type="checkbox" id="kitchen">
-                    <label class="form-check-label fs-sm" for="kitchen">Kitchen</label>
-                  </div>
-                  <div class="form-check">
-                    <input class="form-check-input" type="checkbox" id="private-bathroom">
-                    <label class="form-check-label fs-sm" for="private-bathroom">Private Bathroom</label>
-                  </div>
-                  <div class="form-check">
-                    <input class="form-check-input" type="checkbox" id="air-conditioning" checked>
-                    <label class="form-check-label fs-sm" for="air-conditioning">Air Conditioning</label>
-                  </div>
-                  <div class="form-check">
-                    <input class="form-check-input" type="checkbox" id="desk">
-                    <label class="form-check-label fs-sm" for="desk">Desk</label>
-                  </div>
-                  <div class="form-check">
-                    <input class="form-check-input" type="checkbox" id="terrace">
-                    <label class="form-check-label fs-sm" for="terrace">Terrace</label>
-                  </div>
-                  <div class="form-check">
-                    <input class="form-check-input" type="checkbox" id="washing-machine">
-                    <label class="form-check-label fs-sm" for="washing-machine">Washing Machine</label>
-                  </div>
-                  <div class="form-check">
-                    <input class="form-check-input" type="checkbox" id="heating">
-                    <label class="form-check-label fs-sm" for="heating">Heating</label>
-                  </div>
-                  <div class="form-check">
-                    <input class="form-check-input" type="checkbox" id="laundry-service">
-                    <label class="form-check-label fs-sm" for="laundry-service">Laundry Service</label>
-                  </div>
-                </div>
-              </div>
-              <div class="border-top py-4">
-                <button class="btn btn-outline-primary rounded-pill" type="button"><i class="fi-rotate-right me-2"></i>Reset filters</button>
-              </div>
-            </div>
           </div>
         </div>
       </div>
@@ -332,7 +243,7 @@
       </div>
       <!-- Catalog grid-->
       <div class="row row-cols-xl-3 row-cols-sm-2 row-cols-1 gy-4 gx-3 gx-xxl-4 py-4">
-        
+
         {% for endorser in all_endorsers %}
           <!-- Item-->
           <div class="col pb-sm-2">
@@ -343,7 +254,7 @@
                         <i class="fi-star-filled mt-n1 me-1 fs-base text-warning align-middle"></i><b>{{ reviews.average }}</b><span class="text-muted">&nbsp;({{ reviews.count }})</span>
                       {% endwith %}
                   </div>
-                  
+
                   <button class="btn btn-icon btn-light-primary btn-xs text-primary rounded-circle position-absolute top-0 end-0 m-3 zindex-5" type="button" data-bs-toggle="tooltip" data-bs-placement="left" title="Add to Favorites">
                       <i class="fi-heart"></i>
                   </button>
@@ -360,7 +271,7 @@
                       </p>
 
                       <div class="d-flex align-items-center justify-content-center">
-                             
+
                           <div class="icon-box border card flex-row align-items-center card-hover py-2 ps-2 pe-4">
                               <div class="icon-box-media border-dark bg-faded-primary text-primary me-2" style="font-size: 18px;">
                                 <i class="fi-users"></i>
@@ -373,7 +284,7 @@
                       <!-- <button type="button" class="btn btn-outline-secondary">
                           Messages <span class="badge bg-success ms-1">18</span>
                       </button> -->
-                                              
+
                   </div>
 
                 </div>
@@ -383,7 +294,7 @@
                       <button class="btn btn-icon btn-light-primary btn-xs text-primary rounded-circle position-absolute top-0 end-0 m-3 zindex-5" type="button" data-bs-toggle="tooltip" data-bs-placement="left" title="Add to Favorites">
                           <i class="fi-heart"></i>
                       </button>
-                      
+
                       <img class="rounded-3" src="media/{{endorser.created_by.profile_pic}}" alt="Article img">
                   </div>
                   <h3 class="mb-2 fs-lg"><a class="nav-link stretched-link" href="city-guide-single.html">{{ endorser.created_by.getFullName }}</a></h3>
@@ -402,9 +313,9 @@
       <nav class="border-top pb-md-4 pt-4" aria-label="Pagination">
         <ul class="pagination mb-1">
           <li class="page-item d-sm-none"><span class="page-link page-link-static">1 / 5</span></li>
-        
+
           {% for page_number in page_numbers %}
-            
+
             {% if all_endorsers.number == page_number %}
               <li class="page-item d-none d-sm-block active text-primary">
                 <span class="page-link">
@@ -416,7 +327,7 @@
               <li class="page-item d-none d-sm-block"><a class="page-link" href="{% url 'org:home' %}?page={{ page_number }}">{{ page_number }}</a></li>
             {% endif %}
           {% endfor %}
-          
+
         </ul>
       </nav>
     </div>

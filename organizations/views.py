@@ -7,13 +7,53 @@ from django.db import transaction
 from authentication.models import User
 from django.views import View
 import json
+from django.http import HttpResponse
+from django.db.models import Q
 
 # Create your views here.
 
 
 @login_required
 def home_view(request):
+    if request.method == "POST":
+        lower_price = int(request.POST.get("lower_price"))
+        upper_price = int(request.POST.get("upper_price"))
+        name = request.POST.get("name")
+        rating = request.POST.get("rating")
+        print(f"Ratings are: {rating}")
+        if name and rating:
+            filtered_endorsers = Endorser.objects.filter(
+                (
+                    Q(created_by__first_name__icontains=name)
+                    | Q(created_by__last_name__icontains=name)
+                ),
+                Q(price__gte=lower_price) & Q(price__lte=upper_price),
+                Q(rating=rating),
+            )
+        elif name:
+            filtered_endorsers = Endorser.objects.filter(
+                (
+                    Q(created_by__first_name__icontains=name)
+                    | Q(created_by__last_name__icontains=name)
+                ),
+                Q(price__gte=lower_price) & Q(price__lte=upper_price),
+            )
+        elif rating:
+            filtered_endorsers = Endorser.objects.filter(
+                Q(rating=rating),
+                Q(price__gte=lower_price) & Q(price__lte=upper_price),
+            )
+        else:
+            filtered_endorsers = Endorser.objects.filter(
+                Q(price__gte=lower_price) & Q(price__lte=upper_price),
+            )
+
+        print(filtered_endorsers)
+        return HttpResponse(f"From Submitted")
+
     all_endorsers = Endorser.objects.all()
+    # for i in all_endorsers:
+        # print(f"The price of {i} is: {i.price} and reviews are: {i.reviews} stars")
     paginator = Paginator(all_endorsers, 18)
     page = 1
     page_1 = request.GET.get("page")
@@ -115,9 +155,7 @@ def manage_orders_view(request):
     print(organization)
     orders = organization.getOrders()
     print(orders)
-    context = {
-        'orders': orders
-    }
+    context = {"orders": orders}
     return render(request, "manage_orders.html", context)
 
 
@@ -157,8 +195,6 @@ class ApplicationApproval(View):
         print(order)
 
         # Transferring money start
-        
-
 
         # Transferring money end
 
