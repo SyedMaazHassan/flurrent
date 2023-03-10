@@ -19,7 +19,6 @@ class Endorser(CreatedCommon):
     location    = models.OneToOneField(Location, on_delete=models.SET_NULL, null=True, blank=True)
     social_media = models.OneToOneField(SocialMedia, on_delete=models.SET_NULL, null=True, blank=True)
     price = models.IntegerField(null=True, blank=True)
-    rating = models.IntegerField(null=True, blank=True)
 
     def getOrders(self):
         orders = Order.objects.filter(service_provider = self.created_by)
