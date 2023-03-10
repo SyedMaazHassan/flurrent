@@ -20,7 +20,8 @@ def home_view(request):
         lower_price = int(request.POST.get("lower_price"))
         upper_price = int(request.POST.get("upper_price"))
         name = request.POST.get("name")
-        rating = float(request.POST.get("rating"))
+        rating = request.POST.get("rating")
+
         if name:
             name_endorsers_id = []
             for endorser in Endorser.objects.all():
@@ -28,6 +29,7 @@ def home_view(request):
                     name_endorsers_id.append(endorser.pk)
             filtered_endorsers_with_name = Endorser.objects.filter(id__in=name_endorsers_id)
         if rating:
+            rating = int(request.POST.get("rating"))
             rating_endorsers_id = []
             for endorser in Endorser.objects.all():
                 if rating == endorser.created_by.getEndorserReviews().get('average'):
@@ -54,13 +56,12 @@ def home_view(request):
             filtered_endorsers = Endorser.objects.filter(
                 Q(price__gte=lower_price) & Q(price__lte=upper_price),
             )
-        # print(filtered_endorsers)
         context = {
             "all_endorsers": filtered_endorsers,
             "lower_price":lower_price,
             "upper_price":upper_price,
             "name":name,
-            "rating":rating,
+            "rating": str(rating),
         }
         return render(request, "org_home.html", context)
 
@@ -74,8 +75,6 @@ def home_view(request):
         page = int(page_1)
     else:
         all_endorsers = paginator.get_page(1)
-    for endorser in all_endorsers:
-        print(f"The reviews of {endorser.created_by.getFullName()} is {endorser.created_by.getEndorserReviews().get('average')}")
 
     context = {
         "all_endorsers": all_endorsers,
