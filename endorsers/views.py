@@ -12,6 +12,7 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from django.db.models import Q
 from django.core.paginator import Paginator
+from itertools import chain
 
 
 # Create your views here.
@@ -34,11 +35,50 @@ def home_view(request):
                 id__in=title_or_description_projects_id
             )
 
-        if title_or_description:
+        if rating:
+            rating = int(request.POST.get("rating"))
+            org_user_rating__ids = []
+            org_ids = []
+            for user in User.objects.all():
+                if user.is_organization:
+                    if rating <= user.getOrgReviews().get(
+                        "average"
+                    ) and rating + 1 > user.getOrgReviews().get("average"):
+                        org_user_rating__ids.append(user.pk)
+            for user_org in User.objects.filter(id__in=org_user_rating__ids):
+                org_ids.append(user_org.is_organization.pk)
+            filtered_projects_with_rating = Project.objects.filter(
+                organization__in=org_ids
+            )
+
+        if title_or_description and rating:
+            filtered_projects_with_title_and_rating = Project.objects.none()
+            for item in list(
+                chain(
+                    filtered_projects_with_title_or_description,
+                    filtered_projects_with_rating,
+                )
+            ):
+                filtered_projects_with_title_and_rating |= Project.objects.filter(
+                    pk=item.id
+                )
+            filtered_projects = filtered_projects_with_title_and_rating.filter(
+                Q(budget__min_price__gte=lower_price)
+                & Q(budget__max_price__lte=upper_price)
+            )
+
+        elif title_or_description:
             filtered_projects = filtered_projects_with_title_or_description.filter(
                 Q(budget__min_price__gte=lower_price)
                 & Q(budget__max_price__lte=upper_price)
             )
+
+        elif rating:
+            filtered_projects = filtered_projects_with_rating.filter(
+                Q(budget__min_price__gte=lower_price)
+                & Q(budget__max_price__lte=upper_price)
+            )
+
         else:
             filtered_projects = Project.objects.filter(
                 Q(budget__min_price__gte=lower_price)
@@ -50,6 +90,7 @@ def home_view(request):
             "title_or_description": title_or_description,
             "lower_price": lower_price,
             "upper_price": upper_price,
+            "rating": str(rating)
         }
 
         return render(request, "home.html", context)
