@@ -192,7 +192,7 @@
                 <!-- Title or Description  -->
                 <div class="pb-4 mb-2">
                   <h3 class="h6">Title or Description</h3>
-                  <input class="form-control" type="text" name="title_or_description" value="{{title_or_description}}" />
+                  <input id="title_or_description" class="form-control" type="text" name="title_or_description" value="{{title_or_description}}" />
                 </div>
                 <!-- Price  -->
                 <div class="pb-4 mb-2">
@@ -214,6 +214,7 @@
                             class="form-control range-slider-value-min"
                             type="number"
                             name="lower_price"
+                            id="lower_price"
                             value="{{lower_price}}"
                           />
                         </div>
@@ -226,6 +227,7 @@
                             class="form-control range-slider-value-max"
                             type="number"
                             name="upper_price"
+                            id="upper_price"
                             value="{{upper_price}}"
                           />
                         </div>
@@ -421,8 +423,11 @@
                   </div>
                 </div>
                 <!-- Apply Filter Button  -->
-                <div class="border-top py-4">
-                  <button class="btn btn-outline-primary rounded-pill" type="submit">
+                <div class="border-top py-4 filtering__action__btn__container">
+                  <button class="btn btn-outline-primary rounded-pill filtering__action__btn" type="button" onclick="clearInputs()">
+                    <i class="fi-filter me-2"></i>Remove Filters
+                  </button>
+                  <button class="btn btn-outline-primary rounded-pill filtering__action__btn" type="submit">
                     <i class="fi-filter me-2"></i>Apply Filters
                   </button>
                 </div>
@@ -565,8 +570,8 @@
                 <p class="fs-sm mb-3">{{ project.description }}</p>
                 <div class="fs-sm">
                   <span class="text-nowrap me-3">
-                    <i class="fi-cash fs-base text-muted me-1"></i><b>Budget</b> &nbsp; {{
-                    project.budget }}
+                    <i class="fi-cash fs-base text-muted me-1"></i><b>Budget</b> &nbsp;
+                    {{ project.budget }}
                   </span>
                   <span class="text-nowrap me-3">
                     <i class="fi-calendar-alt text-muted me-1"> </i>

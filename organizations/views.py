@@ -9,7 +9,6 @@ from django.views import View
 import json
 from django.http import HttpResponse
 from django.db.models import Q
-from itertools import chain
 
 # Create your views here.
 
@@ -45,13 +44,9 @@ def home_view(request):
             )
 
         if name and rating:
-            filtered_endorsers_with_name_and_rating = Endorser.objects.none()
-            for item in list(
-                chain(filtered_endorsers_with_name, filtered_endorsers_with_rating)
-            ):
-                filtered_endorsers_with_name_and_rating |= Endorser.objects.filter(
-                    pk=item.id
-                )
+            filtered_endorsers_with_name_and_rating = (
+                filtered_endorsers_with_name.filter(id__in=rating_endorsers_id)
+            )
             filtered_endorsers = filtered_endorsers_with_name_and_rating.filter(
                 Q(price__gte=lower_price) & Q(price__lte=upper_price),
             )

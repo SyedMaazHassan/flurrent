@@ -52,16 +52,7 @@ def home_view(request):
             )
 
         if title_or_description and rating:
-            filtered_projects_with_title_and_rating = Project.objects.none()
-            for item in list(
-                chain(
-                    filtered_projects_with_title_or_description,
-                    filtered_projects_with_rating,
-                )
-            ):
-                filtered_projects_with_title_and_rating |= Project.objects.filter(
-                    pk=item.id
-                )
+            filtered_projects_with_title_and_rating = filtered_projects_with_title_or_description.filter (organization__in=org_ids)
             filtered_projects = filtered_projects_with_title_and_rating.filter(
                 Q(budget__min_price__gte=lower_price)
                 & Q(budget__max_price__lte=upper_price)
