@@ -11,6 +11,7 @@ from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from django.db.models import Q
+from django.core.paginator import Paginator
 
 
 # Create your views here.
@@ -54,9 +55,21 @@ def home_view(request):
         return render(request, "home.html", context)
 
     all_projects = Project.objects.all()
-    context = {"projects": all_projects}
-    # for project in Project.objects.all():
-    #     print(project.budget.min_price, project.budget.max_price)
+    paginator = Paginator(all_projects, 18)
+    page = 1
+    page_1 = request.GET.get("page")
+    page_numbers = paginator.page_range
+    if page_1 and page_1.isdigit():
+        all_projects = paginator.get_page(page_1)
+        page = int(page_1)
+    else:
+        all_projects = paginator.get_page(1)
+
+    context = {
+        "projects": all_projects,
+        "page_numbers": page_numbers,
+        "page": page,
+    }
     return render(request, "home.html", context)
 
 
