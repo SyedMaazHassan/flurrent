@@ -19,13 +19,13 @@ def home_view(request):
     if request.method == "POST":
         lower_price = int(request.POST.get("lower_price"))
         upper_price = int(request.POST.get("upper_price"))
-        name = request.POST.get("name")
+        name = request.POST.get("name").lower()
         rating = request.POST.get("rating")
 
         if name:
             name_endorsers_id = []
             for endorser in Endorser.objects.all():
-                if name in endorser.created_by.getFullName():
+                if name in endorser.created_by.getFullName().lower():
                     name_endorsers_id.append(endorser.pk)
             filtered_endorsers_with_name = Endorser.objects.filter(id__in=name_endorsers_id)
         if rating:

@@ -9,14 +9,54 @@ from organizations.models import SocialMedia
 from django.http import JsonResponse
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
+from django.http import HttpResponse
+from django.db.models import Q
 
 
 # Create your views here.
 def home_view(request):
+    if request.method == "POST":
+        lower_price = float(request.POST.get("lower_price"))
+        upper_price = float(request.POST.get("upper_price"))
+        title_or_description = request.POST.get("title_or_description").lower()
+        rating = request.POST.get("rating")
+
+        if title_or_description:
+            title_or_description_projects_id = []
+            for project in Project.objects.all():
+                if (
+                    title_or_description in project.title.lower()
+                    or title_or_description in project.description.lower()
+                ):
+                    title_or_description_projects_id.append(project.pk)
+            filtered_projects_with_title_or_description = Project.objects.filter(
+                id__in=title_or_description_projects_id
+            )
+
+        if title_or_description:
+            filtered_projects = filtered_projects_with_title_or_description.filter(
+                Q(budget__min_price__gte=lower_price)
+                & Q(budget__max_price__lte=upper_price)
+            )
+        else:
+            filtered_projects = Project.objects.filter(
+                Q(budget__min_price__gte=lower_price)
+                & Q(budget__max_price__lte=upper_price)
+            )
+
+        context = {
+            "projects": filtered_projects,
+            "title_or_description": title_or_description,
+            "lower_price": lower_price,
+            "upper_price": upper_price,
+        }
+
+        return render(request, "home.html", context)
+
     all_projects = Project.objects.all()
-    context = {
-        "projects": all_projects
-    }
+    context = {"projects": all_projects}
+    # for project in Project.objects.all():
+    #     print(project.budget.min_price, project.budget.max_price)
     return render(request, "home.html", context)
 
 
@@ -25,9 +65,7 @@ def manage_orders_view(request):
     endorser = request.user.is_endorser
     print(endorser)
     orders = endorser.getOrders()
-    context = {
-        'orders': orders
-    }
+    context = {"orders": orders}
     return render(request, "end_orders.html", context)
 
 
@@ -39,90 +77,81 @@ def manage_orders_view(request):
 def single_order_view(request, order_id):
     context = {}
     endorser = request.user
-    order = Order.objects.filter(id = order_id, service_provider = endorser).first()
+    order = Order.objects.filter(id=order_id, service_provider=endorser).first()
     if not order:
         messages.error(request, "No order exists with this id")
         return redirect("core:home")
 
     if request.method == "POST":
-        note = request.POST.get('note')
-        thumbnail = request.FILES.get('thumbnail')
-        source_file = request.FILES.get('source_file')
+        note = request.POST.get("note")
+        thumbnail = request.FILES.get("thumbnail")
+        source_file = request.FILES.get("source_file")
 
         try:
-            order.createUpdate(
-                note,
-                thumbnail,
-                endorser,
-                source_file
-            )
+            order.createUpdate(note, thumbnail, endorser, source_file)
             messages.success(request, "Order update has been submitted successfully")
 
         except Exception as e:
             messages.error(request, "Something went wrong. Deliver the work again.")
 
-    context = {
-        'order': order
-    }
+    context = {"order": order}
     return render(request, "end_single_order.html", context)
 
 
-
-
 def get_single_application(request):
-    output = {
-        "status": False,
-        "data": None
-    }
-    application_id = request.GET.get('id')
+    output = {"status": False, "data": None}
+    application_id = request.GET.get("id")
     if application_id and application_id.isdigit():
         application_id = int(application_id)
-        application = Application.objects.filter(id = application_id).first()
+        application = Application.objects.filter(id=application_id).first()
         if application:
             data_object = {
-                "approve_url"        : request.build_absolute_uri(reverse('org:approve-application', args=[application.project.id, application.id])),
-                "project_url"        : request.build_absolute_uri(reverse('org:single-project', args=[application.project.id])),
-                "project_org_logo"   : application.project.organization.logo.url,
-                "project_org_name"   : application.project.organization.name,
-                "project_title"      : application.project.title,
+                "approve_url": request.build_absolute_uri(
+                    reverse(
+                        "org:approve-application",
+                        args=[application.project.id, application.id],
+                    )
+                ),
+                "project_url": request.build_absolute_uri(
+                    reverse("org:single-project", args=[application.project.id])
+                ),
+                "project_org_logo": application.project.organization.logo.url,
+                "project_org_name": application.project.organization.name,
+                "project_title": application.project.title,
                 "project_description": application.project.description,
-                "project_budget"     : str(application.project.budget),
-                "project_created_at" : application.project.get_created_at(),
-                "project_type"       : str(application.project.product.type),
-                "application_price"  : application.price,
-                "application_days"   : application.days,
+                "project_budget": str(application.project.budget),
+                "project_created_at": application.project.get_created_at(),
+                "project_type": str(application.project.product.type),
+                "application_price": application.price,
+                "application_days": application.days,
                 "application_created_at": application.get_created_at(),
-                "application_status" : True if application.is_approved else False,
-                "application_note"   : application.note,
-                "endorser_name"      : application.created_by.getFullName(),
+                "application_status": True if application.is_approved else False,
+                "application_note": application.note,
+                "endorser_name": application.created_by.getFullName(),
                 "endorser_profile_pic": application.created_by.profile_pic.url,
             }
-            output['data'] = data_object
-            output['status'] = True
-            print(data_object['approve_url'])
+            output["data"] = data_object
+            output["status"] = True
+            print(data_object["approve_url"])
     return JsonResponse(output)
 
 
 @login_required
 def apply_on_project(request, project_id):
-    project = Project.objects.filter(id = project_id).first()
+    project = Project.objects.filter(id=project_id).first()
     if not project:
         messages.error(request, "No project exists with this id")
         return redirect("core:home")
 
-    if request.method == 'POST':
-        price   = request.POST.get('price')
-        note    = request.POST.get('note')
-        days    = request.POST.get('days')
+    if request.method == "POST":
+        price = request.POST.get("price")
+        note = request.POST.get("note")
+        days = request.POST.get("days")
 
         print(price, note, days)
 
         application, created = Application.objects.update_or_create(
-            price = price,
-            note = note,
-            days = days,
-            project = project,
-            created_by = request.user
+            price=price, note=note, days=days, project=project, created_by=request.user
         )
         status = ""
         if created:
@@ -133,7 +162,6 @@ def apply_on_project(request, project_id):
         messages.success(request, f"Your application on this project has been {status}")
 
     return redirect("org:single-project", project_id=project.id)
-
 
 
 class EndorserUserProfileView(View):
@@ -156,14 +184,14 @@ class EndorserUserProfileView(View):
                 "button_text": "Save changes",
                 "template": "end_profile/personal_info.html",
                 "title": "Personal Info",
-                "subtitle": "Your personal info is 50% completed"
+                "subtitle": "Your personal info is 50% completed",
             },
             "security": {
                 "outline": "-outline",
                 "button_text": "Update password",
                 "template": "end_profile/security.html",
                 "title": "Password & Security",
-                "subtitle": "Manage your password settings and secure your account."
+                "subtitle": "Manage your password settings and secure your account.",
             },
             "referrals": {
                 "outline": "-outline",
@@ -175,7 +203,7 @@ class EndorserUserProfileView(View):
                 "total_points": total_points,
                 "invite_link": invite_link,
             },
-             "dashboard": {
+            "dashboard": {
                 "outline": "-outline",
                 "template": "end_profile/dashboard.html",
                 "title": "Dashboard",
@@ -187,7 +215,7 @@ class EndorserUserProfileView(View):
                 "template": "end_profile/profile_info.html",
                 "title": "Endorser profile info",
                 "subtitle": "Update your profile info to attract more organizations.",
-                "endorser": endorser
+                "endorser": endorser,
             },
             "reviews": {
                 "outline": "",
@@ -196,7 +224,7 @@ class EndorserUserProfileView(View):
                 "title": "Endorser reviews",
                 "subtitle": "Reviews you have received as an endorser",
                 "reviews": user.getEndorserReviews(),
-                "range_var": range(1, 6)
+                "range_var": range(1, 6),
             },
             "applications": {
                 "outline": "",
@@ -213,29 +241,25 @@ class EndorserUserProfileView(View):
                 "title": "Register organization",
                 "subtitle": "List your organization on our platform to find best endorsers",
                 # "applications": endorser.getApplications(),
-            }
-
+            },
         }
-
-
 
         context = template_info[section]
         context["section"] = section
         return render(request, context["template"], context)
-
 
     def post(self, request, section):
         # update the user's profile information
         user = request.user
         endorser = user.is_endorser
         # return redirect("org:profile", section="security")
-        if section == 'personal':
-            first_name = request.POST.get('first_name')
-            last_name = request.POST.get('last_name')
+        if section == "personal":
+            first_name = request.POST.get("first_name")
+            last_name = request.POST.get("last_name")
             # email = request.POST.get('email')
-            phone = request.POST.get('phone')
-            bio = request.POST.get('bio')
-            profile_pic = request.FILES.get('profile_pic')
+            phone = request.POST.get("phone")
+            bio = request.POST.get("bio")
+            profile_pic = request.FILES.get("profile_pic")
 
             try:
                 if not (first_name and last_name):
@@ -251,17 +275,19 @@ class EndorserUserProfileView(View):
                 user.bio = bio
                 user.phone = phone
                 user.save()
-                messages.success(request, "Personal info has been updated successfully!")
+                messages.success(
+                    request, "Personal info has been updated successfully!"
+                )
 
             except Exception as e:
                 messages.error(request, str(e))
 
-        elif section == 'security':
+        elif section == "security":
             # update the user's password
 
-            current_password = request.POST.get('current_password')
-            new_password1 = request.POST.get('new_password1')
-            new_password2 = request.POST.get('new_password2')
+            current_password = request.POST.get("current_password")
+            new_password1 = request.POST.get("new_password1")
+            new_password2 = request.POST.get("new_password2")
 
             if not user.check_password(current_password):
                 messages.error(request, "Current password is wrong!")
@@ -274,13 +300,12 @@ class EndorserUserProfileView(View):
                 else:
                     messages.error(request, "New password must be same")
 
-        elif section == 'endorser-info':
-
-            description = request.POST.get('description')
-            tagline     = request.POST.get('tagline')
-            bio         = request.POST.get('bio')
-            interests   = request.POST.get('interests')
-            followers   = request.POST.get('followers')
+        elif section == "endorser-info":
+            description = request.POST.get("description")
+            tagline = request.POST.get("tagline")
+            bio = request.POST.get("bio")
+            interests = request.POST.get("interests")
+            followers = request.POST.get("followers")
 
             try:
                 if not tagline:
@@ -294,11 +319,11 @@ class EndorserUserProfileView(View):
                 endorser.save()
 
                 # Updating social media
-                website = request.POST.get('website')
-                facebook = request.POST.get('facebook')
-                instagram = request.POST.get('instagram')
-                youtube = request.POST.get('youtube')
-                tiktok = request.POST.get('tiktok')
+                website = request.POST.get("website")
+                facebook = request.POST.get("facebook")
+                instagram = request.POST.get("instagram")
+                youtube = request.POST.get("youtube")
+                tiktok = request.POST.get("tiktok")
 
                 if endorser.social_media:
                     endorser.social_media.website = website
@@ -310,11 +335,11 @@ class EndorserUserProfileView(View):
                 else:
                     if website or facebook or instagram or youtube or tiktok:
                         new_social_media = SocialMedia(
-                            website = website,
-                            facebook = facebook,
-                            instagram = instagram,
-                            youtube = youtube,
-                            tiktok = tiktok
+                            website=website,
+                            facebook=facebook,
+                            instagram=instagram,
+                            youtube=youtube,
+                            tiktok=tiktok,
                         )
                         new_social_media.save()
                         endorser.social_media = new_social_media
@@ -325,38 +350,38 @@ class EndorserUserProfileView(View):
             except Exception as e:
                 messages.error(request, str(e))
 
-        elif section == 'register-organization':
-            organization_logo = request.FILES.get('organization_logo')
-            organization_name = request.POST.get('organization_name')
-            organization_type = request.POST.get('organization_type')
-            description       = request.POST.get('description')
+        elif section == "register-organization":
+            organization_logo = request.FILES.get("organization_logo")
+            organization_name = request.POST.get("organization_name")
+            organization_type = request.POST.get("organization_type")
+            description = request.POST.get("description")
 
             try:
                 if not (organization_name and organization_type):
                     raise Exception("Organization name or type can't by empty")
 
                 # Updating social media
-                website = request.POST.get('website')
-                facebook = request.POST.get('facebook')
-                instagram = request.POST.get('instagram')
-                youtube = request.POST.get('youtube')
-                tiktok = request.POST.get('tiktok')
+                website = request.POST.get("website")
+                facebook = request.POST.get("facebook")
+                instagram = request.POST.get("instagram")
+                youtube = request.POST.get("youtube")
+                tiktok = request.POST.get("tiktok")
                 social_media = None
                 if website or facebook or instagram or youtube or tiktok:
                     social_media = {
-                        'website': website,
-                        'facebook': facebook,
-                        'instagram': instagram,
-                        'youtube': youtube,
-                        'tiktok': tiktok
+                        "website": website,
+                        "facebook": facebook,
+                        "instagram": instagram,
+                        "youtube": youtube,
+                        "tiktok": tiktok,
                     }
 
                 organization = user.createOrganization(
-                    name = organization_name,
-                    type = organization_type,
-                    logo = organization_logo,
-                    description = description,
-                    social_media = social_media
+                    name=organization_name,
+                    type=organization_type,
+                    logo=organization_logo,
+                    description=description,
+                    social_media=social_media,
                 )
 
                 messages.success(request, "Organization profile has been created")
@@ -364,6 +389,5 @@ class EndorserUserProfileView(View):
 
             except Exception as e:
                 messages.error(request, str(e))
-
 
         return redirect("endorsers:profile", section=section)

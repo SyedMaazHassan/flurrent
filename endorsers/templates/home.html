@@ -187,12 +187,12 @@
             </div>
             <!-- Filters-->
             <div class="tab-pane fade show active" id="filters" role="tabpanel">
-              <form action="{% url 'org:home' %}" method="POST">
+              <form action="{% url 'endorsers:home' %}" method="POST">
                 {% csrf_token %}
-                <!-- Name  -->
+                <!-- Title or Description  -->
                 <div class="pb-4 mb-2">
                   <h3 class="h6">Title or Description</h3>
-                  <input class="form-control" type="text" name="name" value="{{name}}" />
+                  <input class="form-control" type="text" name="title_or_description" value="{{title_or_description}}" />
                 </div>
                 <!-- Price  -->
                 <div class="pb-4 mb-2">
