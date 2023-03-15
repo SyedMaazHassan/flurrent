@@ -72,8 +72,8 @@
             </div>
             <!-- Filters-->
               <div class="tab-pane fade show active" id="filters" role="tabpanel">
-                <form action="{% url 'org:home' %}" method="POST">
-                  {% csrf_token %}
+                <form action="{% url 'org:home' %}" method="GET">
+               
                   <!-- Name  -->
                   <div class="pb-4 mb-2">
                     <h3 class="h6">Name</h3>
@@ -268,8 +268,9 @@
 
                     <div class="text-center align-center">
                         <img class="rounded-3 my-3" style="width: 40%;" src="{{endorser.created_by.profile_pic.url}}" alt="Article img">
-                        <h3 class="my-1 fs-lg"><a class="nav-link stretched-link" href="{% url 'org:single-endorser' endorser.id %}">{{ endorser.created_by.getFullName }}</a></h3>
+                        <h3 class="my-1 fs-lg"><a class="nav-link stretched-link" href="{% url 'org:single-endorser' endorser.id %}">{{ endorser.created_by.getFullName }} <span class="text-primary">(${{ endorser.price }})</span></a></h3>
                         <p class="card-text">
+
                           {% if endorser.bio %}
                             {{ endorser.bio }}
                           {% else %}

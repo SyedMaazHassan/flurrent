@@ -23,6 +23,7 @@ def home_view(request):
         title_or_description = request.POST.get("title_or_description").lower()
         rating = request.POST.get("rating")
 
+
         if title_or_description:
             title_or_description_projects_id = []
             for project in Project.objects.all():
@@ -36,6 +37,7 @@ def home_view(request):
             )
 
         if rating:
+            # We have to improve
             rating = int(request.POST.get("rating"))
             org_user_rating__ids = []
             org_ids = []
@@ -87,6 +89,10 @@ def home_view(request):
         return render(request, "home.html", context)
 
     all_projects = Project.objects.all()
+
+
+
+    
     paginator = Paginator(all_projects, 18)
     page = 1
     page_1 = request.GET.get("page")

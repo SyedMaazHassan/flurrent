@@ -15,23 +15,34 @@ from django.db.models import Q
 
 @login_required
 def home_view(request):
-    if request.method == "POST":
-        lower_price = int(request.POST.get("lower_price"))
-        upper_price = int(request.POST.get("upper_price"))
-        name = request.POST.get("name").lower()
-        rating = request.POST.get("rating")  # 3
+    if request.method == "GET":
+        lower_price = request.GET.get("lower_price")
+        upper_price = request.GET.get("upper_price")
+        name = request.GET.get("name")
+        rating = request.GET.get("rating")  # 3
+
+        filtered_results = filtered_endorsers = Endorser.objects.all()
 
         if name:
-            name_endorsers_id = []
-            for endorser in Endorser.objects.all():
-                if name in endorser.created_by.getFullName().lower():
-                    name_endorsers_id.append(endorser.pk)
-            filtered_endorsers_with_name = Endorser.objects.filter(
-                id__in=name_endorsers_id
+            name = name.lower()
+            filtered_results = Endorser.objects.filter(
+                Q(created_by__first_name__icontains = name) | Q(created_by__last_name__icontains = name)
             )
+            
+            
+            # name_endorsers_id = []
+
+            # for endorser in Endorser.objects.all():
+            #     if name in endorser.created_by.getFullName().lower():
+            #         name_endorsers_id.append(endorser.pk)
+            # filtered_endorsers_with_name = Endorser.objects.filter(
+            #     id__in=name_endorsers_id
+            # )
+
         if rating:
-            rating = int(request.POST.get("rating"))
-            rating_endorsers_id = []
+            # We have to improve
+            rating = int(rating)
+            rating_endorsers_id = []    
             for endorser in Endorser.objects.all():
                 if rating <= endorser.created_by.getEndorserReviews().get(
                     "average"
@@ -39,29 +50,32 @@ def home_view(request):
                     "average"
                 ):
                     rating_endorsers_id.append(endorser.pk)
-            filtered_endorsers_with_rating = Endorser.objects.filter(
+            filtered_results = Endorser.objects.filter(
                 id__in=rating_endorsers_id
             )
 
-        if name and rating:
-            filtered_endorsers_with_name_and_rating = (
-                filtered_endorsers_with_name.filter(id__in=rating_endorsers_id)
-            )
-            filtered_endorsers = filtered_endorsers_with_name_and_rating.filter(
-                Q(price__gte=lower_price) & Q(price__lte=upper_price),
-            )
-        elif name:
-            filtered_endorsers = filtered_endorsers_with_name.filter(
-                Q(price__gte=lower_price) & Q(price__lte=upper_price),
-            )
-        elif rating:
-            filtered_endorsers = filtered_endorsers_with_rating.filter(
-                Q(price__gte=lower_price) & Q(price__lte=upper_price),
-            )
-        else:
-            filtered_endorsers = Endorser.objects.filter(
-                Q(price__gte=lower_price) & Q(price__lte=upper_price),
-            )
+        if lower_price or upper_price:
+            pass
+
+        # if name and rating:
+        #     filtered_endorsers_with_name_and_rating = (
+        #         filtered_endorsers_with_name.filter(id__in=rating_endorsers_id)
+        #     )
+        #     filtered_endorsers = filtered_endorsers_with_name_and_rating.filter(
+        #         Q(price__gte=lower_price) & Q(price__lte=upper_price),
+        #     )
+        # elif name:
+        #     filtered_endorsers = filtered_endorsers_with_name.filter(
+        #         Q(price__gte=lower_price) & Q(price__lte=upper_price),
+        #     )
+        # elif rating:
+        #     filtered_endorsers = filtered_endorsers_with_rating.filter(
+        #         Q(price__gte=lower_price) & Q(price__lte=upper_price),
+        #     )
+        # else:
+        #     filtered_endorsers = Endorser.objects.filter(
+        #         Q(price__gte=lower_price) & Q(price__lte=upper_price),
+        #     )
         context = {
             "all_endorsers": filtered_endorsers,
             "lower_price": lower_price,
@@ -71,7 +85,15 @@ def home_view(request):
         }
         return render(request, "org_home.html", context)
 
+
+    
     all_endorsers = Endorser.objects.all()
+
+
+
+
+
+
     paginator = Paginator(all_endorsers, 18)
     page = 1
     page_1 = request.GET.get("page")
