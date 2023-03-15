@@ -1,0 +1,9 @@
+CNAME	autoconfig		flurrent.com.	10800 seconds		
+
+CNAME	autoconfig.admin	flurrent.com.	10800 seconds		
+
+CNAME	autoconfiga		webapp-1547610.pythonanywhere.com.	1 Hour		
+
+CNAME	autodiscover		flurrent.com.	10800 seconds		
+
+CNAME	autodiscover.admin	flurrent.com.	10800 seconds

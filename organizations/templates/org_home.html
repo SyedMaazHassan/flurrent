@@ -246,7 +246,7 @@
           </select>
         </div>
         <hr class="d-none d-sm-block w-100 mx-4">
-        <div class="d-none d-sm-flex align-items-center flex-shrink-0 text-muted"><i class="fi-check-circle me-2"></i><span class="fs-sm mt-n1">148 results</span></div>
+        <div class="d-none d-sm-flex align-items-center flex-shrink-0 text-muted"><i class="fi-check-circle me-2"></i><span class="fs-sm mt-n1">{{ all_endorsers.count }} results</span></div>
       </div>
       <!-- Catalog grid-->
       <div class="row row-cols-xl-3 row-cols-sm-2 row-cols-1 gy-4 gx-3 gx-xxl-4 py-4">
@@ -314,7 +314,9 @@
             </div>
           {% endfor %}
         {% else %}
-          {% include 'inc/no-result.html' with data_type='endorser' %}
+          <div class="text-center mt-3">
+            {% include 'inc/no-result.html' with data_type='endorser' %}
+          </div>
         {% endif %}
       </div>
       <!-- Pagination-->
