@@ -81,7 +81,7 @@
                       class="form-control"
                       type="text"
                       name="name"
-                      value="{{name}}"
+                      value="{% if request.GET.name %} {{ request.GET.name }} {% endif %}"
                     />
                   </div>
                   <!-- Price  -->
@@ -230,7 +230,7 @@
       </nav>
       <!-- Title-->
       <div class="d-sm-flex align-items-center justify-content-between pb-3 pb-sm-4">
-        <h1 class="h2 mb-sm-0">Find best endorsers</h1><a class="d-inline-block fw-bold text-decoration-none py-1" href="#" data-bs-toggle-class="invisible" data-bs-target="#map"><i class="fi-map me-2"></i>Map view</a>
+        <h1 class="h2 mb-sm-0">Find best endorser</h1><a class="d-inline-block fw-bold text-decoration-none py-1" href="#" data-bs-toggle-class="invisible" data-bs-target="#map"><i class="fi-map me-2"></i>Map view</a>
       </div>
       <!-- Sorting-->
       <div class="d-flex flex-sm-row flex-column align-items-sm-center align-items-stretch my-2">
@@ -268,7 +268,16 @@
 
                     <div class="text-center align-center">
                         <img class="rounded-3 my-3" style="width: 40%;" src="{{endorser.created_by.profile_pic.url}}" alt="Article img">
-                        <h3 class="my-1 fs-lg"><a class="nav-link stretched-link" href="{% url 'org:single-endorser' endorser.id %}">{{ endorser.created_by.getFullName }} <span class="text-primary">(${{ endorser.price }})</span></a></h3>
+                        
+                        <h3 class="my-1 fs-lg">
+                          <a class="nav-link stretched-link" href="{% url 'org:single-endorser' endorser.id %}">
+                            {{ endorser.created_by.getFullName }} 
+                            {% if endorser.price %}
+                              <span class="text-primary">(${{ endorser.price }})</span>
+                            {% endif %}
+                          </a>
+                        </h3>
+
                         <p class="card-text">
 
                           {% if endorser.bio %}

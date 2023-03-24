@@ -18,7 +18,7 @@ def home_view(request):
     if request.method == "GET":
         lower_price = request.GET.get("lower_price")
         upper_price = request.GET.get("upper_price")
-        name = request.GET.get("name")
+        name = request.GET.get("name") or ''
         rating = request.GET.get("rating")  # 3
 
         filtered_results = filtered_endorsers = Endorser.objects.all()
@@ -248,6 +248,11 @@ class OrgUserProfileView(View):
         # get the user's profile information.
         print(section)
         user = request.user
+        organization = user.is_organization
+
+        if not organization:
+            return redirect("core:profile")
+
         # get the referral's query set and invite link for the current user.
         referrals = user.getRefers()
         invite_link = user.getInviteLink()
@@ -340,6 +345,7 @@ class OrgUserProfileView(View):
         context = template_info[section]
         context["section"] = section
         return render(request, context["template"], context)
+
 
     def post(self, request, section):
         # update the user's profile information

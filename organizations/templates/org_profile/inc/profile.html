@@ -187,7 +187,7 @@ id="overlay"></div>
         
         {% include 'inc/msg.inc.html' %}
 
-        <form action="{% url 'endorsers:profile' section %}" method="post" enctype="multipart/form-data">
+        <form action="{% url 'org:profile' section %}" method="post" enctype="multipart/form-data">
           {% csrf_token %}
 
           {% block section_content %}

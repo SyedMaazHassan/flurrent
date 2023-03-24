@@ -218,9 +218,12 @@ def apply_on_project(request, project_id):
 class EndorserUserProfileView(View):
     def get(self, request, section):
         # get the user's profile information.
-        print(section)
         user = request.user
         endorser = user.is_endorser
+        
+        if not endorser:
+            return redirect("core:profile")
+
         # get the referral's query set and invite link for the current user.
         referrals = user.getRefers()
         invite_link = user.getInviteLink()
