@@ -54,28 +54,28 @@ def home_view(request):
                 id__in=rating_endorsers_id
             )
 
-        if lower_price or upper_price:
-            pass
+        if lower_price and upper_price:
+            filtered_endorsers = Endorser.objects.filter(
+                Q(price__gte=lower_price) & Q(price__lte=upper_price),
+            )
 
-        # if name and rating:
-        #     filtered_endorsers_with_name_and_rating = (
-        #         filtered_endorsers_with_name.filter(id__in=rating_endorsers_id)
-        #     )
-        #     filtered_endorsers = filtered_endorsers_with_name_and_rating.filter(
-        #         Q(price__gte=lower_price) & Q(price__lte=upper_price),
-        #     )
-        # elif name:
-        #     filtered_endorsers = filtered_endorsers_with_name.filter(
-        #         Q(price__gte=lower_price) & Q(price__lte=upper_price),
-        #     )
-        # elif rating:
-        #     filtered_endorsers = filtered_endorsers_with_rating.filter(
-        #         Q(price__gte=lower_price) & Q(price__lte=upper_price),
-        #     )
-        # else:
-        #     filtered_endorsers = Endorser.objects.filter(
-        #         Q(price__gte=lower_price) & Q(price__lte=upper_price),
-        #     )
+        if name and rating:
+            filtered_endorsers_with_name_and_rating = (
+                filtered_results.filter(id__in=rating_endorsers_id)
+            )
+            filtered_endorsers = filtered_endorsers_with_name_and_rating.filter(
+                Q(price__gte=lower_price) & Q(price__lte=upper_price),
+            )
+        elif name:
+            filtered_endorsers = filtered_results.filter(
+                Q(price__gte=lower_price) & Q(price__lte=upper_price),
+            )
+        elif rating:
+            filtered_endorsers = filtered_results.filter(
+                Q(price__gte=lower_price) & Q(price__lte=upper_price),
+            )
+            
+
         context = {
             "all_endorsers": filtered_endorsers,
             "lower_price": lower_price,
@@ -254,8 +254,9 @@ class OrgUserProfileView(View):
             return redirect("core:profile")
 
         # get the referral's query set and invite link for the current user.
+        domain = request.META['HTTP_HOST']
         referrals = user.getRefers()
-        invite_link = user.getInviteLink()
+        invite_link = user.getInviteLink(domain)
         # calculating total number of points for the current users.
         total_points = 0
         for refer in referrals:

@@ -112,6 +112,9 @@ def validatePassword(request):
 
 
 def signup_view(request):
+    if request.user.is_authenticated:
+        return redirect("core:home")
+
     context = {"error": False}
     if request.method == "POST":
         refer_id = request.POST.get("refer_id")

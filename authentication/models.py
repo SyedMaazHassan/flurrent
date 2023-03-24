@@ -199,8 +199,8 @@ class User(AbstractUser):
     def getRefers(self):
         return Refer.objects.filter(invited_by=self)
 
-    def getInviteLink(self):
-        base_url = "http://127.0.0.1:8000"
+    def getInviteLink(self, domain):
+        base_url = domain
         return f"{base_url}/authentication/signup?refer_id={self.refer_id}"
 
     def save(self, *args, **kwargs):

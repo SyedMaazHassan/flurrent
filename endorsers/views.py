@@ -225,8 +225,9 @@ class EndorserUserProfileView(View):
             return redirect("core:profile")
 
         # get the referral's query set and invite link for the current user.
+        domain = request.META['HTTP_HOST']
         referrals = user.getRefers()
-        invite_link = user.getInviteLink()
+        invite_link = user.getInviteLink(domain)
         # calculating total number of points for the current users.
         total_points = 0
         for refer in referrals:
