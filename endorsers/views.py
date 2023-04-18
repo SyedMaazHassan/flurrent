@@ -13,7 +13,7 @@ from django.http import HttpResponse
 from django.db.models import Q
 from django.core.paginator import Paginator
 from itertools import chain
-
+from skills.models import Skill
 
 # Create your views here.
 def home_view(request):
@@ -241,6 +241,16 @@ class EndorserUserProfileView(View):
                 "title": "Personal Info",
                 "subtitle": "Your personal info is 50% completed",
             },
+            "skills": {
+                "is_mine": True,
+                "badges": endorser.get_won_badges(),
+                "added_skills": endorser.get_skill_objects(),
+                "outline": "",
+                "button_text": "",
+                "template": "end_profile/skills.html",
+                "title": "Skills",
+                "subtitle": "All the skills you added are listed here, you can validated them by taking quiz",
+            },
             "security": {
                 "outline": "-outline",
                 "button_text": "Update password",
@@ -264,11 +274,11 @@ class EndorserUserProfileView(View):
                 "title": "Dashboard",
                 "subtitle": "See the number of organizations, projects, earnings and their analytics here.",
             },
-            "endorser-info": {
+            "expert-info": {
                 "outline": "",
                 "button_text": "Save changes",
                 "template": "end_profile/profile_info.html",
-                "title": "Endorser profile info",
+                "title": "Expert profile info",
                 "subtitle": "Update your profile info to attract more organizations.",
                 "endorser": endorser,
             },
@@ -300,6 +310,8 @@ class EndorserUserProfileView(View):
         }
 
         context = template_info[section]
+        context["skills"] = Skill.objects.all()
+        context["added_skills_list"] = [str(x) for x in endorser.get_skills()]
         context["section"] = section
         return render(request, context["template"], context)
 

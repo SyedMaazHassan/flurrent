@@ -2,6 +2,7 @@ from django.db import models
 from organizations.models import CreatedCommon, Project, Location, SocialMedia
 from django.db import transaction
 from django.utils import timezone
+import json
 # Create your models here.
 
 # python manage.py makemigrations
@@ -19,7 +20,26 @@ class Endorser(CreatedCommon):
     location    = models.OneToOneField(Location, on_delete=models.SET_NULL, null=True, blank=True)
     social_media = models.OneToOneField(SocialMedia, on_delete=models.SET_NULL, null=True, blank=True)
     price       = models.IntegerField(null=True, blank=True)
-    
+    skills      = models.TextField(null=True, blank=True)
+
+    def get_won_badges(self):
+        from skills.models import WonBadge
+        all_won_badge = WonBadge.objects.filter(user = self.created_by)
+        return all_won_badge
+
+    def get_skill_objects(self):
+        from skills.models import Skill
+        skill_ids = self.get_skills()
+        skills = Skill.objects.filter(id__in=skill_ids)
+        return skills
+
+    def get_skills(self):
+        skills_list = json.loads(self.skills) if self.skills else []
+        return skills_list
+
+    def set_skills(self, skill_list):
+        self.skills = json.dumps(skill_list)
+        self.save()
 
     def getOrders(self):
         orders = Order.objects.filter(service_provider = self.created_by)

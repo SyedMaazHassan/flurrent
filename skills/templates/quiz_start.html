@@ -1,0 +1,226 @@
+{% extends 'inc/base.html' %}
+
+{% block custom_css %}
+<style>
+    #timer {
+        font-size: 35px;
+        text-align: center;
+    }
+</style>
+
+{% endblock custom_css %}
+
+{% block title %}
+  Flurrent | Skills
+{% endblock title %}
+
+{% block content %}
+<br>
+<div class="container mt-5 pt-5 p-0">
+  <div class="row g-0 mt-n3">
+    
+    <!-- Page content-->
+    <div class="col-lg-12 col-xl-12 position-relative overflow-hidden pb-5 pt-4 px-2 px-xl-4 px-xxl-5">
+      <!-- Map popup-->
+     
+      
+      <!-- Title-->
+      <!-- category. and skill. required -->
+      {% include 'inc/single_skill_head_card.inc.html' %}
+
+
+
+      <!-- Catalog grid-->
+      <div >
+
+
+            <!-- quiz. variable required -->
+            {% include 'inc/single_quiz_head_card.inc.html' %}
+
+
+
+
+            {% if report.is_report_generated %}
+
+                <!-- report. required -->
+                {% include 'inc/quiz_result_card.inc.html' %}
+
+            {% endif %}
+
+
+
+
+            <div class="card text-left skill-card">
+              <div class="card-body">
+                <h3 class="mb-4">Questions</h3>
+
+                <form action="" method="post">
+                    {% csrf_token %}
+
+
+                    {% if report.is_report_generated %}
+
+                    
+                    <div>
+                        <ol>
+                            {% for question in questions %}
+                                <li class="mb-4">
+                                    <b>{{question}}</b> 
+                                    
+                                    {% if question.status == 1 %}
+                                        <i class="fa fa-circle-check text-success" style="font-size: 25px;"></i>
+                                    {% elif question.status == 0 %}
+                                        <i class="fa fa-circle-xmark text-danger" style="font-size: 25px;"></i>
+                                    {% endif %}
+
+                                    <div class="my-3">
+                                        <div>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" name="question_{{ question.id }}" id="exampleRadios{{ forloop.counter }}1" value="{{ question.option1 }}" {% if question.selected_answer == question.option1 %}checked{% else %}disabled{% endif %}>
+                                                <label class="form-check-label" for="exampleRadios{{ forloop.counter }}1">
+                                                    {{ question.option1 }}
+                                                </label>
+                                            </div>
+
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" name="question_{{ question.id }}" id="exampleRadios{{ forloop.counter }}2" value="{{ question.option2 }}" {% if question.selected_answer == question.option2 %}checked{% else %}disabled{% endif %}>
+                                                <label class="form-check-label" for="exampleRadios{{ forloop.counter }}2">
+                                                    {{ question.option2 }}
+                                                </label>
+                                            </div>
+
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" name="question_{{ question.id }}" id="exampleRadios{{ forloop.counter }}3" value="{{ question.option3 }}" {% if question.selected_answer == question.option3 %}checked{% else %}disabled{% endif %}>
+                                                <label class="form-check-label" for="exampleRadios{{ forloop.counter }}3">
+                                                    {{ question.option3 }}
+                                                </label>
+                                            </div>
+
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" name="question_{{ question.id }}" id="exampleRadios{{ forloop.counter }}4" value="{{ question.option4 }}" {% if question.selected_answer == question.option4 %}checked{% else %}disabled{% endif %}>
+                                                <label class="form-check-label" for="exampleRadios{{ forloop.counter }}4">
+                                                    {{ question.option4 }}
+                                                </label>
+                                            </div>
+
+                                        </div>
+                                        
+                                        
+                                        
+                                    </div>
+
+                                </li>
+                            {% endfor %}
+                        </ol>
+
+                    </div>
+
+
+                    {% else %}
+
+                    <div>
+                        <ol>
+                            {% for question in questions %}
+                                <li class="mb-4">
+                                    <b>{{question}}</b> 
+                                 
+                                    <div class="my-3">
+                                        <div>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" name="question_{{ question.id }}" id="exampleRadios{{ forloop.counter }}1" value="{{ question.option1 }}">
+                                                <label class="form-check-label" for="exampleRadios{{ forloop.counter }}1">
+                                                    {{ question.option1 }}
+                                                </label>
+                                            </div>
+
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" name="question_{{ question.id }}" id="exampleRadios{{ forloop.counter }}2" value="{{ question.option2 }}">
+                                                <label class="form-check-label" for="exampleRadios{{ forloop.counter }}2">
+                                                    {{ question.option2 }}
+                                                </label>
+                                            </div>
+
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" name="question_{{ question.id }}" id="exampleRadios{{ forloop.counter }}3" value="{{ question.option3 }}">
+                                                <label class="form-check-label" for="exampleRadios{{ forloop.counter }}3">
+                                                    {{ question.option3 }}
+                                                </label>
+                                            </div>
+
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" name="question_{{ question.id }}" id="exampleRadios{{ forloop.counter }}4" value="{{ question.option4 }}">
+                                                <label class="form-check-label" for="exampleRadios{{ forloop.counter }}4">
+                                                    {{ question.option4 }}
+                                                </label>
+                                            </div>
+
+                                        </div>
+                                        
+                                        
+                                        
+                                    </div>
+
+                                </li>
+                            {% endfor %}
+                        </ol>
+
+                        <div class="p-3">
+                            <div class="form-group form-check bg-none">
+                                <input type="checkbox" class="mx-2 form-check-input" id="consent" name="consent" required>
+                                <label class="form-check-label mx-2 bg-none" for="consent">
+                                    By clicking the submit button, I acknowledge that all of the answers provided in this quiz are solely my own work.
+                                </label>
+                            </div>
+                        </div>
+
+                    
+
+                        <button type="submit" class="btn btn-primary m-3">Submit quiz</button>
+
+                    </div>
+
+                    {% endif %}
+
+                </form>
+
+    
+              </div>
+            </div>
+
+         
+      </div>
+
+
+    </div>
+  </div>
+</div>
+
+
+<button class="btn btn-primary btn-sm w-100 rounded-0 fixed-bottom d-lg-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#filters-sidebar"><i class="fi-filter me-2"></i>Filters</button>
+<script>
+    function to_submit() {
+        location.reload();
+    }
+
+    const startTime = new Date('{{ attempt.start_time|date:"Y-m-d\TH:i:s" }}');
+    function updateTimer() {
+        const now = new Date();
+        const elapsed = now.getTime() - startTime.getTime();
+        const hours = Math.floor(elapsed / 3600000);
+        const minutes = Math.floor((elapsed % 3600000) / 60000);
+        const seconds = Math.floor((elapsed % 60000) / 1000);
+        const timerElement = document.getElementById('timer');
+        timerElement.innerHTML = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+    }
+    setInterval(updateTimer, 1000);
+
+
+    // window.addEventListener("beforeunload", function(e) {    
+    //     // If the form has not been submitted, show confirmation prompt
+    //     e.preventDefault();
+    //     e.returnValue = "";
+    // });
+
+</script>
+
+{% endblock content %}

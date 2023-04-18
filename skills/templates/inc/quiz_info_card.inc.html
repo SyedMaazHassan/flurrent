@@ -1,0 +1,31 @@
+<div class="row mb-4">
+    <div class="col-sm-12">
+        <div class="card text-left  skill-card" >
+        
+        <div class="card-body">
+            <div class="row">
+                <div class="col-sm-10">
+                    <h5 class="card-title">
+                    <i title="You already passed this quiz" class="fa fa-circle-check text-success"></i> Quiz: {{ quiz.name }}</h5>
+                    <p class="card-text text-grey">{{ quiz.description }}</p>
+                    <span class="badge bg-faded-dark">
+                        <b>{{ quiz.passing_score }}% passing score</b>
+                    </span>
+                    <span class="badge bg-faded-dark mx-2">
+                        <b>{{ quiz.difficulty }}</b>
+                    </span>
+                
+                </div>
+
+                <div class="col-sm-2">
+                    <img src="{{ quiz.badge.image.url }}" class="w-100" alt="">
+                </div>
+            </div>
+
+        </div>
+
+    
+
+        </div>
+    </div>
+</div>

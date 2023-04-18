@@ -21,6 +21,7 @@
     {% block custom_css %} {% endblock custom_css %}
     <!-- <link rel="manifest" href="site.webmanifest"> -->
     <link rel="mask-icon" color="#5bbad5" href="{% static 'safari-pinned-tab.svg' %}" />
+    <script src="https://kit.fontawesome.com/8cce5e5857.js" crossorigin="anonymous"></script>
     <meta name="msapplication-TileColor" content="#766df4" />
     <meta name="theme-color" content="#ffffff" />
     <!-- Page loading styles-->
@@ -29,6 +30,37 @@
         display: flex;
         column-gap: 0.5rem;
       }
+
+      .skill-card{
+        transition-duration: 0.25s;
+      }    
+
+      .skill-card:hover{
+          cursor: pointer;
+          box-shadow: 0 0 5px rgba(0,0,0,.2);
+          background-color: #f9f9f9;
+          transition-duration: 0.25s;
+      }
+
+
+      .skill-card-active{
+        box-shadow: 0 0 5px rgba(0,0,0,.2) !important;
+        background-color: #f9f9f9  !important;
+        color: #fd5631 !important;
+      }
+
+      .skill-card-active a{
+        box-shadow: 0 0 5px rgba(0,0,0,.2) !important;
+        background-color: #f9f9f9  !important;
+        color: #fd5631 !important;
+      }
+
+      
+
+      .text-grey{
+        color: rgb(61, 61, 61);
+      }
+
       .filtering__action__btn{
         width: 15rem;
         font-size: 1rem;
@@ -155,7 +187,8 @@
     </div>
     <main class="page-wrapper">
       <!-- Navbar-->
-      {% if user.mode == 'organization' %} {% include 'inc/navbar-org.inc.html' %} {% else %}
+      {% if user.mode == 'organization' %} 
+      {% include 'inc/navbar-org.inc.html' %} {% else %}
       {% include 'inc/navbar.inc.html' %} {% endif %}
 
       <!-- Page content-->

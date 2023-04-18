@@ -28,7 +28,7 @@
         class="fi-check p-1 opacity-60 bg-dark text-white rounded-circle"
         style="margin-right: 3px"
       ></i>
-      {% endif %} Endorser
+      {% endif %} Expert
     </a>
     {% endif %} {% if user.is_staff_member %}
     <span
@@ -105,7 +105,7 @@
         href="{% url 'org:profile' 'become-endorser' %}"
       >
         <i class="fi-user-plus opacity-60 me-2"></i>
-        Become endorser
+        Become expert
       </a>
       {% endif %} {% if not user.is_organization %}
       <a

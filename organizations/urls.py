@@ -7,7 +7,7 @@ from django.contrib.auth.decorators import login_required
 app_name = 'org'
 urlpatterns = [
     path('org/', home_view, name="home"),
-    path('endorsers/<endorser_id>', endorser_profile_view, name="single-endorser"),
+    path('experts/<endorser_id>', endorser_profile_view, name="single-endorser"),
     path('projects/<project_id>', single_project_view, name="single-project"),
     path('projects/<project_id>/applications', received_applications_view, name="received-applications"),
     path('org/profile/<str:section>', login_required(OrgUserProfileView.as_view()), name="profile"),

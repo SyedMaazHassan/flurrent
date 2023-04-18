@@ -1,0 +1,93 @@
+{% extends 'inc/base.html' %}
+
+{% block custom_css %}
+
+
+{% endblock custom_css %}
+
+{% block title %}
+  Flurrent | Skills
+{% endblock title %}
+
+{% block content %}
+<br>
+<div class="container mt-5 pt-5 p-0">
+  <div class="row g-0 mt-n3">
+    <!-- Filters sidebar (Offcanvas on mobile)-->
+    <div class="col-lg-4 col-xl-4 position-relative overflow-hidden pb-5 pt-4">
+        <h4>Related skills</h4>
+        <div class="mt-3">
+            {% for single_skill in related_skills %}
+                <div class="card text-left p-0 h-100 {% if single_skill.id == skill.id %}skill-card-active text-primary{% endif %} skill-card" style="border-radius:0px">
+                    <div class="card-body" style="border-radius:0px">
+                        <!-- <span class="badge badge-pill badge-primary bg-success">Quiz available</span> -->
+                        <a class="text-decoration-none text-grey" href="{% url 'skills:single_skill' single_skill.id %}">
+                            <p class="card-title mb-0" title="{{ single_skill.name }}">
+                                {{ single_skill|truncatechars:40 }}
+                            </p>
+                        </a>
+
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+
+    </div>
+
+    
+    <!-- Page content-->
+    <div class="col-lg-8 col-xl-8 position-relative overflow-hidden pb-5 pt-4 px-2 px-xl-4 px-xxl-5">
+      <!-- Map popup-->
+     
+      <!-- Breadcrumb-->
+
+    
+      
+      <!-- Title-->
+    <div class="pb-1 pb-sm-2">
+        <a href="#" class="my-2 text-primary text-decoration-none ">{{ category.name }}</a>
+        <h1 class="h2 mb-sm-0 my-2">{{ skill.name }}</h1>
+        <p class="mt-3">{{ skill.description }}</p>
+    </div>
+
+
+    <div class="alert alert-success d-flex" role="alert">
+        <i class="fi-bell me-2 me-sm-3 lead"></i>
+        <div>Read the instruction below and start the quiz to win the badge.</div>
+    </div>
+
+      <!-- Catalog grid-->
+      <div>
+
+            {% include 'inc/quiz_info_card.inc.html' %}
+
+
+            <div class="card text-left skill-card">
+              <div class="card-body">
+                <h3>Instructions</h3>
+
+                <div>
+                    <ol>
+                        {% for instr in instructions %}
+                            <li class="mb-4">{{instr}}</li>
+                        {% endfor %}
+                    </ol>
+                </div>
+            
+                <a type="button" href="{% url 'skills:quiz_start' skill.id quiz.id  %}" class="btn btn-outline-primary m-3">Start quiz</a>
+    
+              </div>
+            </div>
+
+         
+      </div>
+
+
+    </div>
+  </div>
+</div>
+
+<button class="btn btn-primary btn-sm w-100 rounded-0 fixed-bottom d-lg-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#filters-sidebar"><i class="fi-filter me-2"></i>Filters</button>
+
+
+{% endblock content %}

@@ -224,13 +224,13 @@
       <!-- Breadcrumb-->
       <nav class="mb-3 pt-md-2" aria-label="Breadcrumb">
         <ol class="breadcrumb">
-          <li class="breadcrumb-item"><a href="city-guide-home-v1.html">Home</a></li>
-          <li class="breadcrumb-item active" aria-current="page">Find endrorser</li>
+          <li class="breadcrumb-item"><a href="#">Home</a></li>
+          <li class="breadcrumb-item active" aria-current="page">Find expert</li>
         </ol>
       </nav>
       <!-- Title-->
       <div class="d-sm-flex align-items-center justify-content-between pb-3 pb-sm-4">
-        <h1 class="h2 mb-sm-0">Find best endorser</h1><a class="d-inline-block fw-bold text-decoration-none py-1" href="#" data-bs-toggle-class="invisible" data-bs-target="#map"><i class="fi-map me-2"></i>Map view</a>
+        <h1 class="h2 mb-sm-0">Find best experts</h1><a class="d-inline-block fw-bold text-decoration-none py-1" href="#" data-bs-toggle-class="invisible" data-bs-target="#map"><i class="fi-map me-2"></i>Map view</a>
       </div>
       <!-- Sorting-->
       <div class="d-flex flex-sm-row flex-column align-items-sm-center align-items-stretch my-2">
@@ -249,85 +249,89 @@
         <div class="d-none d-sm-flex align-items-center flex-shrink-0 text-muted"><i class="fi-check-circle me-2"></i><span class="fs-sm mt-n1">{{ all_endorsers.count }} results</span></div>
       </div>
       <!-- Catalog grid-->
-      <div class="row row-cols-xl-3 row-cols-sm-2 row-cols-1 gy-4 gx-3 gx-xxl-4 py-4">
-        {% if all_endorsers %}
-          {% for endorser in all_endorsers %}
-            <!-- Item-->
-            <div class="col pb-sm-2">
-                <div class="card text-left shadow">
-                  <div class="card-body">
-                    <div>
-                        {% with reviews=endorser.created_by.getEndorserReviews %}
-                          <i class="fi-star-filled mt-n1 me-1 fs-base text-warning align-middle"></i><b>{{ reviews.average }}</b><span class="text-muted">&nbsp;({{ reviews.count }})</span>
-                        {% endwith %}
-                    </div>
+      <div class="container">
+          
+        <div class="row row-cols-xl-3 row-cols-sm-2 row-cols-1 gy-4 gx-3 gx-xxl-4 py-4">
+          {% if all_endorsers %}
+            {% for endorser in all_endorsers %}
+              <!-- Item-->
+              <div class="col-sm-3 pb-sm-2">
+                  <div class="card text-left shadow">
+                    <div class="card-body">
+                      <div>
+                          {% with reviews=endorser.created_by.getEndorserReviews %}
+                            <i class="fi-star-filled mt-n1 me-1 fs-base text-warning align-middle"></i><b>{{ reviews.average }}</b><span class="text-muted">&nbsp;({{ reviews.count }})</span>
+                          {% endwith %}
+                      </div>
 
-                    <button class="btn btn-icon btn-light-primary btn-xs text-primary rounded-circle position-absolute top-0 end-0 m-3 zindex-5" type="button" data-bs-toggle="tooltip" data-bs-placement="left" title="Add to Favorites">
-                        <i class="fi-heart"></i>
-                    </button>
+                      <button class="btn btn-icon btn-light-primary btn-xs text-primary rounded-circle position-absolute top-0 end-0 m-3 zindex-5" type="button" data-bs-toggle="tooltip" data-bs-placement="left" title="Add to Favorites">
+                          <i class="fi-heart"></i>
+                      </button>
 
-                    <div class="text-center align-center">
-                        <img class="rounded-3 my-3" style="width: 40%;" src="{{endorser.created_by.profile_pic.url}}" alt="Article img">
-                        
-                        <h3 class="my-1 fs-lg">
-                          <a class="nav-link stretched-link" href="{% url 'org:single-endorser' endorser.id %}">
-                            {{ endorser.created_by.getFullName }} 
-                            {% if endorser.price %}
-                              <span class="text-primary">(${{ endorser.price }})</span>
+                      <div class="text-center align-center">
+                          <img class="rounded-3 my-3" style="width: 40%;" src="{{endorser.created_by.profile_pic.url}}" alt="Article img">
+                          
+                          <h3 class="my-1 fs-lg">
+                            <a class="nav-link stretched-link" href="{% url 'org:single-endorser' endorser.id %}">
+                              {{ endorser.created_by.getFullName }} 
+                              {% if endorser.price %}
+                                <span class="text-primary">(${{ endorser.price }})</span>
+                              {% endif %}
+                            </a>
+                          </h3>
+
+                          <p class="card-text">
+
+                            {% if endorser.bio %}
+                              {{ endorser.bio }}
+                            {% else %}
+                              Bio not added yet
                             {% endif %}
-                          </a>
-                        </h3>
+                          </p>
 
-                        <p class="card-text">
+                          <div class="d-flex align-items-center justify-content-center">
 
-                          {% if endorser.bio %}
-                            {{ endorser.bio }}
-                          {% else %}
-                            Bio not added yet
-                          {% endif %}
-                        </p>
+                              <div class="icon-box border card flex-row align-items-center card-hover py-2 ps-2 pe-4">
+                                  <div class="icon-box-media border-dark bg-faded-primary text-primary me-2" style="font-size: 18px;">
+                                    <i class="fi-users"></i>
+                                  </div>
+                                  <h3 class="icon-box-title fs-sm ps-1 mb-0">Followers &nbsp; {{ endorser.getFollowers }}</h3>
+                              </div>
+                          </div>
 
-                        <div class="d-flex align-items-center justify-content-center">
+                          <!-- Outline button + badge -->
+                          <!-- <button type="button" class="btn btn-outline-secondary">
+                              Messages <span class="badge bg-success ms-1">18</span>
+                          </button> -->
 
-                            <div class="icon-box border card flex-row align-items-center card-hover py-2 ps-2 pe-4">
-                                <div class="icon-box-media border-dark bg-faded-primary text-primary me-2" style="font-size: 18px;">
-                                  <i class="fi-users"></i>
-                                </div>
-                                <h3 class="icon-box-title fs-sm ps-1 mb-0">Followers &nbsp; {{ endorser.getFollowers }}</h3>
-                            </div>
-                        </div>
-
-                        <!-- Outline button + badge -->
-                        <!-- <button type="button" class="btn btn-outline-secondary">
-                            Messages <span class="badge bg-success ms-1">18</span>
-                        </button> -->
+                      </div>
 
                     </div>
-
                   </div>
-                </div>
-                <!-- <article class="position-relative">
-                    <div class="position-relative mb-3">
-                        <button class="btn btn-icon btn-light-primary btn-xs text-primary rounded-circle position-absolute top-0 end-0 m-3 zindex-5" type="button" data-bs-toggle="tooltip" data-bs-placement="left" title="Add to Favorites">
-                            <i class="fi-heart"></i>
-                        </button>
+                  <!-- <article class="position-relative">
+                      <div class="position-relative mb-3">
+                          <button class="btn btn-icon btn-light-primary btn-xs text-primary rounded-circle position-absolute top-0 end-0 m-3 zindex-5" type="button" data-bs-toggle="tooltip" data-bs-placement="left" title="Add to Favorites">
+                              <i class="fi-heart"></i>
+                          </button>
 
-                        <img class="rounded-3" src="media/{{endorser.created_by.profile_pic}}" alt="Article img">
-                    </div>
-                    <h3 class="mb-2 fs-lg"><a class="nav-link stretched-link" href="city-guide-single.html">{{ endorser.created_by.getFullName }}</a></h3>
-                    <ul class="list-inline mb-0 fs-xs">
-                        <li class="list-inline-item pe-1"><i class="fi-star-filled mt-n1 me-1 fs-base text-warning align-middle"></i><b>5.0</b><span class="text-muted">&nbsp;(48)</span></li>
-                        <li class="list-inline-item pe-1"><i class="fi-credit-card mt-n1 me-1 fs-base text-muted align-middle"></i>$$</li>
-                        <li class="list-inline-item pe-1"><i class="fi-map-pin mt-n1 me-1 fs-base text-muted align-middle"></i>1.4 km from center</li>
-                    </ul>
-                </article> -->
+                          <img class="rounded-3" src="media/{{endorser.created_by.profile_pic}}" alt="Article img">
+                      </div>
+                      <h3 class="mb-2 fs-lg"><a class="nav-link stretched-link" href="city-guide-single.html">{{ endorser.created_by.getFullName }}</a></h3>
+                      <ul class="list-inline mb-0 fs-xs">
+                          <li class="list-inline-item pe-1"><i class="fi-star-filled mt-n1 me-1 fs-base text-warning align-middle"></i><b>5.0</b><span class="text-muted">&nbsp;(48)</span></li>
+                          <li class="list-inline-item pe-1"><i class="fi-credit-card mt-n1 me-1 fs-base text-muted align-middle"></i>$$</li>
+                          <li class="list-inline-item pe-1"><i class="fi-map-pin mt-n1 me-1 fs-base text-muted align-middle"></i>1.4 km from center</li>
+                      </ul>
+                  </article> -->
+              </div>
+            {% endfor %}
+          {% else %}
+            <div class="text-center mt-3">
+              {% include 'inc/no-result.html' with data_type='endorser' %}
             </div>
-          {% endfor %}
-        {% else %}
-          <div class="text-center mt-3">
-            {% include 'inc/no-result.html' with data_type='endorser' %}
-          </div>
-        {% endif %}
+          {% endif %}
+        </div>
+        
       </div>
       <!-- Pagination-->
       <nav class="border-top pb-md-4 pt-4" aria-label="Pagination">

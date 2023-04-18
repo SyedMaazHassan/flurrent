@@ -1,0 +1,51 @@
+{% load static %}
+<div class="row mb-4">
+    <div class="col-sm-12">
+        <div class="card text-left  skill-card bg-white" >
+        
+            <div class="card-body">
+
+                {% if report.is_success %}
+                
+                <div class="row">
+                    <div class="col-sm-2"></div>
+                    <div class="col-sm-8">
+                        <div class="text-center px-5 mt-3">
+                            <img src="{{ quiz.badge.image.url }}" style="width: 200px" alt="">
+                            <h3 class="text-primary my-3">Score: &nbsp; {{ report.score }} &nbsp; ({{ report.percentage }}%)</h3>
+                            <h2 class="text-grey">Congratulations! you won the badge!</h2>
+                            <p>
+                                Great job! Congratulations on earning this badge, it's a clear indication that you've put in the effort and time to develop your skills in this area. Keep up the good work and continue to learn and explore new skills.
+                            </p>
+                            <a type="button" href="{% url 'skills:skill_list' %}" class="btn btn-primary mb-3">Explore more skills</a>
+                        </div>
+                    </div>
+                    <div class="col-sm-2"></div>
+
+                </div>
+
+                {% else %}
+                
+                <div class="row">
+                    <div class="col-sm-2"></div>
+                    <div class="col-sm-8">
+                        <div class="text-center px-5 mt-3">
+                            <img src="https://www.cambridge.org/elt/blog/wp-content/uploads/2019/07/Sad-Face-Emoji.png" style="width: 100px" alt="">
+                            <h3 class="text-primary my-3">Score: &nbsp; {{ report.score }} &nbsp; ({{ report.percentage }}%)</h3>
+                            <h2 class="text-grey">Better luck next time!</h2>
+                            <p>
+                                Don't worry, failing a quiz is just a small setback on your journey to develop your skills. Use this experience as a learning opportunity, identify your areas of weakness and work on improving them.
+                            </p>
+                            <a type="button" href="{% url 'skills:quiz_instructions' skill.id quiz.id %}" class="btn btn-primary mb-3">Retake the quiz</a>
+                        </div>
+                    </div>
+                    <div class="col-sm-2"></div>
+
+                </div>
+                {% endif %}
+
+            </div>
+
+        </div>
+    </div>
+</div>

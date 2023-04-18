@@ -24,7 +24,8 @@ urlpatterns = [
     path('authentication/', include('authentication.urls')),
     path('', include('organizations.urls')),
     path('', include('endorsers.urls')),
-    path('', include('wallet.urls'))
+    path('', include('wallet.urls')),
+    path('', include('skills.urls'))
 ]
 
 if settings.DEBUG:

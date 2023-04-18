@@ -133,10 +133,15 @@ def endorser_profile_view(request, endorser_id):
         messages.error(request, "No endorser exists with this id")
         return redirect("core:home")
     context["endorser"] = endorser
-    if request.GET.get("section") == "completed-projects":
+    section = request.GET.get("section")
+    if section == "completed-projects":
         context["projects"] = []
-    else:
+    elif section == "reviews":
         context["reviews"] = endorser.created_by.getEndorserReviews()
+    else:
+        context["added_skills"] = endorser.get_skill_objects()
+        context["badges"] = endorser.get_won_badges()
+        context["is_mine"] = False
     return render(request, "endorser_profile_view.html", context)
 
 
@@ -337,7 +342,7 @@ class OrgUserProfileView(View):
                 "outline": "",
                 "button_text": "Save endorser details",
                 "template": "org_profile/create_endorser.html",
-                "title": "Become endorser",
+                "title": "Become expert",
                 "subtitle": "Get a chance to apply on jobs and start selling",
                 "endorser": user.is_endorser,
             },

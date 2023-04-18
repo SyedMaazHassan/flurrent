@@ -24,7 +24,7 @@
         <div class="card p-4 shadow-sm">
             <div class="d-flex align-items-center mb-3">
               <div class="w-50 text-start">
-                <span class="badge bg-dark">Endorser</span>
+                <span class="badge bg-dark">Expert</span>
               </div>
               <div class="w-50">
                 <!-- rating  -->
@@ -102,8 +102,9 @@
       <div class="col-lg-8 col-md-7 mb-5">
         <div class="d-md-block" id="account-nav">
             <ul class="nav nav-pills flex-column flex-md-row pt-3 pt-md-0 pb-md-4 border-bottom-md">
-                <li class="nav-item mb-md-0 mx-2"><a class="nav-link {% if request.GET.section == 'reviews' or not request.GET.section %}active{% endif %}" href="{% url 'org:single-endorser' endorser.id %}" aria-current="page"><i class="fi-bell mt-n1 me-2 fs-base"></i>Reviews</a></li>
-                <li class="nav-item mb-md-0 me-md-2 pe-md-1 mx-2"><a class="nav-link {% if request.GET.section == 'completed-projects' %}active{% endif %}" href="{% url 'org:single-endorser' endorser.id %}?section=completed-projects" ><i class="fi-briefcase mt-n1 me-2 fs-base"></i>Projects completed</a></li>
+              <li class="nav-item mb-md-0 mx-2"><a class="nav-link {% if request.GET.section == 'skills' or not request.GET.section %}active{% endif %}" href="{% url 'org:single-endorser' endorser.id %}?section=skills" aria-current="page"><i class="fi-code mt-n1 me-2 fs-base"></i>Skills & Badges</a></li>
+              <li class="nav-item mb-md-0 mx-2"><a class="nav-link {% if request.GET.section == 'reviews' %}active{% endif %}" href="{% url 'org:single-endorser' endorser.id %}?section=reviews" aria-current="page"><i class="fi-bell mt-n1 me-2 fs-base"></i>Reviews</a></li>
+              <li class="nav-item mb-md-0 me-md-2 pe-md-1 mx-2"><a class="nav-link {% if request.GET.section == 'completed-projects' %}active{% endif %}" href="{% url 'org:single-endorser' endorser.id %}?section=completed-projects" ><i class="fi-briefcase mt-n1 me-2 fs-base"></i>Projects completed</a></li>
             </ul>
         </div>
 
@@ -115,6 +116,8 @@
         
         <div class="">
             <!-- Item-->
+
+
             {% if request.GET.section == 'completed-projects' %}
                 
                  <!-- Tabs content-->
@@ -172,9 +175,15 @@
                 
                 </div>
 
+            {% elif request.GET.section == 'reviews' %}
+                {% include 'inc/review-list.html' %}
 
             {% else %}
-                {% include 'inc/review-list.html' %}
+              <h2 class="my-4">Skills</h2>
+              <div class="mt-2">
+                <!-- Skills. and Badges. required for expert -->
+                {% include 'end_profile/inc/skills_and_badges.inc.html' %}
+              </div>
             {% endif %}
 
 

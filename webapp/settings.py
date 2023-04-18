@@ -36,11 +36,13 @@ ALLOWED_HOSTS = ['*']
 
 INSTALLED_APPS = [
     'jazzmin',
+    'accounts',
     'core',
     'wallet',
     'endorsers',
     'organizations',
     'authentication',
+    'skills',
     'phonenumber_field',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -196,6 +198,15 @@ USE_I18N = True
 USE_TZ = True
 
 
+# LANGUAGE_CODE = 'en-us'
+
+# TIME_ZONE = 'Asia/Karachi'
+
+# USE_I18N = True
+
+# USE_TZ = False
+
+
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
@@ -226,6 +237,7 @@ AUTH_USER_MODEL = 'authentication.User'
 
 LOGIN_URL = "/authentication/login"
 LOGIN_REDIRECT_URL = '/org'
+
 
 
 
