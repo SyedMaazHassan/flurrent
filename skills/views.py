@@ -264,6 +264,7 @@ def add_skill_view(request):
     return JsonResponse(output)
 
 
+
 @login_required
 def quiz_result_view(request, attempt_id):
     attempt = Attempt.objects.get(id = attempt_id)
