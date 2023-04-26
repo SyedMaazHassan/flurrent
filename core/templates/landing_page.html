@@ -1,0 +1,633 @@
+{% extends 'inc/base.html' %} {% block title %} Flurrent | Experts and organization {% endblock title %}
+{% load static %}
+{% block content %}
+
+<main class="page-wrapper">
+  <!-- Sign In Modal-->
+  <div class="modal fade" id="signin-modal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered p-2 my-0 mx-auto" style="max-width: 950px;">
+      <div class="modal-content">
+        <div class="modal-body px-0 py-2 py-sm-0">
+          <button class="btn-close position-absolute top-0 end-0 mt-3 me-3" type="button" data-bs-dismiss="modal"></button>
+          <div class="row mx-0 align-items-center">
+            <div class="col-md-6 border-end-md p-4 p-sm-5">
+              <h2 class="h3 mb-4 mb-sm-5">Hey there!<br>Welcome back.</h2><img class="d-block mx-auto" src="{% static 'img/signin-modal/signin.svg' %}" width="344" alt="Illustartion">
+              <div class="mt-4 mt-sm-5">Don't have an account? <a href="#signup-modal" data-bs-toggle="modal" data-bs-dismiss="modal">Sign up here</a></div>
+            </div>
+            <div class="col-md-6 px-4 pt-2 pb-4 px-sm-5 pb-sm-5 pt-md-5"><a class="btn btn-outline-info w-100 rounded-pill mb-3" href="#"><i class="fi-google fs-lg me-1"></i>Sign in with Google</a><a class="btn btn-outline-info w-100 rounded-pill mb-3" href="#"><i class="fi-facebook fs-lg me-1"></i>Sign in with Facebook</a>
+              <div class="d-flex align-items-center py-3 mb-3">
+                <hr class="w-100">
+                <div class="px-3">Or</div>
+                <hr class="w-100">
+              </div>
+              <form class="needs-validation" novalidate>
+                <div class="mb-4">
+                  <label class="form-label mb-2" for="signin-email">Email address</label>
+                  <input class="form-control" type="email" id="signin-email" placeholder="Enter your email" required>
+                </div>
+                <div class="mb-4">
+                  <div class="d-flex align-items-center justify-content-between mb-2">
+                    <label class="form-label mb-0" for="signin-password">Password</label><a class="fs-sm" href="#">Forgot password?</a>
+                  </div>
+                  <div class="password-toggle">
+                    <input class="form-control" type="password" id="signin-password" placeholder="Enter password" required>
+                    <label class="password-toggle-btn" aria-label="Show/hide password">
+                      <input class="password-toggle-check" type="checkbox"><span class="password-toggle-indicator"></span>
+                    </label>
+                  </div>
+                </div>
+                <button class="btn btn-primary btn-lg w-100 rounded-pill" type="submit">Sign in</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Sign Up Modal-->
+  <div class="modal fade" id="signup-modal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered p-2 my-0 mx-auto" style="max-width: 734px;">
+      <div class="modal-content">
+        <div class="modal-body p-sm-5">
+          <button class="btn-close position-absolute top-0 end-0 mt-3 me-3" type="button" data-bs-dismiss="modal"></button>
+          <ul class="nav nav-pills flex-column flex-sm-row border-bottom pb-4 mt-sm-n2 my-4" role="tablist">
+            <li class="nav-item me-sm-3 mb-sm-0"><a class="nav-link active" href="#job-seeker" data-bs-toggle="tab" role="tab" aria-controls="job-seeker" aria-selected="true"><i class="fi-user me-2"></i>I am job seeker</a></li>
+            <li class="nav-item mb-sm-0"><a class="nav-link" href="#employer" data-bs-toggle="tab" role="tab" aria-controls="employer" aria-selected="false"><i class="fi-briefcase me-2"></i>I am employer</a></li>
+          </ul>
+          <div class="tab-content">
+            <div class="tab-pane fade show active" id="job-seeker" role="tabpanel">
+              <h3>Register to add a resume</h3>
+              <p class="pb-3">Get access to all the functions of the site that will help you find a great job.</p>
+              <div class="row gx-2 gx-md-4">
+                <div class="col-sm-6 mb-3"><a class="btn btn-outline-info w-100 rounded-pill" href="#"><i class="fi-google fs-lg me-1"></i>Sign in with Google</a></div>
+                <div class="col-sm-6 mb-3"><a class="btn btn-outline-info w-100 rounded-pill" href="#"><i class="fi-facebook fs-lg me-1"></i>Sign in with Facebook</a></div>
+              </div>
+              <div class="d-flex align-items-center py-2 mb-2">
+                <hr class="w-100">
+                <div class="px-3">Or</div>
+                <hr class="w-100">
+              </div>
+              <form class="needs-validation" novalidate>
+                <div class="row gx-2 gx-md-4">
+                  <div class="col-sm-6 mb-4">
+                    <label class="form-label" for="js-fn">Full name</label>
+                    <input class="form-control" type="text" id="js-fn" placeholder="Enter your full name" required>
+                  </div>
+                  <div class="col-sm-6 mb-4">
+                    <label class="form-label" for="js-email">Emaill address</label>
+                    <input class="form-control" type="email" id="js-email" placeholder="Enter your email" required>
+                  </div>
+                  <div class="col-sm-6 mb-4">
+                    <label class="form-label" for="js-password">Password <span class='text-muted'>(min. 8 char)</span></label>
+                    <div class="password-toggle">
+                      <input class="form-control" type="password" id="js-password" minlength="8" required>
+                      <label class="password-toggle-btn" aria-label="Show/hide password">
+                        <input class="password-toggle-check" type="checkbox"><span class="password-toggle-indicator"></span>
+                      </label>
+                    </div>
+                  </div>
+                  <div class="col-sm-6 mb-4">
+                    <label class="form-label" for="js-password-confirm">Confirm password</label>
+                    <div class="password-toggle">
+                      <input class="form-control" type="password" id="js-password-confirm" minlength="8" required>
+                      <label class="password-toggle-btn" aria-label="Show/hide password">
+                        <input class="password-toggle-check" type="checkbox"><span class="password-toggle-indicator"></span>
+                      </label>
+                    </div>
+                  </div>
+                </div>
+                <div class="form-check mb-4">
+                  <input class="form-check-input" type="checkbox" id="agree-to-terms" required>
+                  <label class="form-check-label" for="agree-to-terms">By joining, I agree to the <a href='#'>Terms of use</a> and <a href='#'>Privacy policy</a></label>
+                </div>
+                <button class="btn btn-primary btn-lg w-100 rounded-pill" type="submit">Sign up</button>
+              </form>
+            </div>
+            <div class="tab-pane fade" id="employer" role="tabpanel">
+              <h3>Register to post a vacancy</h3>
+              <p class="pb-3">Get access to all special services for employers on Finder.</p>
+              <form class="needs-validation" novalidate>
+                <div class="row gx-2 gx-md-4">
+                  <div class="col-sm-6 mb-4">
+                    <label class="form-label" for="em-fn">Full name</label>
+                    <input class="form-control" type="text" id="em-fn" placeholder="Enter your full name" required>
+                  </div>
+                  <div class="col-sm-6 mb-4">
+                    <label class="form-label" for="em-email">Emaill <span class='text-muted'>(better corporate)</span></label>
+                    <input class="form-control" type="email" id="em-email" placeholder="Enter email" required>
+                  </div>
+                  <div class="col-sm-6 mb-4">
+                    <label class="form-label" for="em-company">Company name</label>
+                    <input class="form-control" type="text" id="em-company" placeholder="Enter company name" required>
+                  </div>
+                  <div class="col-sm-6 mb-4">
+                    <label class="form-label" for="em-location">Main office location</label>
+                    <input class="form-control" type="text" id="em-location" placeholder="Country, City, Address" required>
+                  </div>
+                  <div class="col-sm-6 mb-4">
+                    <label class="form-label" for="em-password">Password <span class='text-muted'>(min. 8 char)</span></label>
+                    <div class="password-toggle">
+                      <input class="form-control" type="password" id="em-password" minlength="8" required>
+                      <label class="password-toggle-btn" aria-label="Show/hide password">
+                        <input class="password-toggle-check" type="checkbox"><span class="password-toggle-indicator"></span>
+                      </label>
+                    </div>
+                  </div>
+                  <div class="col-sm-6 mb-4">
+                    <label class="form-label" for="em-password-confirm">Confirm password</label>
+                    <div class="password-toggle">
+                      <input class="form-control" type="password" id="em-password-confirm" minlength="8" required>
+                      <label class="password-toggle-btn" aria-label="Show/hide password">
+                        <input class="password-toggle-check" type="checkbox"><span class="password-toggle-indicator"></span>
+                      </label>
+                    </div>
+                  </div>
+                </div>
+                <div class="form-check mb-4">
+                  <input class="form-check-input" type="checkbox" id="agree-to-terms2" required>
+                  <label class="form-check-label" for="agree-to-terms2">By joining, I agree to the <a href='#'>Terms of use</a> and <a href='#'>Privacy policy</a></label>
+                </div>
+                <button class="btn btn-primary btn-lg w-100 rounded-pill" type="submit">Sign up</button>
+              </form>
+            </div>
+          </div>
+          <div class="pt-4 pb-3 pb-sm-0 mt-2">Already have an account? <a href="#signin-modal" data-bs-toggle="modal" data-bs-dismiss="modal">Sign in</a></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+
+<!-- Page content-->
+  <!-- Hero-->
+  <section class="bg-dark pb-4 pt-5">
+    <div class="container py-5">
+      <div class="row mx-0 align-items-center mt-2 mt-md-0 pt-md-4 pt-lg-5 pb-5">
+        <div class="col-md-4 order-md-2 mb-5 mb-md-0">
+          <div class="parallax mx-auto" style="max-width: 526px;">
+            <div class="parallax-layer position-relative" data-depth="0.1"><img src="{% static 'img/job-board/hero-banner-1/layer01.svg' %}" alt="Layer"></div>
+            <div class="parallax-layer" data-depth="0.16"><img src="{% static 'img/job-board/hero-banner-1/layer02.svg' %}" alt="Layer"></div>
+            <div class="parallax-layer" data-depth="0.38"><img src="{% static 'img/job-board/hero-banner-1/layer03.svg' %}" alt="Layer"></div>
+            <div class="parallax-layer" data-depth="0.16"><img src="{% static 'img/job-board/hero-banner-1/layer04.svg' %}" alt="Layer"></div>
+            <div class="parallax-layer" data-depth="0.16"><img src="{% static 'img/job-board/hero-banner-1/layer05.svg' %}" alt="Layer"></div>
+            <div class="parallax-layer" data-depth="0.45"><img src="{% static 'img/job-board/hero-banner-1/layer06.svg' %}" alt="Layer"></div>
+            <div class="parallax-layer" data-depth="0.3"><img src="{% static 'img/job-board/hero-banner-1/layer07.svg' %}" alt="Layer"></div>
+            <div class="parallax-layer" data-depth="0.2"><img src="{% static 'img/job-board/hero-banner-1/layer08.svg' %}" alt="Layer"></div>
+          </div>
+        </div>
+        <div class="col-md-8 order-md-1">
+          <h1 class="display-4 text-light pb-2 mb-4 mb-lg-5" style="line-height: 90px; max-width: 29.5rem;">
+            Simplify your <br> IT expert search <span class='text-primary'>with Flurrent</span>
+            <!-- Hack your way to the <span class='text-primary'>dream job</span> -->
+          </h1>
+          
+          <div>
+            <div class="row d-none d-lg-flex pt-4">
+              <div class="col-xl-10 d-flex">
+                <div class="border-end border-light pe-4 me-3">
+                  <div class="text-light me-3">
+                    <div class="fs-3 fw-bold mb-1">1.2M</div>
+                    <div class="fs-sm opacity-70">Project posted</div>
+                  </div>
+                </div>
+                <div class="border-end border-light px-4 me-3">
+                  <div class="text-light me-3">
+                    <div class="fs-3 fw-bold mb-1">5K</div>
+                    <div class="fs-sm opacity-70">IT experts</div>
+                  </div>
+                </div>
+                <div class="border-end border-light px-4 me-3">
+                  <div class="text-light me-3">
+                    <div class="fs-3 fw-bold mb-1">1K</div>
+                    <div class="fs-sm opacity-70">Organizations</div>
+                  </div>
+                </div>
+                <div class="ps-4">
+                  <div class="text-light">
+                    <div class="fs-3 fw-bold mb-1">1.2K</div>
+                    <div class="fs-sm opacity-70">Members served</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        
+        </div>
+      </div>
+      <!-- Search form-->
+
+      <div class="my-5">
+        <a class="btn btn-secondary btn-lg rounded-pill ms-sm-auto" href="{% url 'authentication:signup' %}">Join as Organization<i class="fi-chevron-right fs-sm ms-2"></i></a>
+        <a class="btn btn-primary btn-lg rounded-pill mx-2" href="{% url 'authentication:signup' %}">Become expert<i class="fi-chevron-right fs-sm ms-2"></i></a>
+      </div>
+
+    </div>
+  </section>
+  <!-- Categories-->
+  <section class="position-relative bg-white rounded-xxl-4 pt-md-3 zindex-5" style="margin-top: -30px;">
+    <div class="container pt-5 pb-2 mb-4 mb-md-5">
+      <h2 class="h3 pb-2 pb-sm-3">IT domains we cover</h2>
+      <div class="d-flex flex-wrap flex-column flex-sm-row">
+        
+
+
+          {% for category in all_categories %}
+            
+            <a class="icon-box card flex-row align-items-center flex-shrink-0 card-hover border-0 bg-secondary rounded-pill py-2 ps-2 pe-4 mb-2 mb-sm-3 me-sm-3 me-xxl-4" href="#">
+                <div class="icon-box-media bg-light text-primary rounded-circle me-2">
+                  <i class="fa {{ category.icon }}"></i>
+                </div>
+              <h3 class="icon-box-title fs-sm ps-1 pe-2 mb-0">{{ category.name }}</h3>
+            </a>
+
+          {% endfor %}
+      
+         
+      </div>
+    </div>
+  </section>
+  <!-- Banners-->
+
+  <section class="bg-secondary container rounded-3 p-5">
+    <div class="row">
+      <div class="col-md-4 mb-4 d-flex justify-content-center text-center">
+        <div>
+            <img width="80" class="mb-3" src="{% static 'img/pricing/icon-1.svg' %}" alt="">
+            <h6>For Individual</h6>
+        </div>
+      </div>
+      <div class="col-md-4 d-flex justify-content-center mb-4 text-center">
+        <div>
+            <img width="80" class="mb-3" src="{% static 'img/pricing/icon-2.svg' %}" alt="">
+            <h6>For Business</h6>
+          </div>
+      </div>
+      <div class="col-md-4 d-flex justify-content-center mb-4 text-center">
+        <div class="text-center">
+          <img width="80" class="mb-3 " src="{% static 'img/pricing/icon-3.svg' %}" alt="">
+          <h6>For Government</h6>
+        </div>
+      </div>
+      <div class="text-center mt-2">
+          <h5>Global. Trusted Secure.</h5>
+          <p class="pt-0 mt-0">"Protect your digital life with confidence - Flurrent got your backe"</p>
+      </div>
+    </div>
+  </section>
+
+
+
+  <section class="container rounded-3 p-5 my-5">
+    <div class="row g-5">
+      <div class="col-lg-4 mb-4 d-flex justify-content-center text-center">
+        <!-- Blog post: Simple -->
+        <article>
+          <h5 class="text-start mb-3">
+            PerVista TechScore
+          </h5>
+          <a href="#" style="min-height: 340px;" class="shadow-sm p-3 bg-secondary d-block rounded-3 overflow-hidden">
+            <img class="d-block" src="{% static 'img/job-board/illustrations/steps.svg' %}" alt="Image">
+          </a>
+          <div class="py-3 text-start">
+            <h5 class=" pt-1 mb-0 pb-0 mb-2">
+              <a class="nav-link" href="#">Flurrent provides insights</a>
+            </h5>
+            <p class="p-0 m-0">Flurrent allows you to identify and monitor your personal TechStore while benchmarking against others. </p>
+          </div>
+        </article>
+      </div>
+      <div class="col-lg-4 mb-4 d-flex justify-content-center text-center">
+        <!-- Blog post: Simple -->
+        <article>
+          <h5 class="text-start mb-3">
+            Security Intelligence
+          </h5>
+          <a href="#" style="min-height: 340px;" class="shadow-sm p-2 bg-secondary d-block rounded-3 overflow-hidden">
+            <img class="d-block" src="{% static 'img/job-board/illustrations/mail.svg' %}" alt="Image">
+          </a>
+          <div class="py-3 text-start">
+            <h5 class=" pt-1 mb-0 pb-0 mb-2">
+              <a class="nav-link" href="#">Flurrent provides education</a>
+            </h5>
+            <p class="p-0 m-0">Flurrent helps you learn about technology and cybersecurity, while providing data to support decisions.
+            </p>
+          </div>
+        </article>
+      </div>
+      <div class="col-lg-4 mb-4 d-flex justify-content-center text-center">
+        <!-- Blog post: Simple -->
+        <article>
+          <h5 class="text-start mb-3">
+            Flurrent Marketplace
+          </h5>
+          <a href="#" style="min-height: 340px;" class="shadow-sm p-3 bg-secondary d-block rounded-3 overflow-hidden">
+            <img class="d-block" src="{% static 'img/job-board/illustrations/post-resume-cta2.svg' %}" alt="Image">
+          </a>
+          <div class="py-3 text-start">
+            <h5 class=" pt-1 mb-0 pb-0 mb-2">
+              <a class="nav-link" href="#">Flurrent delivers access</a>
+            </h5>
+            <p class="p-0 m-0">
+              Flurrent seamlessly connects you with the tools, experts and services necessary for closing cybersecuirty gaps.
+
+            </p>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+
+
+
+  <!-- Jobs list + Post resume CTA-->
+  <section class="container pb-5 mb-md-6 mt-5">
+    <div class="row bg-secondary rounded-lg-3 py-5 p-4 align-items-center">
+        <div class="col-md-6 text-center text-md-start">
+          <h2 class="p-0 m-0 mb-2">Explore more</h2>
+          <h4 class="p-0 m-0 mb-4" style="color:rgb(161, 161, 161)">See how you can quickly get started</h4>
+          <p class="">There are currently tens of thousands of technology and cybersecurity products on the market. This creates confusion and uncertainty about which products, experts, and services are best at closing your cybersecurity gaps.
+
+ 
+            <br><br>
+            While the number of ransomware attacks and data breaches increase exponentially, technology solutions remain overly complex, and limited access to qualified tech experts makes it difficult for organizations and individuals to receive the support they need. To help solve those challenges and simplify tech awareness, Flurrent has developed a system for increasing visibility into your personal cybersecurity risk and facilitates access to the top tools and experts who can help keep you secure in a digital world.
+            <br><br>
+             
+            
+            We introduce you to Flurrent, the next generation of personal cybersecurity awareness.</p>
+          
+          <a class="btn btn-primary btn-lg rounded-pill ms-sm-auto" href="{% url 'authentication:signup' %}">Explore More<i class="fi-chevron-right fs-sm ms-2"></i></a>
+        </div>
+        <div class="col-md-6 pt-4 pt-md-0">
+ 
+
+              <iframe id="player" class="w-100" type="text/html" style="border-radius: 10px" height="400"
+            src="https://www.youtube.com/embed/qzwJX0eVw8w?enablejsapi=1"
+            frameborder="0"></iframe>
+
+
+        </div>
+      </div>
+  </section>
+
+
+
+  <section class="container pb-5 mb-md-6 mt-5">
+    <div class="row">
+      <div class="col-md-4">
+        <div class=" text-center p-3">
+          <div class="" >
+            <i class="fi-settings  border rounded-circle p-4" style="font-size: 65px;"></i>
+              <h1 class="mt-4 fs-1">50</h1>
+          </div>
+            <h6>Compliance offering</h6>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class=" text-center p-3">
+          <div class="" >
+            <i class="fi-map border rounded-circle p-4" style="font-size: 65px;"></i>
+              <h1 class="mt-4 fs-1">5,000</h1>
+          </div>
+            <h6>Top Rated IT Experts</h6>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class=" text-center p-3">
+          <div class="" >
+            <i class="fi-globe border rounded-circle p-4" style="font-size: 65px;"></i>
+              <h1 class="mt-4 fs-1">30,000</h1>
+          </div>
+            <h6>Available Technology</h6>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+
+    <!-- top rated sellers -->
+    <div class="bg-secondary py-5 mt-5">
+      <br>
+      <section class="container pt-5 py-lg-2 pb-5 mb-md-4">
+        <div class="row">
+          <div class="col-md-4 mb-3 mb-md-0"><img class="d-block mx-auto" src="{% static 'img/job-board/illustrations/reviews.svg' %}" alt="Illustration"></div>
+          <div class="col-lg-1 d-none d-lg-block">
+            <hr class="hr-vertical mx-auto">
+          </div>
+          <div class="col-md-8 col-lg-7">
+            <h2>What our users say about us!</h2>
+            <div class="tns-carousel-wrapper">
+              <div class="tns-outer" id="tns2-ow"><div class="tns-liveregion tns-visually-hidden" aria-live="polite" aria-atomic="true">slide <span class="current">1</span>  of 2</div><div class="tns-inner" id="tns2-iw"><div class="tns-carousel-inner tns-slider tns-gallery tns-subpixel tns-calc tns-horizontal" data-carousel-options="{&quot;mode&quot;: &quot;gallery&quot;, &quot;controlsContainer&quot;: &quot;#agents-carousel-controls&quot;, &quot;nav&quot;: false}" id="tns2">
+                <div class="p-3 tns-item tns-fadeIn tns-slide-active" id="tns2-item0" style="left: 0%;">
+                  <div class="card border-0 shadow-sm">
+                    <blockquote class="blockquote card-body">
+                      <p>
+                        Flurrent allowed us to simplify the process for identifying the IT tools that were necessary for getting started with our nonprofit organization. Because of this, we were able to move quickly and support our mission.
+
+ 
+                      </p>
+                      <footer class="d-flex align-items-center"><img src="{% static 'img/job-board/company/zalo-lg.png' %}" width="56" alt="Zalo Logo">
+                        <div class="ps-3">
+                          <h6 class="fs-base mb-0">Universal Mosaic</h6>
+                          <div class="text-muted fw-normal fs-sm">Clinton, MD</div>
+                        </div>
+                      </footer>
+                    </blockquote>
+                  </div>
+                </div>
+                <div class="p-3 tns-item tns-normal" id="tns2-item1" aria-hidden="true" tabindex="-1">
+                  <div class="card border-0 shadow-sm">
+                    <blockquote class="blockquote card-body">
+                      <p>Over time the process of supporting our technology internally became expensive and overly complicated. As a result, we missed a few areas and had a lower security score than we would have liked. We engaged with Flurrent and quickly improved our score and reduced our level of risk.
+
+                      </p>
+                      <footer class="d-flex align-items-center"><img src="{% static 'img/job-board/company/kibana-lg.png' %}" width="56" alt="Kibana Logo">
+                        <div class="ps-3">
+                          <h6 class="fs-base mb-0">American Association for exporters & importers</h6>
+                          <div class="text-muted fw-normal fs-sm">Washington, DC</div>
+                        </div>
+                      </footer>
+                    </blockquote>
+                  </div>
+                </div>
+              <div class="p-3 tns-item tns-normal tns-slide-cloned" aria-hidden="true" tabindex="-1">
+                  <div class="card border-0 shadow-sm">
+                    <blockquote class="blockquote card-body">
+                      <p>Our organization experienced lots of changes in a short amount of time, which forced us to make tough decisions about how to work more efficiently. Flurrent allowed us to streamline our internal technologies, while avoiding potential cybersecurity risks.</p>
+                      <footer class="d-flex align-items-center"><img src="{% static 'img/job-board/company/zalo-lg.png' %}" width="56" alt="Zalo Logo">
+                        <div class="ps-3">
+                          <h6 class="fs-base mb-0">National School Boards Association</h6>
+                          <div class="text-muted fw-normal fs-sm">Alexandria, VA</div>
+                        </div>
+                      </footer>
+                    </blockquote>
+                  </div>
+                </div>
+              </div></div></div>
+            </div>
+            <div class="tns-carousel-controls justify-content-center justify-content-md-start my-2 ms-md-2" id="agents-carousel-controls" aria-label="Carousel Navigation" tabindex="0">
+              <button class="mx-2" type="button" aria-controls="tns2" tabindex="-1" data-controls="prev"><i class="fi-chevron-left"></i></button>
+              <button class="mx-2" type="button" aria-controls="tns2" tabindex="-1" data-controls="next"><i class="fi-chevron-right"></i></button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      
+    </div>
+
+  <!-- seller and Organization information -->
+<!-- Jobs list + Post resume CTA-->
+<!-- <section class="container pb-5 mb-md-4">
+<div class="row bg-secondary rounded-lg-3 p-4 align-items-center">
+    <div class="col-md-5 col-lg-4 text-center text-md-start">
+      <h2 class="mb-md-4">Find an employee you need right now</h2>
+      <p class="fs-lg p-2 pb-md-3">Elementum magna ac tempor, facilisis tristique mauris. Et penatibus sit sed in ante in ultrices. Senectus aliquam dictum eleifend.</p>
+      <a class="btn btn-primary btn-lg rounded-pill ms-sm-auto" href="job-board-post-resume-1.html">Post Job<i class="fi-chevron-right fs-sm ms-2"></i></a>
+    </div>
+    <div class="col-md-7 col-lg-8 pt-4 pt-md-0">
+        <img class="d-block mx-auto me-md-0" src="{% static 'img/job-board/illustrations/post-vacancy-cta.svg" alt="Illustration">
+    </div>
+  </div>
+</section> -->
+
+
+
+
+
+
+  <!-- how it works section guide  -->
+  <div class="container pb-5  my-5">
+    <h2 class="h3 text-center text-sm-start mb-sm-4">How it works</h2>
+    <div class="row row-cols-lg-4 row-cols-sm-2 row-cols-1 gy-sm-5 gy-3">
+        <!-- Card item-->
+        <div class="col">
+          <div class="card border-0 shadow-sm position-relative h-100">
+            <div class="card-body">
+              <div class="h2 mb-2 text-primary">01</div>
+              <h3 class="h5 card-title mb-2">Create an account</h3>
+              <p class="card-text fs-sm">As an IT expert to find projects to work. Or as an organization to hire expert</p>
+            </div>
+            <!-- Arrow-->
+            <svg class="position-absolute top-0 end-0 mt-n2 d-sm-block d-none" xmlns="http://www.w3.org/2000/svg" width="78" height="30" fill="none" style="transform: translateY(-100%) translateX(70%);">
+              <path d="M77.955 14.396c.128-2.86 0-4.67-.576-4.745s-1.279 1.607-2.11 4.378l-1.279 4.897-.563 2.683c-.612-1.434-1.352-2.81-2.212-4.113-2.718-4.072-6.226-7.569-10.321-10.288C54.205 2.687 46.332.186 38.233.008c-8.823-.165-17.491 2.305-24.874 7.087C6.581 11.549 2.118 17.395.66 22.191.033 24.057-.15 26.04.123 27.987c.243 1.367.627 2.037.755 2.012.396 0-.396-3.025 1.522-7.264s6.394-9.339 12.789-13.123c6.905-4.018 14.838-5.974 22.841-5.631 3.811.182 7.574.924 11.164 2.202 7.323 2.623 13.717 7.296 18.403 13.452 1.061 1.417 1.816 2.531 2.404 3.417l-1.637-.278-5.295-1.012c-3.031-.569-4.988-.848-5.179-.392s1.419 1.544 4.335 2.759a47.66 47.66 0 0 0 5.269 1.772c1.023.278 2.097.544 3.21.772.588.127 1.1.228 1.765.342.541.152 1.109.184 1.663.094a3.86 3.86 0 0 0 1.547-.613 2.76 2.76 0 0 0 .934-1.265c.088-.252.156-.51.205-.772l.09-.595.23-1.544.384-2.949c.217-1.873.371-3.569.435-5.062" fill="#fd5631"></path>
+            </svg>
+          </div>
+        </div>
+        <!-- Card item-->
+        <div class="col">
+          <div class="card border-0 shadow-sm position-relative h-100">
+            <div class="card-body">
+              <div class="h2 mb-2 text-primary">02</div>
+              <h3 class="h5 card-title mb-2">Create project / Hire expert</h3>
+              <p class="card-text fs-sm">Experts can apply for projects, and Organizations can post projects or hire expert</p>
+            </div>
+            <!-- Arrow-->
+            <svg class="position-absolute top-0 end-0 mt-n2 d-lg-block d-none" xmlns="http://www.w3.org/2000/svg" width="78" height="30" fill="none" style="transform: translateY(-100%) translateX(70%);">
+              <path d="M77.955 14.396c.128-2.86 0-4.67-.576-4.745s-1.279 1.607-2.11 4.378l-1.279 4.897-.563 2.683c-.612-1.434-1.352-2.81-2.212-4.113-2.718-4.072-6.226-7.569-10.321-10.288C54.205 2.687 46.332.186 38.233.008c-8.823-.165-17.491 2.305-24.874 7.087C6.581 11.549 2.118 17.395.66 22.191.033 24.057-.15 26.04.123 27.987c.243 1.367.627 2.037.755 2.012.396 0-.396-3.025 1.522-7.264s6.394-9.339 12.789-13.123c6.905-4.018 14.838-5.974 22.841-5.631 3.811.182 7.574.924 11.164 2.202 7.323 2.623 13.717 7.296 18.403 13.452 1.061 1.417 1.816 2.531 2.404 3.417l-1.637-.278-5.295-1.012c-3.031-.569-4.988-.848-5.179-.392s1.419 1.544 4.335 2.759a47.66 47.66 0 0 0 5.269 1.772c1.023.278 2.097.544 3.21.772.588.127 1.1.228 1.765.342.541.152 1.109.184 1.663.094a3.86 3.86 0 0 0 1.547-.613 2.76 2.76 0 0 0 .934-1.265c.088-.252.156-.51.205-.772l.09-.595.23-1.544.384-2.949c.217-1.873.371-3.569.435-5.062" fill="#fd5631"></path>
+            </svg>
+          </div>
+        </div>
+        <!-- Card item-->
+        <div class="col">
+          <div class="card border-0 shadow-sm position-relative h-100">
+            <div class="card-body">
+              <div class="h2 mb-2 text-primary">03</div>
+              <h3 class="h5 card-title mb-2">Place order</h3>
+              <p class="card-text fs-sm">Organizations will place orders, and experts will receive them.</p>
+            </div>
+            <!-- Arrow-->
+            <svg class="position-absolute top-0 end-0 mt-n2 d-sm-block d-none" xmlns="http://www.w3.org/2000/svg" width="78" height="30" fill="none" style="transform: translateY(-100%) translateX(70%);">
+              <path d="M77.955 14.396c.128-2.86 0-4.67-.576-4.745s-1.279 1.607-2.11 4.378l-1.279 4.897-.563 2.683c-.612-1.434-1.352-2.81-2.212-4.113-2.718-4.072-6.226-7.569-10.321-10.288C54.205 2.687 46.332.186 38.233.008c-8.823-.165-17.491 2.305-24.874 7.087C6.581 11.549 2.118 17.395.66 22.191.033 24.057-.15 26.04.123 27.987c.243 1.367.627 2.037.755 2.012.396 0-.396-3.025 1.522-7.264s6.394-9.339 12.789-13.123c6.905-4.018 14.838-5.974 22.841-5.631 3.811.182 7.574.924 11.164 2.202 7.323 2.623 13.717 7.296 18.403 13.452 1.061 1.417 1.816 2.531 2.404 3.417l-1.637-.278-5.295-1.012c-3.031-.569-4.988-.848-5.179-.392s1.419 1.544 4.335 2.759a47.66 47.66 0 0 0 5.269 1.772c1.023.278 2.097.544 3.21.772.588.127 1.1.228 1.765.342.541.152 1.109.184 1.663.094a3.86 3.86 0 0 0 1.547-.613 2.76 2.76 0 0 0 .934-1.265c.088-.252.156-.51.205-.772l.09-.595.23-1.544.384-2.949c.217-1.873.371-3.569.435-5.062" fill="#fd5631"></path>
+            </svg>
+          </div>
+        </div>
+        <!-- Card item-->
+        <div class="col">
+          <div class="card border-0 shadow-sm position-relative h-100">
+            <div class="card-body">
+              <div class="h2 mb-2 text-primary">04</div>
+              <h3 class="h5 card-title mb-2">Post reviews</h3>
+              <p class="card-text fs-sm">Experts and organizations will write reviews upon closing the orders.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+  </div>
+
+
+
+<!-- 
+<div class="bg-secondary py-5 my-5">
+  <section class="container   pb-lg-4">
+      <h3>Get inspired with projects made by our freelancers</h3>
+        <div class="row py-4 ">
+            <div class="col-md-3 ">
+                <article class="tns-item tns-slide-active" id="tns4-item0">
+                    <a class="d-block mb-3" href="city-guide-blog-single.html">
+                        <img class="rounded-3 tns-complete" src="https://finder.createx.studio/img/city-guide/blog/05.jpg" alt="Post image">
+                    </a>
+                    <a class="fs-xs text-uppercase text-decoration-none" href="#">Web Development</a>
+
+                    <a class="d-flex align-items-center text-decoration-none" href="#">
+                        <img class="rounded-circle loaded tns-complete" src="https://finder.createx.studio/img/avatars/15.png" width="44" alt="Avatar">
+                        <div class="ps-2">
+                            <h6 class="fs-sm text-nav lh-base mb-1">Bessie Cooper</h6>
+                        </div>
+                    </a>
+                </article>
+            </div>
+            <div class="col-md-3">
+                <article class="tns-item tns-slide-active" id="tns4-item0">
+                    <a class="d-block mb-3" href="city-guide-blog-single.html">
+                        <img class="rounded-3 tns-complete" src="https://finder.createx.studio/img/city-guide/blog/04.jpg" alt="Post image">
+                    </a>
+                    <a class="fs-xs text-uppercase text-decoration-none" href="#">Web Development</a>
+
+                    <a class="d-flex align-items-center text-decoration-none" href="#">
+                        <img class="rounded-circle loaded tns-complete" src="https://finder.createx.studio/img/avatars/14.png" width="44" alt="Avatar">
+                        <div class="ps-2">
+                            <h6 class="fs-sm text-nav lh-base mb-1">Bessie Cooper</h6>
+                        </div>
+                    </a>
+                </article>
+            </div>
+            <div class="col-md-3">
+                <article class="tns-item tns-slide-active" id="tns4-item0">
+                    <a class="d-block mb-3" href="city-guide-blog-single.html">
+                        <img class="rounded-3 tns-complete" src="https://finder.createx.studio/img/city-guide/blog/01.jpg" alt="Post image">
+                    </a>
+                    <a class="fs-xs text-uppercase text-decoration-none" href="#">Web Development</a>
+
+                    <a class="d-flex align-items-center text-decoration-none" href="#">
+                        <img class="rounded-circle loaded tns-complete" src="https://finder.createx.studio/img/avatars/16.png" width="44" alt="Avatar">
+                        <div class="ps-2">
+                            <h6 class="fs-sm text-nav lh-base mb-1">Bessie Cooper</h6>
+                        </div>
+                    </a>
+                </article>
+            </div>
+            <div class="col-md-3">
+                <article class="tns-item tns-slide-active" id="tns4-item0">
+                    <a class="d-block mb-3" href="city-guide-blog-single.html">
+                        <img class="rounded-3 tns-complete" src="https://finder.createx.studio/img/city-guide/blog/03.jpg" alt="Post image">
+                    </a>
+                    <a class="fs-xs text-uppercase text-decoration-none" href="#">Web Development</a>
+
+                    <a class="d-flex align-items-center text-decoration-none" href="#">
+                        <img class="rounded-circle loaded tns-complete" src="https://finder.createx.studio/img/avatars/17.png" width="44" alt="Avatar">
+                        <div class="ps-2">
+                            <h6 class="fs-sm text-nav lh-base mb-1">Bessie Cooper</h6>
+                        </div>
+                    </a>
+                </article>
+            </div>
+        </div>
+  </section>
+</div> -->
+
+</main>
+
+
+{% endblock content %}

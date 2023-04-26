@@ -5,6 +5,8 @@ from random import sample
 import json
 from django.http import JsonResponse
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
+
 
 def generate_quiz():
     # Create the quiz object
@@ -124,7 +126,7 @@ def generate_quiz():
 
 
 # Create your views here.
-
+@login_required
 def skill_view(request):
     # generate_quiz()
     skill_categories = SkillCategory.objects.all()
@@ -144,7 +146,7 @@ def skill_view(request):
 
     return render(request, "skill_list.html", context)
 
-
+@login_required
 def skill_detail_view(request, skill_id):
     # all related skills
     skill = Skill.objects.get(id = skill_id)
@@ -167,7 +169,7 @@ def skill_detail_view(request, skill_id):
     }
     return render(request, "single_skill.html", context)
 
-
+@login_required
 def quiz_instructions_view(request, skill_id, quiz_id):
     instructions = [
         "Please ensure that you are in a quiet and distraction-free environment before starting the quiz.",
@@ -199,7 +201,7 @@ def quiz_instructions_view(request, skill_id, quiz_id):
     }
     return render(request, "quiz_instructions.html", context)
 
-
+@login_required
 def quiz_start_view(request, skill_id, quiz_id):
     quiz = Quiz.objects.get(id = quiz_id)
 
@@ -210,7 +212,7 @@ def quiz_start_view(request, skill_id, quiz_id):
     )
     return redirect("skills:quiz", attempt_id=new_attempt.id)
 
-
+@login_required
 def main_quiz_view(request, attempt_id):
     attempt = Attempt.objects.get(id = attempt_id)
     if attempt.is_report_generated:
@@ -241,7 +243,7 @@ def main_quiz_view(request, attempt_id):
     return render(request, "quiz_start.html", context)
 
 
-
+@login_required
 def add_skill_view(request):
     output = {'status': False, 'message': None}
     if request.method == 'GET':
@@ -262,7 +264,7 @@ def add_skill_view(request):
     return JsonResponse(output)
 
 
-
+@login_required
 def quiz_result_view(request, attempt_id):
     attempt = Attempt.objects.get(id = attempt_id)
     quiz = attempt.quiz

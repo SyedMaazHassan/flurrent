@@ -19,9 +19,26 @@
 
       {% endif %}
 
-     <button class="navbar-toggler ms-auto" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
-      <div class="dropdown d-none d-lg-block order-lg-3 my-n2 me-3">
-        <a class="d-block py-2" href="{% url 'core:profile' %}"><img class="rounded-circle" src="{{ user.profile_pic.url }}" width="40" alt="Annette Black"></a>
+      {% if not user.is_authenticated %}
+
+          <a type="button" href="{% url 'authentication:signup' %}" class="w-100 btn btn-primary btn-block">Signup</a>              
+
+      {% else %}
+
+       <button class="navbar-toggler ms-auto" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+      
+     
+     {% endif %}
+
+     <div class="dropdown d-none d-lg-block order-lg-3 my-n2 me-3">
+        
+
+          <a class="d-block py-2" href="{% url 'core:profile' %}">
+            <img class="rounded-circle" src="{{ user.profile_pic.url }}" width="40" alt="Annette Black">
+          </a>
+
+
+
         <div class="dropdown-menu dropdown-menu-dark dropdown-menu-end">
           <div class="d-flex align-items-start border-bottom border-light px-3 py-1 mb-2" style="width: 16rem;"><img class="rounded-circle" src="{{ user.profile_pic.url }}" width="48" alt="Annette Black">
             <div class="ps-2">
@@ -29,6 +46,7 @@
               <div class="fs-xs py-1">{{ user.email }}</div>
             </div>
           </div>
+
           <div class="px-3 py-2">
             {% if user.mode == 'organization' %}
               {% if user.is_endorser %}

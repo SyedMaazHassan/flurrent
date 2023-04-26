@@ -6,8 +6,8 @@ from django.contrib.auth.decorators import login_required
 
 app_name = 'core'
 urlpatterns = [
-    path('', home_view, name="home"),
-    path('landing', landing_view, name="landing"),
+    path('home', home_view, name="home"),
+    path('', landing_view, name="landing"),
     path('switch/<str:mode>', switch_mode, name="switch"),
     path('profile', profile_view, name="profile"),
     path('inbox', inbox_view, name="inbox")

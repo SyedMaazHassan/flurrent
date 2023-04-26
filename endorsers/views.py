@@ -62,20 +62,27 @@ def home_view(request):
 
         elif title_or_description:
             filtered_projects = filtered_projects_with_title_or_description.filter(
-                Q(budget__min_price__gte=lower_price)
-                & Q(budget__max_price__lte=upper_price)
+                Q(budget__min_price__lte=lower_price, budget__max_price__gte=lower_price) | Q(budget__min_price__lte=upper_price, budget__max_price__gte=upper_price)
             )
 
         elif rating:
+            # filtered_projects = filtered_projects_with_rating.filter(
+            #     Q(budget__min_price__gte=lower_price)
+            #     & Q(budget__max_price__lte=upper_price)
+            # )
+
             filtered_projects = filtered_projects_with_rating.filter(
-                Q(budget__min_price__gte=lower_price)
-                & Q(budget__max_price__lte=upper_price)
+                Q(budget__min_price__lte=lower_price, budget__max_price__gte=lower_price) | Q(budget__min_price__lte=upper_price, budget__max_price__gte=upper_price)
             )
 
         else:
+            # filtered_projects = Project.objects.filter(
+            #     Q(budget__min_price__gte=lower_price)
+            #     | Q(budget__max_price__lte=upper_price)
+            # )
+
             filtered_projects = Project.objects.filter(
-                Q(budget__min_price__gte=lower_price)
-                & Q(budget__max_price__lte=upper_price)
+                Q(budget__min_price__lte=lower_price, budget__max_price__gte=lower_price) | Q(budget__min_price__lte=upper_price, budget__max_price__gte=upper_price)
             )
 
         context = {
