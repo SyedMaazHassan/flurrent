@@ -31,7 +31,7 @@
         <!-- Nav tabs-->
         <div class="offcanvas-header d-block border-bottom py-lg-4 py-3 px-lg-0">
           <ul class="nav nav-pills" role="tablist">
-            <!-- <li class="nav-item">
+            <li class="nav-item">
               <a
                 class="nav-link d-flex align-items-center"
                 href="#categories"
@@ -39,7 +39,7 @@
                 role="tab"
                 ><i class="fi-list me-2"></i>Categories</a
               >
-            </li> -->
+            </li>
             <li class="nav-item">
               <a
                 class="nav-link d-flex align-items-center active"
@@ -56,133 +56,21 @@
           <div class="tab-content">
             <!-- Categories-->
             <div class="tab-pane fade" id="categories" role="tabpanel">
-              <div class="row row-cols-lg-2 row-cols-1 g-3">
-                <div class="col">
-                  <a
-                    class="icon-box card card-body h-100 border-0 shadow-sm card-hover text-center"
-                    href="#"
-                  >
-                    <div
-                      class="icon-box-media bg-faded-accent text-accent rounded-circle mb-3 mx-auto"
-                    >
-                      <i class="fi-bed"></i>
-                    </div>
-                    <h3 class="icon-box-title fs-base mb-0">Accommodation</h3></a
-                  >
-                </div>
-                <div class="col">
-                  <a
-                    class="icon-box card card-body h-100 border-0 shadow-sm card-hover text-center"
-                    href="#"
-                  >
-                    <div
-                      class="icon-box-media bg-faded-primary text-primary rounded-circle mb-3 mx-auto"
-                    >
-                      <i class="fi-dumbell"></i>
-                    </div>
-                    <h3 class="icon-box-title fs-base mb-0">Fitness &amp; Sport</h3></a
-                  >
-                </div>
-                <div class="col">
-                  <a
-                    class="icon-box card card-body h-100 border-0 shadow-sm card-hover text-center"
-                    href="#"
-                  >
-                    <div
-                      class="icon-box-media bg-faded-warning text-warning rounded-circle mb-3 mx-auto"
-                    >
-                      <i class="fi-cafe"></i>
-                    </div>
-                    <h3 class="icon-box-title fs-base mb-0">Food &amp; Drink</h3></a
-                  >
-                </div>
-                <div class="col">
-                  <a
-                    class="icon-box card card-body h-100 border-0 shadow-sm card-hover text-center"
-                    href="#"
-                  >
-                    <div
-                      class="icon-box-media bg-faded-success text-success rounded-circle mb-3 mx-auto"
-                    >
-                      <i class="fi-disco-ball"></i>
-                    </div>
-                    <h3 class="icon-box-title fs-base mb-0">Night Life</h3></a
-                  >
-                </div>
-                <div class="col">
-                  <a
-                    class="icon-box card card-body h-100 border-0 shadow-sm card-hover text-center"
-                    href="#"
-                  >
-                    <div
-                      class="icon-box-media bg-faded-primary text-primary rounded-circle mb-3 mx-auto"
-                    >
-                      <i class="fi-shopping-bag"></i>
-                    </div>
-                    <h3 class="icon-box-title fs-base mb-0">Shopping</h3></a
-                  >
-                </div>
-                <div class="col">
-                  <a
-                    class="icon-box card card-body h-100 border-0 shadow-sm card-hover text-center"
-                    href="#"
-                  >
-                    <div class="icon-box-media bg-faded-info text-info rounded-circle mb-3 mx-auto">
-                      <i class="fi-meds"></i>
-                    </div>
-                    <h3 class="icon-box-title fs-base mb-0">Medicine</h3></a
-                  >
-                </div>
-                <div class="col">
-                  <a
-                    class="icon-box card card-body h-100 border-0 shadow-sm card-hover text-center"
-                    href="#"
-                  >
-                    <div
-                      class="icon-box-media bg-faded-success text-success rounded-circle mb-3 mx-auto"
-                    >
-                      <i class="fi-museum"></i>
-                    </div>
-                    <h3 class="icon-box-title fs-base mb-0">Art &amp; History</h3></a
-                  >
-                </div>
-                <div class="col">
-                  <a
-                    class="icon-box card card-body h-100 border-0 shadow-sm card-hover text-center"
-                    href="#"
-                  >
-                    <div
-                      class="icon-box-media bg-faded-warning text-warning rounded-circle mb-3 mx-auto"
-                    >
-                      <i class="fi-makeup"></i>
-                    </div>
-                    <h3 class="icon-box-title fs-base mb-0">Beauty</h3></a
-                  >
-                </div>
-                <div class="col">
-                  <a
-                    class="icon-box card card-body h-100 border-0 shadow-sm card-hover text-center"
-                    href="#"
-                  >
-                    <div
-                      class="icon-box-media bg-faded-primary text-primary rounded-circle mb-3 mx-auto"
-                    >
-                      <i class="fi-entertainment"></i>
-                    </div>
-                    <h3 class="icon-box-title fs-base mb-0">Entertainment</h3></a
-                  >
-                </div>
-                <div class="col">
-                  <a
-                    class="icon-box card card-body h-100 border-0 shadow-sm card-hover text-center"
-                    href="#"
-                  >
-                    <div class="icon-box-media bg-faded-info text-info rounded-circle mb-3 mx-auto">
-                      <i class="fi-car"></i>
-                    </div>
-                    <h3 class="icon-box-title fs-base mb-0">Auto Service</h3></a
-                  >
-                </div>
+              
+              <div class="">
+
+                {% for category in all_categories %}
+                            
+                  <a class="icon-box card flex-row align-items-center flex-shrink-0 card-hover border-0 bg-secondary rounded-pill py-2 ps-2 pe-4 mb-2 mb-sm-3 me-sm-3 me-xxl-4" href="#">
+                      <div class="icon-box-media bg-light text-primary rounded-circle me-2 ">
+                        <i class="fa {{ category.icon }}"></i>
+                      </div>
+                      <h3 class="icon-box-title fs-sm ps-1 pe-2 mb-0 w-100">{{ category.name }}</h3>
+                  </a>
+
+                {% endfor %}
+
+             
               </div>
             </div>
             <!-- Filters-->
@@ -460,6 +348,36 @@
         </button>
         <div class="interactive-map" data-map-options-json="json/map-options-city-guide.json"></div>
       </div>
+
+
+
+
+      <div>
+        <section class="position-relative bg-white rounded-xxl-4 pt-md-3 zindex-5" style="margin-top: -30px;">
+          <div class="container pt-3 pb-2 mb-4 mb-md-5">
+            <h2 class="h3 pb-2 pb-sm-3">IT domains we cover</h2>
+            <div class="d-flex flex-wrap flex-column flex-sm-row">
+              
+
+                {% for category in all_categories %}
+                    
+                    <a class="icon-box card flex-row align-items-center flex-shrink-0 card-hover border-0 bg-secondary rounded-pill py-2 ps-2 pe-4 mb-2 mb-sm-3 me-sm-3 me-xxl-4" href="#">
+                        <div class="icon-box-media bg-light text-primary rounded-circle me-2">
+                        <i class="fa {{ category.icon }}"></i>
+                        </div>
+                    <h3 class="icon-box-title fs-sm ps-1 pe-2 mb-0">{{ category.name }}</h3>
+                    </a>
+
+                {% endfor %}
+            
+                
+            </div>
+          </div>
+      </section>
+      </div>
+
+
+
       <!-- Breadcrumb-->
       <nav class="mb-3 pt-md-2" aria-label="Breadcrumb">
         <ol class="breadcrumb">
@@ -467,6 +385,8 @@
           <li class="breadcrumb-item active" aria-current="page">Find projects</li>
         </ol>
       </nav>
+
+      <h2>Find projects</h2>
 
       <!-- Title-->
       <div class="d-sm-flex align-items-center justify-content-between pb-3 pb-sm-4">
@@ -502,8 +422,15 @@
 
       {% include 'inc/msg.inc.html' %}
 
+
+       
+
+
+
       <!-- Catalog grid-->
       <div class="mt-3">
+
+
         {% if projects %}
           <!-- Item-->
           {% for project in projects %}

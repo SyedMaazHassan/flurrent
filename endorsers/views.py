@@ -13,7 +13,7 @@ from django.http import HttpResponse
 from django.db.models import Q
 from django.core.paginator import Paginator
 from itertools import chain
-from skills.models import Skill
+from skills.models import Skill, SkillCategory
 
 # Create your views here.
 def home_view(request):
@@ -90,7 +90,8 @@ def home_view(request):
             "title_or_description": title_or_description,
             "lower_price": lower_price,
             "upper_price": upper_price,
-            "rating": str(rating)
+            "rating": str(rating),
+            "all_categories": SkillCategory.objects.all()
         }
 
         return render(request, "home.html", context)
@@ -114,6 +115,7 @@ def home_view(request):
         "projects": all_projects,
         "page_numbers": page_numbers,
         "page": page,
+        "all_categories": SkillCategory.objects.all()
     }
     return render(request, "home.html", context)
 

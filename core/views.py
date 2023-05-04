@@ -179,25 +179,7 @@ def createFakeEndorsers(quantity = 100):
 
 @transaction.atomic
 def landing_view(request):
-    # createFakeOrganizationsUser()
-    # createFakeProjects()
-    # createFakeStaffMember()
-    # print(all_users.count())
-    # createFakeEndorsers()
-
-    words = ['Digital marketing expert', 'Social media consultant', 'Marketing specialist', 'Advertising professional', 'Marketing manager', 'Graphic designer', 'Web developer', 'Advertising agency owner', 'Publicist', 'Brand ambassador', 'Social media analyst', 'Marketing coordinator', 'Marketing director', 'Social media specialist', 'Marketing consultant', 'Marketing research specialist', 'Social media consultant', 'Marketing communication specialist', 'Marketing analyst', 'Marketing research analyst', 'Marketing assistant', 'Marketing intern', 'Marketing strategist', 'Marketing coordinator', 'Marketing officer', 'Marketing assistant', 'Marketing specialist', 'Marketing research associate', 'Marketing intern', 'Marketing coordinator', 'Marketing manager', 'Marketing research specialist', 'Marketing specialist', 'Marketing officer', 'Marketing assistant', 'Marketing intern', 'Marketing coordinator', 'Marketing manager', 'Marketing research specialist', 'Marketing specialist', 'Marketing officer', 'Marketing assistant', 'Marketing intern', 'Marketing coordinator', 'Marketing manager', 'Marketing research specialist', 'Marketing specialist', 'Marketing officer', 'Marketing assistant', 'Marketing intern', 'Marketing coordinator', 'Marketing manager', 'Marketing research specialist', 'Marketing specialist', 'Marketing officer', 'Marketing assistant', 'Marketing intern', 'Marketing coordinator', 'Marketing manager', 'Marketing research specialist', 'Marketing specialist', 'Marketing officer', 'Marketing assistant', 'Marketing intern', 'Marketing coordinator', 'Marketing manager', 'Marketing research specialist', 'Marketing specialist', 'Marketing officer', 'Marketing assistant', 'Marketing intern', 'Marketing coordinator', 'Marketing manager', 'Marketing research specialist', 'Marketing specialist', 'Marketing officer', 'Marketing assistant', 'Marketing intern', 'Marketing coordinator', 'Marketing manager', 'Marketing research specialist', 'Marketing specialist', 'Marketing officer', 'Marketing assistant', 'Marketing intern', 'Marketing coordinator']
-    all_categories = SkillCategory.objects.all()
-    # all_users = Endorser.objects.all()
-    # for endorser in all_users:
-    #     bio = random.choice(words)
-    #     endorser.bio = bio
-    #     endorser.save()
-    #     print(bio)
-    context = {
-        'all_categories': all_categories
-    }
-
-    return render(request, 'landing_page.html', context)
+    return render(request, 'landing_page.html')
 
 
 @login_required
