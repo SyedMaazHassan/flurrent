@@ -1,0 +1,131 @@
+{% extends 'inc/base.html' %}
+
+{% block custom_css %}
+
+
+{% endblock custom_css %}
+
+{% block title %}
+  Flurrent | Survey
+{% endblock title %}
+
+{% block content %}
+<br>
+<div class="container mt-5 pt-5 p-0">
+  <div class="row g-0 mt-n3">
+    <!-- Filters sidebar (Offcanvas on mobile)-->
+    <div class="col-lg-4 col-xl-4 position-relative overflow-hidden pb-5 pt-4">
+        <h3>Sections</h3>
+
+        {% for section in sections %}
+            <div class="card text-left p-0 {% if section.id == question.subsection.section.id %}skill-card-active text-primary{% endif %} skill-card" style="border-radius:0px">
+                <div class="card-body" style="border-radius:0px">
+                    <!-- <span class="badge badge-pill badge-primary bg-success">Quiz available</span> -->
+                    <p class="card-title mb-0" title="{{ section.name }}">
+                        {{ section|truncatechars:40 }}
+                    </p>
+                </div>
+            </div>
+        {% endfor %}
+
+
+    </div>
+
+    
+    <!-- Page content-->
+    <div class="col-lg-8 col-xl-8 position-relative overflow-hidden pb-5 pt-4 px-2 px-xl-4 px-xxl-5">
+      <!-- Map popup-->
+     
+      <!-- Breadcrumb-->
+
+    
+      
+      <div class="row mb-3">
+        <div class="col-sm-6  d-flex align-items-center">
+            <h5 class="text-primary my-0">{{ question.subsection }}</h5>
+        </div>
+
+        <div class="col-sm-6 align-items-center justify-content-end">
+
+            <!-- Success progress bar -->
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="fs-sm mb-2">{{percent}}%</div>
+                </div>
+
+                <div class="col-sm-6 d-flex justify-content-end">
+                    {{page_info}}
+                </div>
+            </div>
+            
+            <div class="progress mb-3" style="height: 4px;">
+                <div class="progress-bar bg-success" role="progressbar" style="width: {{percent}}%" aria-valuenow="{{percent}}" aria-valuemin="0" aria-valuemax="100"></div>
+            </div>
+
+           
+        </div>
+      </div>
+
+
+
+      <!-- Catalog grid-->
+      <div>
+
+
+            <div class="card text-left skill-card">
+              <div class="card-body">
+                <h4>Question</h4>
+
+            
+
+                <p> {{ question }} {{ question.id }}</p>
+
+                <form action="" method="post">
+                    {% csrf_token %}
+                    <div>
+                        <div class="my-3">
+                            <div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="question" id="option_yes" value="yes" required>
+                                    <label class="form-check-label" for="option_yes">
+                                        Yes
+                                    </label>
+                                </div>
+    
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="question" id="option_no" value="no">
+                                    <label class="form-check-label" for="option_no">
+                                        No
+                                    </label>
+                                </div>
+    
+                    
+                            </div>
+                            
+                            
+                            
+                        </div>
+                    </div>
+    
+                    <button type="submit" href="" class="btn btn-outline-primary mt-3">Submit</button>
+                </form>
+                
+
+    
+              </div>
+            </div>
+
+         
+      </div>
+
+
+    </div>
+
+    
+  </div>
+</div>
+
+<button class="btn btn-primary btn-sm w-100 rounded-0 fixed-bottom d-lg-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#filters-sidebar"><i class="fi-filter me-2"></i>Filters</button>
+
+
+{% endblock content %}

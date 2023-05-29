@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'organizations',
     'authentication',
     'skills',
+    'surveys',
     'phonenumber_field',
     'django.contrib.admin',
     'django.contrib.auth',

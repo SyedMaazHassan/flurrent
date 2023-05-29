@@ -1,0 +1,78 @@
+{% extends 'inc/base.html' %}
+
+{% block custom_css %}
+
+
+{% endblock custom_css %}
+
+{% block title %}
+  Flurrent | Survey
+{% endblock title %}
+
+{% block content %}
+<br>
+<div class="container mt-5 pt-5 p-0">
+  <div class="row g-0 mt-n3">
+    <!-- Filters sidebar (Offcanvas on mobile)-->
+    <div class="col-lg-2 col-xl-2 position-relative overflow-hidden pb-5 pt-4">
+     
+
+    </div>
+
+    
+    <!-- Page content-->
+    <div class="col-lg-8 col-xl-8 position-relative overflow-hidden pb-5 pt-4 px-2 px-xl-4 px-xxl-5">
+      <!-- Map popup-->
+     
+      <!-- Breadcrumb-->
+
+    
+      
+      <h2 class="text-primary">Cybersecurity Survey</h2>
+      <p>Check how well you are performing and how secure you and your systems are.</p>
+
+
+    <div class="alert alert-success d-flex" role="alert">
+        <i class="fi-bell me-2 me-sm-3 lead"></i>
+        <div>Read the instruction below and start taking survey to check your overall performance</div>
+    </div>
+
+      <!-- Catalog grid-->
+      <div>
+
+
+            <div class="card text-left skill-card">
+              <div class="card-body">
+                <h3>Instructions</h3>
+
+                <div>
+                    <ol>
+                        {% for instr in instructions %}
+                            <li class="mb-4">{{instr}}</li>
+                        {% endfor %}
+                    </ol>
+                </div>
+
+                <p>We hope this survey will provide valuable insights into your organization's strengths and weaknesses and help you make informed decisions to improve your performance.</p>
+            
+                <a type="button" href="{% url 'surveys:start-survey' %}" class="btn btn-outline-primary m-3 mx-0">Start survey</a>
+    
+              </div>
+            </div>
+
+         
+      </div>
+
+
+    </div>
+
+    <div class="col-sm-2">
+
+    </div>
+  </div>
+</div>
+
+<button class="btn btn-primary btn-sm w-100 rounded-0 fixed-bottom d-lg-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#filters-sidebar"><i class="fi-filter me-2"></i>Filters</button>
+
+
+{% endblock content %}

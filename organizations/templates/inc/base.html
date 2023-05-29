@@ -189,13 +189,24 @@
       <!-- Navbar-->
       {% if user.is_authenticated %}
       {% if user.mode == 'organization' %} 
-      {% include 'inc/navbar-org.inc.html' %} {% else %}
-      {% include 'inc/navbar.inc.html' %} {% endif %}
+        {% include 'inc/navbar-org.inc.html' %} {% else %}
+        {% include 'inc/navbar.inc.html' %} {% endif %}
       {% else %}
-      {% include 'inc/navbar-landing.inc.html' %}
+        {% include 'inc/navbar-landing.inc.html' %}
       {% endif %}
       <!-- Page content-->
       <!-- Page container-->
+
+      {% if user.is_authenticated and page != "survey" and not user.is_survey_taken %}
+      <div class="bg-secondary"  style="margin-top: 83px; margin-bottom: -60px;">
+        <div class="container py-4 d-flex align-items-center">
+            <h6 class="my-0 mx-2">Complete this survey to get your flurrent score to be validated in industry</h6>
+            <a href="{% url 'surveys:survey' %}">Take survey</a>
+            <!-- <button class="btn btn-secondary ms-sm-2" type="submit">Take survey</button> -->
+        </div>
+      </div>  
+      {% endif %}
+
       {% block content %} {% endblock content %}
     </main>
     <!-- Footer-->

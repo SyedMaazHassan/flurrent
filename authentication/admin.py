@@ -15,7 +15,7 @@ class UserAdmin(DjangoUserAdmin):
         ("Personal info", {"fields": ("first_name", "last_name")}),
         (
             "Access level",
-            {"fields": ("is_staff_member", "is_organization", "is_endorser")},
+            {"fields": ("is_survey_taken", "is_staff_member", "is_organization", "is_endorser")},
         ),
         (
             "Permissions",

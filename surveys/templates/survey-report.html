@@ -1,0 +1,180 @@
+{% extends 'inc/base.html' %}
+
+{% block custom_css %}
+
+
+{% endblock custom_css %}
+
+{% block title %}
+  Flurrent | Survey
+{% endblock title %}
+
+{% block content %}
+<br>
+<div class="container mt-5 pt-5 p-0">
+  <div class="row g-0 mt-n3">
+    <!-- Filters sidebar (Offcanvas on mobile)-->
+    <div class="col-lg-2 col-xl-2 position-relative overflow-hidden pb-5 pt-4">
+     
+
+    </div>
+
+    
+    <!-- Page content-->
+    <div class="col-lg-8 col-xl-8 position-relative overflow-hidden pb-5 pt-4 px-2 px-xl-4 px-xxl-5">
+      <!-- Map popup-->
+     
+      <!-- Breadcrumb-->
+
+    
+      
+      <h2 class="text-primary">Survey result</h2>
+      <p>Check how well you are performing and how secure you and your systems are.</p>
+
+
+      <!-- Catalog grid-->
+      <div>
+
+
+            <div class="card text-left skill-card">
+              <div class="card-body">
+                <h6>Flurrent score</h6>
+
+
+                <div class="row">
+                  <div class="col-sm-5">
+                    <div>
+                        <h1>{{survey.generate_score}}%</h1>
+                    </div>
+    
+                    <div class="my-3">
+                        Survey started: <br>
+                        <b>{{ survey.start_time }}</b>
+                    </div>
+                  </div>
+
+                  <div class="col-sm-7">
+                    <canvas id="donutChart"></canvas>
+
+                  </div>
+
+                 
+                </div>
+
+
+
+              </div>
+            </div>
+
+            <div class="my-5">
+              {% for section in all_sections_names %}
+                <button type="button" name="" id="" class="btn {% if section == 'Policy' %}btn-primary{% else %}btn-outline-primary{% endif %} btn-sm">{{ section }}</button>
+              {% endfor %}
+
+            </div>
+
+            <div class="card text-left mt-4">
+              <div class="card-body">
+                <h4 class="card-title text-primary">Policy</h4>
+
+                <div class="row">
+                  <div class="col-sm-5">
+                    <div>
+                        <h1>{{survey.generate_score}}%</h1>
+                    </div>
+    
+                    <div class="my-3">
+                        Survey started: <br>
+                        <b>{{ survey.start_time }}</b>
+                    </div>
+                  </div>
+
+                  <div class="col-sm-7">
+                    <canvas id="donutChart2"></canvas>
+
+                  </div>
+
+                 
+                </div>
+
+                <div class="card text-left mt-5">
+                  <div class="card-body">
+                    <h4 class="card-title">Recommendations</h4>
+
+                    <div class="card text-left mt-4">
+                      <div class="card-body">
+                        <h4 class="card-title">Project 1 title</h4>
+                        <p class="card-text">Project 1 description</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+
+         
+      </div>
+
+
+    </div>
+
+    <div class="col-sm-2">
+
+    </div>
+  </div>
+</div>
+
+<button class="btn btn-primary btn-sm w-100 rounded-0 fixed-bottom d-lg-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#filters-sidebar"><i class="fi-filter me-2"></i>Filters</button>
+
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+
+<script>
+
+
+
+  // Retrieve the canvas element
+    var canvas = document.getElementById('donutChart');
+    var canvas2 = document.getElementById('donutChart2');
+
+    // Create the chart
+    var label_list = {{ all_sections_names | safe }};
+    var chart = new Chart(canvas, {
+        type: 'doughnut',
+        data: {
+            labels: label_list,
+            datasets: [{
+                data: [10, 15, 30, 50, 50, 60],
+                backgroundColor: [
+                    "rgba(173, 216, 230, 0.8)",
+                    "rgba(144, 238, 144, 0.8)",
+                    "rgba(255, 182, 193, 0.8)",
+                    "rgba(230, 230, 250, 0.8)",
+                    "rgba(255, 218, 185, 0.8)",
+                    "rgba(189, 252, 201, 0.8)",
+                    'rgb(186, 186, 186)'
+                ],
+            }]
+        }
+    });
+
+
+    var chart = new Chart(canvas2, {
+        type: 'doughnut',
+        data: {
+            labels: ['Policy', 'Recommendations'],
+            datasets: [{
+                data: [10, 90],
+                backgroundColor: [
+                    "rgba(173, 216, 230, 0.8)",
+                    'rgb(186, 186, 186)'
+                ],
+            }]
+        }
+    });
+</script>
+
+
+{% endblock content %}

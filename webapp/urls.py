@@ -25,7 +25,8 @@ urlpatterns = [
     path('', include('organizations.urls')),
     path('', include('endorsers.urls')),
     path('', include('wallet.urls')),
-    path('', include('skills.urls'))
+    path('', include('skills.urls')),
+    path('', include('surveys.urls'))
 ]
 
 if settings.DEBUG:
