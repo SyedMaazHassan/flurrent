@@ -49,6 +49,8 @@
     <h2 class="my-1">{{ user.getFullName }}</h2>
     <p class="card-text my-2">{{ user.email }}</p>
 
+    <a href="{% url 'surveys:survey' %}" type="button" name="" id="" class="btn btn-primary">See survey</a>
+
     <!-- Outline button + badge -->
     <!-- <button type="button" class="btn btn-outline-secondary">
             Messages <span class="badge bg-success ms-1">18</span>

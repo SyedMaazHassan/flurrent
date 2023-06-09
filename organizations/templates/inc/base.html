@@ -197,7 +197,7 @@
       <!-- Page content-->
       <!-- Page container-->
 
-      {% if user.is_authenticated and page != "survey" and not user.is_survey_taken %}
+      {% if user.is_authenticated and page != "survey" and not user.is_survey_taken and user.mode == 'organization' %}
       <div class="bg-secondary"  style="margin-top: 83px; margin-bottom: -60px;">
         <div class="container py-4 d-flex align-items-center">
             <h6 class="my-0 mx-2">Complete this survey to get your flurrent score to be validated in industry</h6>

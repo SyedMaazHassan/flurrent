@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Section, Subsection, Question, SurveyResponse, Record
+from .models import Report, SectionReport, Section, Subsection, Question, SurveyResponse, Record, Suggestion
 
 
 @admin.register(Section)
@@ -30,3 +30,7 @@ class SurveyResponseAdmin(admin.ModelAdmin):
 @admin.register(Record)
 class RecordAdmin(admin.ModelAdmin):
     list_display = ('survey', 'question', 'is_yes')
+
+admin.site.register(Report)
+admin.site.register(SectionReport)
+admin.site.register(Suggestion)

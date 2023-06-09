@@ -8,8 +8,8 @@
      <section class="card card-body border-0 shadow-sm p-4 mb-4" id="basic-info">
         <h2 class="h4 mb-4"><i class="fi-info-circle text-primary fs-5 mt-n1 me-2"></i>Basic info</h2>
         <div class="mb-3">
-          <label class="form-label" for="ab-title">Project title <span class="text-danger">*</span></label>
-          <input class="form-control" type="text" id="ab-title" value="" name="project_title" placeholder="Title for your project" required><span class="form-text">48 characters left</span>
+          <label class="form-label" for="ab-title">Project title<span class="text-danger">*</span></label>
+          <input class="form-control" type="text" id="ab-title" value="{{ request.GET.title }}" name="project_title" placeholder="Title for your project" required><span class="form-text">48 characters left</span>
         </div>
 
         <div class="row mb-0">

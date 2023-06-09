@@ -38,24 +38,38 @@
 
             <div class="card text-left skill-card">
               <div class="card-body">
-                <h6>Flurrent score</h6>
-
+                <h6 class="mb-0">Flurrent score</h6>
+                <p>Overall performance</p>
 
                 <div class="row">
                   <div class="col-sm-5">
                     <div>
-                        <h1>{{survey.generate_score}}%</h1>
+                        <h1>{{report.percentage|floatformat:0}}%</h1>
+                    </div>
+
+                    <div class="my-3">
+                       <h1 class="text-primary" style="font-size: 100px;">{{report.grade}}</h1>
                     </div>
     
-                    <div class="my-3">
+                    <div class="my-4">
                         Survey started: <br>
                         <b>{{ survey.start_time }}</b>
                     </div>
+
+                    <div class="my-4">
+                      Survey ended: <br>
+                      <b>{{ survey.end_time }}</b>
+                      
                   </div>
 
-                  <div class="col-sm-7">
-                    <canvas id="donutChart"></canvas>
+                  <p> <i>Note: Section breakdown shows in %</i></p>
+                  </div>
 
+                  <div class="col-sm-7 d-flex justify-content-center">
+                      <canvas id="donutChart"></canvas>
+                      <!-- <small class="mt-3 mb-0">Breakdown of section score shown in %</small> -->
+  
+                    
                   </div>
 
                  
@@ -66,49 +80,80 @@
               </div>
             </div>
 
+            <h3 class="mt-5">Section wise performance</h3>
+
             <div class="my-5">
-              {% for section in all_sections_names %}
-                <button type="button" name="" id="" class="btn {% if section == 'Policy' %}btn-primary{% else %}btn-outline-primary{% endif %} btn-sm">{{ section }}</button>
+              {% for ssection in all_sections_names %}
+                <a href="{% url 'surveys:survey-report' survey.survey_id ssection %}" type="button" name="" id="" class="btn {% if ssection == section %}btn-primary{% else %}btn-outline-primary{% endif %} btn-sm">{{ ssection }}</a>
               {% endfor %}
 
             </div>
 
             <div class="card text-left mt-4">
               <div class="card-body">
-                <h4 class="card-title text-primary">Policy</h4>
+                <h4 class="card-title text-primary">{{ single_section_report.section.name }}</h4>
 
                 <div class="row">
-                  <div class="col-sm-5">
+                  <div class="col-sm-5  d-flex align-items-center">
                     <div>
-                        <h1>{{survey.generate_score}}%</h1>
-                    </div>
-    
-                    <div class="my-3">
-                        Survey started: <br>
-                        <b>{{ survey.start_time }}</b>
+                        <p class="fs-3"><b>Score:</b> {{single_section_report.obtained_score|floatformat:0}} / {{single_section_report.total_score|floatformat:0}}</p>
                     </div>
                   </div>
 
-                  <div class="col-sm-7">
-                    <canvas id="donutChart2"></canvas>
-
+                  <div class="col-sm-7 d-flex justify-content-end align-items-center">
+                      <p class="fs-3">{{ single_section_report.percentage|floatformat:0 }}% &nbsp; <span class="">Grade: {{ single_section_report.grade }}</b></p>
                   </div>
 
                  
                 </div>
 
-                <div class="card text-left mt-5">
-                  <div class="card-body">
-                    <h4 class="card-title">Recommendations</h4>
+                <hr class="mt-3">
 
-                    <div class="card text-left mt-4">
-                      <div class="card-body">
-                        <h4 class="card-title">Project 1 title</h4>
-                        <p class="card-text">Project 1 description</p>
+                <h5 class="text-muted mt-3">Suggestions</h5>
+
+                <div class="text-center" id="fetch-wait">
+                  <div class="spinner-border text-primary" role="status">
+                    <span class="sr-only">Loading...</span>
+                  </div>
+                  <p class="my-4 text-muted">Hold on, while we are fetching suggestions <br> to improve your IT credibility</p>
+                </div>
+
+                <div id="suggestions-container" style="display: none;">
+
+                  {% for suggestion in single_section_report.suggestions.all %}
+                  <div class="card text-left shadow-sm mb-3">
+                    <div class="card-body">
+                      <div>
+                        <div class="row mb-3">
+                          <div class="col-sm-6 d-flex align-items-center">
+                            <div>
+                              {{ suggestion.question.subsection.section.name }} <i class="fa-solid fa-angle-right mx-3"></i> {{ suggestion.question.subsection.name }} 
+                            </div>
+                          </div>
+
+                          <div class="col-sm-6 d-flex text-success align-items-center justify-content-end">
+                            <i class="fa-sharp fa-solid fa-arrow-up mx-2"></i>{{ suggestion.question.points }} points
+                          </div>
+                        </div>
+                        
+                        <p class="fs-6 card-title mb-3" style="font-weight: 550;">{{ suggestion.title }}</h4>
+                        <p class="card-text" style="font-size: 13px;">{{ suggestion.description }}</p>
+
+                        <a type="button" href="{% url 'org:profile' 'create-project' %}?title={{ suggestion.title }}&desc={{ suggestion.description }}" name="" id="" class="btn btn-primary btn-sm">Post as project</a>
                       </div>
                     </div>
                   </div>
+                  
+                  {% endfor %}
+                
+
                 </div>
+
+                <div>
+                  <p class="fs-4 text-success mb-3" id="user_awareness"></p>
+                </div>
+
+
 
               </div>
             </div>
@@ -137,43 +182,101 @@
 
   // Retrieve the canvas element
     var canvas = document.getElementById('donutChart');
-    var canvas2 = document.getElementById('donutChart2');
 
     // Create the chart
-    var label_list = {{ all_sections_names | safe }};
+    var section_reports = {{ section_reports | safe }};
     var chart = new Chart(canvas, {
-        type: 'doughnut',
+        type: 'pie',
         data: {
-            labels: label_list,
+            labels: section_reports['labels'],
             datasets: [{
-                data: [10, 15, 30, 50, 50, 60],
+                data: section_reports['percentages'],
                 backgroundColor: [
                     "rgba(173, 216, 230, 0.8)",
                     "rgba(144, 238, 144, 0.8)",
                     "rgba(255, 182, 193, 0.8)",
                     "rgba(230, 230, 250, 0.8)",
                     "rgba(255, 218, 185, 0.8)",
-                    "rgba(189, 252, 201, 0.8)",
-                    'rgb(186, 186, 186)'
+                    "rgb(211,211,211)"
+                    
                 ],
             }]
+        },
+        options: {
+        plugins: {
+            legend: {
+                display: 'outside', // Hide default legend
+            }
         }
+    }
     });
 
 
-    var chart = new Chart(canvas2, {
-        type: 'doughnut',
-        data: {
-            labels: ['Policy', 'Recommendations'],
-            datasets: [{
-                data: [10, 90],
-                backgroundColor: [
-                    "rgba(173, 216, 230, 0.8)",
-                    'rgb(186, 186, 186)'
-                ],
-            }]
-        }
-    });
+    let to_create_suggestions = JSON.parse('{{ to_create_suggestions }}');
+    if (to_create_suggestions) {
+        // Show spinner and waiting text
+        $("#fetch-wait").show();
+
+        $.ajax({
+          url: "{% url 'surveys:fetch-suggestions' survey.survey_id section %}",
+          type: "GET",
+          data: {},
+          success: (response)=>{
+            console.log(response);
+            // loop over the suggestion div card
+      
+            $("#fetch-wait").hide();
+            $("#suggestions-container").show();
+
+            if (response.data.length == 0) {
+              $("#user_awareness").text(response.message);
+              return;
+            }
+
+            for (let i = 0; i < response.data.length; i++) {
+              let suggestion = response.data[i];
+              let link = `{% url 'org:profile' 'create-project' %}?title=${ suggestion.title }&desc=${ suggestion.description }`;
+              let card = `
+                <div class="card text-left shadow-sm mb-3">
+                    <div class="card-body">
+                      <div>
+                        <div class="row mb-3">
+                          <div class="col-sm-6 d-flex align-items-center">
+                            <div>
+                              ${ suggestion.section } <i class="fa-solid fa-angle-right mx-3"></i> ${ suggestion.subsection } 
+                            </div>
+                          </div>
+
+                          <div class="col-sm-6 d-flex text-success align-items-center justify-content-end">
+                            <i class="fa-sharp fa-solid fa-arrow-up mx-2"></i>${ suggestion.points } points
+                          </div>
+                        </div>
+
+                    
+                        <p class="fs-6 card-title mb-3" style="font-weight: 550;">${ suggestion.title }</h4>
+                        <p class="card-text" style="font-size: 13px;">${ suggestion.description }</p>
+
+                        <a type="button" href="${link}" name="" id="" class="btn btn-primary btn-sm">Post as project</a>
+
+                      </div>
+                    </div>
+                  </div>
+              
+              `;
+              $("#suggestions-container").append(card);
+            }
+
+          },
+          error: (response)=>{
+            console.log(response);
+          }
+        })
+    }else{
+      $("#fetch-wait").hide();
+      $("#suggestions-container").show();
+    }
+    console.log(to_create_suggestions);
+
 </script>
 
 

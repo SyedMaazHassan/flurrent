@@ -319,7 +319,9 @@ class OrgUserProfileView(View):
                 "button_text": "Save project",
                 "template": "org_profile/create_project.html",
                 "title": "Create project",
-                "subtitle": "Post a project for thousands of endorsers out there",
+                "subtitle": "Post a project for thousands of experts out there",
+                "suggestion_title": request.GET.get("title"),
+                "suggestion_description": request.GET.get("desc")
             },
             "organization-reviews": {
                 "outline": "",
@@ -340,7 +342,7 @@ class OrgUserProfileView(View):
             },
             "become-endorser": {
                 "outline": "",
-                "button_text": "Save endorser details",
+                "button_text": "Save expert details",
                 "template": "org_profile/create_endorser.html",
                 "title": "Become expert",
                 "subtitle": "Get a chance to apply on jobs and start selling",
@@ -350,6 +352,7 @@ class OrgUserProfileView(View):
 
         context = template_info[section]
         context["section"] = section
+        print(context)
         return render(request, context["template"], context)
 
 
